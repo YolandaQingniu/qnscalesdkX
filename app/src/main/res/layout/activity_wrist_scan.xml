@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/wristState"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="wristState"/>
+
+    <Button
+        android:id="@+id/startScan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="startScan"/>
+
+    <Button
+        android:id="@+id/stopScan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="stopScan"/>
+
+    <ListView
+        android:id="@+id/wrist_lv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+</LinearLayout>

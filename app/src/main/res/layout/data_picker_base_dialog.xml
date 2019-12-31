@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:gravity="center"
+              android:id="@+id/dialogContainer"
+              android:background="@color/color_gray_f3ffff"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/buttonBar"
+        android:background="@color/themeColor_0fbfef"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+        <Button
+            android:id="@+id/cancelBtn"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:textSize="15sp"
+            android:gravity="start|center_vertical"
+            android:paddingStart="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:text="@string/cancel"/>
+
+        <Button
+            android:id="@+id/confirmBtn"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:gravity="end|center_vertical"
+            android:textSize="15sp"
+            android:paddingEnd="20dp"
+            android:layout_marginEnd="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:text="@string/register_ok"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/pickerContainer"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:orientation="horizontal">
+    </LinearLayout>
+
+
+</LinearLayout>

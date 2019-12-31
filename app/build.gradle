@@ -1,0 +1,76 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion COMPILE_SDK_VERSION as int
+    buildToolsVersion BUILD_TOOLS
+
+    defaultConfig {
+        minSdkVersion MIN_SDK_VERSION as int
+        targetSdkVersion TARGET_SDK_VERSION as int
+        applicationId "com.qingniu.health.scaleX.demo"
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+        myConfig {
+            storeFile file("../buildsystem/qnsdk_demo.jks")
+            storePassword "123456"
+            keyAlias "qntest_demo"
+            keyPassword "123456"
+        }
+    }
+    buildTypes {
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.myConfig
+            proguardFiles 'proguard-android.txt'
+}
+        release {
+            minifyEnabled true
+            signingConfig signingConfigs.myConfig
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                def str = variant.buildType.name
+                def fileName = "qnbledemo_${str}_${defaultConfig.versionName}.apk"
+                output.outputFileName = fileName
+            }
+        }
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('androidx.test.espresso:espresso-core:3.1.0', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'androidx.legacy:legacy-support-v4:1.0.0'
+    compile 'androidx.appcompat:appcompat:1.0.0'
+    compile 'androidx.constraintlayout:constraintlayout:1.1.3'
+    testCompile 'junit:junit:4.12'
+    compile 'cn.bingoogolapple:bga-qrcode-zxing:1.3.6'
+    implementation 'com.jakewharton:butterknife:10.2.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
+//    compile ("com.github.duodebuyali:QNScaleSDK:master-SNAPSHOT") {
+    compile("com.github.YolandaQingniu:qnscalesdk:1.1.3-beta5") {
+        exclude module: "support-v4"//防止和module引用的v4资源版本不同
+    }
+}

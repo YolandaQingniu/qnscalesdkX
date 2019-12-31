@@ -1,0 +1,159 @@
+<resources>
+    <string name="app_name">ScaleSDKXDemo</string>
+    <string name="scan">scan</string>
+    <string name="stop">stop</string>
+    <string name="user_id_explain">Set the user profile when calculating body fat percentage</string>
+    <string name="user_gender_explain"></string>
+    <string name="user_height_explain">The unit is cm, ranging from 40 to 240cm</string>
+    <string name="user_birthday_explain">Support was limited to people over 10 and under 80. For people under 10, only weight and BMI data were valid</string>
+    <string name="ble_scan_explain">When you select "first time", each device will return only once per scan. When you select "every time", each device may call back several times per scan, but the signal strength will be different</string>
+    <string name="user_unit_explain">Kg default value \n, all scales can support this unit \n jins, weighing end if not support, will show kg \n ST is stone, weighing end if not support lb</string>
+    <string name="cancel">cancel</string>
+    <string name="sure">confirm</string>
+    <string name="RegisterViewController_women">female</string>
+    <string name="RegisterViewController_man">male</string>
+    <string name="RegisterViewController_lowAge10">You are less than 10 years old, and you cannot get accurate measurements during the test</string>
+    <string name="date_format_day">yyyy-MM-dd</string>
+    <string name="register_ok">confirm</string>
+    <string name="scan_out_time_remind">After setting the time, no bluetooth device is scanned within the specified time, and an error message is called back</string>
+    <string name="scan_time_remind">Scan duration, unit ms, default is 0, that is, keep scanning, unless the APP calls stopBleDeviceDiscovery. If not 0, the minimum value is 3000ms, then the scan will be automatically stopped after a duration ms.</string>
+
+    <string-array name="user_shape_des">
+        <item>not selected</item>
+        <item>slim</item>
+        <item>Symmetry,standard</item>
+        <item>Muscular type</item>
+        <item>Fat,super heavy</item>
+    </string-array>
+
+    <string-array name="user_goal_des">
+        <item>not selected</item>
+        <item>reduce fat</item>
+        <item>keep healthy</item>
+        <item>Add muscle</item>
+        <item>Strength exercises, such as machine exercises</item>
+        <item>Good foundation, but no systematic training</item>
+        <item>Aerobic exercise, such as running</item>
+    </string-array>
+
+    <string name="year">year</string>
+    <string name="month">month</string>
+    <string name="day">day</string>
+    <string name="set_unit_is_empty">The set unit cannot be empty</string>
+    <string name="input_int">Please enter integer！</string>
+    <string name="device_set_empty">The current device that needs to be set cannot be empty</string>
+    <string name="connecting">connecting</string>
+    <string name="disconnected">disconnect</string>
+    <string name="connected">connected</string>
+    <string name="disconnect_in_progress">Disconnect in progress</string>
+    <string name="connect">connect</string>
+    <string name="measuring">Measuring </string>
+    <string name="connection_disconnected">Connection disconnected</string>
+    <string name="real_time_weight_measurement">Real-time weight measurement in progress</string>
+    <string name="impedance_measured">Impedance being measured</string>
+    <string name="measuring_heart_rate">Measuring heart rate</string>
+    <string name="measure_complete">Measurement to complete</string>
+    <string name="start_set_wifi">Start setting up WiFi</string>
+    <string name="failed_to_set_wifi">Failed to set WiFi</string>
+    <string name="success_to_set_wifi">WiFi set up successfully</string>
+    <string name="please_enter_body_fat_change_control">Please enter body fat change control</string>
+    <string name="set_body_fat_change_hint">Please complete the first weight measurement as the comparison data of the second measurement</string>
+    <string name="set_body_fat_change_hint1">The user only measured once and did not compare the previous data</string>
+    <string name="input_cloth">Please fill in the correct weight of clothes</string>
+    <string name="user_id_empty">User id cannot be empty</string>
+    <string name="select_grander">Please select gender</string>
+    <string name="input_height">Please enter height</string>
+    <string name="input_birthday">Please enter date of birth</string>
+    <string name="select_weight">Please select the weight unit</string>
+    <string name="scan_exception">Scan abnormal</string>
+    <string name="scan_stopped">Scan stopped</string>
+    <string name="scanning">scanning</string>
+    <string name="input_date_time">Please enter the correct valid time</string>
+    <string name="decode_fail">Parse failure</string>
+    <string name="permission">permissions</string>
+    <string name="apply_for_to_success">apply for to success</string>
+    <string name="apply_for_to_fail">apply for to fail</string>
+    <string name="device_not_support">Device not supported</string>
+    <string name="open_ble">Please turn on bluetooth</string>
+    <string name="connect_successfully">connected successfully</string>
+    <string name="percentage_of_battery_received">Percentage of battery received:</string>
+    <string name="enter_right_scan_time">Please fill in the correct scan time</string>
+    <string name="enter_right_scan_out_time">Please fill in the correct scan timeout</string>
+    <string name="enter_right_connect_out_time">Please fill in the correct connection timeout</string>
+    <string name="select_scan_mode">Please select bluetooth scan mode</string>
+    <string name="broadcast_hint1">Note :(0 is kg, default value 1 is lb, lb, all scales can support this unit 2 is kg, if the scale end does not support, it will show kg 3 is st, quartzite, if the scale end does not support, it will show lb, value)</string>
+    <string name="input_weight_unit">Enter the units to switch</string>
+    <string name="broadcast_hint2">This function is only valid for two-way broadcast scale</string>
+    <string name="set_scale_unit">Set scale unit</string>
+    <string name="receive_real_time_weight">Receive real-time weight：</string>
+    <string name="back">back</string>
+    <string name="user_generated_storage_data">User generated dual mode storage data</string>
+    <string name="set_body_fat_change">Set body fat changes</string>
+    <string name="setting">setting</string>
+    <string name="user_info">userinfo</string>
+    <string name="user_shape">user shape</string>
+    <string name="user_goal">User goals</string>
+    <string name="user_id">user id</string>
+    <string name="grander">grander</string>
+    <string name="male">male</string>
+    <string name="female">female</string>
+    <string name="algorithm_model">Algorithm model</string>
+    <string name="normal_model">Normal mode</string>
+    <string name="athlete_mode">Athlete mode</string>
+    <string name="mode_hint">Athlete mode, suitable for regular exercise users</string>
+    <string name="user_cloth_weight">User clothing weight</string>
+    <string name="user_cloth_weight_hint">The user clothing weight will be removed when calculating various indicators</string>
+    <string name="height">height</string>
+    <string name="birthday">birthday</string>
+    <string name="weight_unit">Unit of weight</string>
+    <string name="jin">jin</string>
+    <string name="confirm">confirm</string>
+    <string name="measure">measure</string>
+    <string name="qr_data">QR code scan data</string>
+    <string name="qr_scan">QR code scanning</string>
+    <string name="qr_scan_hint">The effective time of qr code scanning, the default is 0s, indicating that the effective time is not verified</string>
+    <string name="decode_qr_scan_content">Analytic QR code data</string>
+    <string name="click_to_connect_device">Click connect device</string>
+    <string name="name">name</string>
+    <string name="mode">mode</string>
+    <string name="mac">mac</string>
+    <string name="rssi">rssi</string>
+    <string name="main_hint">Choose the appropriate bluetooth management mode according to your actual situation</string>
+    <string name="sdk_api">SDK bluetooth management</string>
+    <string name="sdk_customer_api">Bluetooth self-management</string>
+    <string name="sdk_api_measure">Bluetooth self-management</string>
+    <string name="ble_setting">Bluetooth related Settings</string>
+    <string name="first_time">first time</string>
+    <string name="every_time">every time</string>
+    <string name="scan_time">scanning time（ms)</string>
+    <string name="scan_out_time">Scan timeout（ms）</string>
+    <string name="connect_out_time">Connection timeout（ms）</string>
+    <string name="broadcast_ble_intensify">enhanced bluetooth broadcast (only useful for broadcast scales)</string>
+    <string name="aim_qr_code">Align qr code</string>
+    <string name="open_flash">Turn on the flash</string>
+    <string name="set_wifi_setting">Set WIFI configuration</string>
+    <string name="weight">weight</string>
+    <string name="is_peel">is peel</string>
+    <string name="is_negative">is negative</string>
+    <string name="is_overload">is overload</string>
+    <string name="type_very_low">Severe low</string>
+    <string name="type_low">low</string>
+    <string name="type_standar">standard</string>
+    <string name="type_high">high</string>
+    <string name="type_very_high">Severe high</string>
+    <string name="type_sufficient">sufficient</string>
+    <string name="type_shape_fueling">endomorphy type</string>
+    <string name="type_shape_full_figured">Full-figured type</string>
+    <string name="type_shape_invisible_obesity">Invisible obesity type</string>
+    <string name="type_shape_standard">standard type</string>
+    <string name="type_shape_standard_muscle">Standard muscle type</string>
+    <string name="type_shape_very_muscular">Very muscular type</string>
+    <string name="type_shape_lean">Lean type</string>
+    <string name="type_shape_lean_and_muscular">Lean and muscular type</string>
+    <string name="type_shape_hypokinesia">hypokinesia type</string>
+    <string name="type_reach_standard">Up to standard</string>
+    <string name="type_not_reach_standard">Not up to standard</string>
+    <string name="type_shape_none">No type</string>
+    <string name="no_standard">No standard </string>
+    <string name="kitchen_scale">kitchen scale</string>
+</resources>

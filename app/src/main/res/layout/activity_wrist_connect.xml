@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <Button
+        android:id="@+id/bindBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="bindBtn"/>
+
+    <Button
+        android:id="@+id/syncBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="syncBtn"/>
+
+    <Button
+        android:id="@+id/otaBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="startOTA"/>
+
+    <Button
+        android:id="@+id/restartBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="restartBtn"/>
+</LinearLayout>

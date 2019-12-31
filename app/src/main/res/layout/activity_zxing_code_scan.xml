@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+    <SurfaceView
+            android:id="@+id/preview_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+
+
+   <!-- <com.beanu.l2_zxing.view.ViewfinderView
+            android:id="@+id/viewfinder_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:scanImg="@mipmap/scanline"
+            android:layout_gravity="center"/>-->
+    <cn.bingoogolapple.qrcode.zxing.ZXingView
+            android:id="@+id/zbarview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:qrcv_animTime="1000"
+            app:qrcv_barcodeRectHeight="120dp"
+            app:qrcv_borderColor="@android:color/white"
+            app:qrcv_borderSize="0dp"
+            app:qrcv_cornerColor="@color/colorPrimaryDark"
+            app:qrcv_cornerDisplayType="inside"
+            app:qrcv_cornerLength="20dp"
+            app:qrcv_cornerSize="3dp"
+            app:qrcv_customGridScanLineDrawable="@drawable/scanline"
+            app:qrcv_isAutoZoom="true"
+            app:qrcv_isBarcode="false"
+            app:qrcv_isOnlyDecodeScanBoxArea="false"
+            app:qrcv_isShowDefaultGridScanLineDrawable="true"
+            app:qrcv_isShowDefaultScanLineDrawable="true"
+            app:qrcv_isShowLocationPoint="true"
+            app:qrcv_isShowTipBackground="true"
+            app:qrcv_isShowTipTextAsSingleLine="false"
+            app:qrcv_isTipTextBelowRect="false"
+            app:qrcv_maskColor="#33FFFFFF"
+            app:qrcv_rectWidth="200dp"
+            app:qrcv_scanLineColor="@color/colorPrimaryDark"
+            app:qrcv_toolbarHeight="56dp"
+            app:qrcv_topOffset="120dp"
+            app:qrcv_verticalBias="-1" />
+
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="120dp"
+            android:text="@string/aim_qr_code"
+            android:textColor="@color/white"
+            android:textSize="12sp"/>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_gravity="top"
+            android:layout_height="47dp"
+            android:id="@+id/title">
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:id="@+id/back_text"
+                android:src="@drawable/icon_back_white"
+                android:layout_centerVertical="true"
+        />
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:text="@string/qr_scan"
+                android:layout_centerInParent="true"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+        />
+    </RelativeLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="36dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+        <LinearLayout
+                android:id="@+id/scan_unlock_flashlight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+            <ImageView
+                    android:id="@+id/flashlight_off"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:src="@drawable/icon_flashlight_off"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/open_flash"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</FrameLayout>

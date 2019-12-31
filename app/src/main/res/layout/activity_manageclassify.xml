@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:text="@string/main_hint"
+        android:textSize="16dp"/>
+
+    <Button
+        android:id="@+id/sdk_manage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="60dp"
+        android:text="@string/sdk_api"
+        android:textColor="@android:color/black"
+        android:textSize="18dp"/>
+
+    <Button
+        android:id="@+id/self_manage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:text="@string/sdk_customer_api"
+        android:textColor="@android:color/black"
+        android:textSize="18dp"/>
+
+</LinearLayout>

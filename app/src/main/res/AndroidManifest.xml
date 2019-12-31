@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.qingniu.qnble.demo">
+
+    <!-- SDK中需要的权限 -->
+    <!-- 23之后的蓝牙需要添加以下权限,且需要动态申请 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <!-- 网络权限 -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- 蓝牙权限 -->
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
+    <!-- SDK中需要的权限 end -->
+    <application
+        android:name=".BaseApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".view.SettingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/timePickerActivity">
+        </activity>
+        <activity
+            android:name=".view.ManageClassifyActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".view.ScanQrActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".view.ScanActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".view.SelfManagementActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".view.ConnectActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".view.SelfConnectActivity"
+            android:screenOrientation="portrait"/>
+
+        <!-- SD中需要申请的服务 -->
+        <!-- <service android:name="com.qingniu.qnble.scanner.BleScanService"/> -->
+        <!-- <service android:name="com.qingniu.scale.measure.ble.ScaleBleService"/> -->
+        <activity
+            android:name=".view.BroadcastScaleActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".view.SelfBroadcastScaleActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".view.CustomSettingActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".view.kitchenScaleActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".view.SelfKitchenScaleActivity"
+            android:screenOrientation="portrait"/>
+    </application>
+
+</manifest>

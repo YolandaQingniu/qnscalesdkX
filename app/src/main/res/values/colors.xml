@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="transparent">#00000000</color>
+
+    <color name="white">#FFFFFF</color>
+
+    <color name="themeColor_0fbfef">#0FBFEF</color>
+
+    <!-- numberPicker -->
+    <color name="abc_search_url_text_normal">#7FA87F</color>
+    <color name="abc_search_url_text_selected">@android:color/black</color>
+    <color name="abc_search_url_text_pressed">@android:color/black</color>
+    <color name="blue">#33B6E7</color>
+    <color name="color_gray_f3ffff">#F3FFFF</color>
+    <color name="height_bg_color">#F3ffff</color>
+</resources>

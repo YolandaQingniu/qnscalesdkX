@@ -1,0 +1,159 @@
+<resources>
+    <string name="app_name">ScaleSDKXDemo</string>
+    <string name="scan">扫描</string>
+    <string name="stop">停止</string>
+    <string name="user_id_explain">设置用户的资料,计算体脂率时会需要</string>
+    <string name="user_gender_explain">男的为"male",女的为"female"</string>
+    <string name="user_height_explain">单位是cm,范围为40~240cm</string>
+    <string name="user_birthday_explain">只支持10岁以上80岁以下,对于10岁以下的,则只有体重和BMI数据是有效的</string>
+    <string name="ble_scan_explain">选择"首次"时,每个设备单次扫描只返回一次,选择"每次"时,每个设备单次扫描可能会回调多次,不过信号强度会不同</string>
+    <string name="user_unit_explain">kg 公斤 默认值\nlb 磅,所有秤都能支持这个单位\n斤,秤端如果不支持,则会显示kg\nst 英石,如果秤端不支持会显示lb</string>
+    <string name="cancel">取消</string>
+    <string name="sure">确定</string>
+    <string name="RegisterViewController_women">女</string>
+    <string name="RegisterViewController_man">男</string>
+    <string name="RegisterViewController_lowAge10">您的年龄小于10岁,测试时您无法获取准确的测量数据</string>
+    <string name="date_format_day">yyyy-MM-dd</string>
+    <string name="register_ok">确认</string>
+    <string name="scan_out_time_remind">设置时间后，在指定时间内没有扫描到任何蓝牙设备，会回调错误信息</string>
+    <string name="scan_time_remind">扫描持续时间,单位 ms，默认为0，即一直进行扫描，除非APP调用了stopBleDeviceDiscovery.不为0时，最小值为 3000ms 则会延时 duration ms的时间后，自动停止扫描。</string>
+
+    <string-array name="user_shape_des">
+        <item>未选择</item>
+        <item>纤瘦、苗条型</item>
+        <item>匀称、标准型</item>
+        <item>健美肌肉型</item>
+        <item>丰满、超重型</item>
+    </string-array>
+
+    <string-array name="user_goal_des">
+        <item>未选择</item>
+        <item>减脂</item>
+        <item>保持健康</item>
+        <item>增肌</item>
+        <item>每周数次力量型运动，如器械练习</item>
+        <item>基础不错，但缺乏系统性训练</item>
+        <item>每周数次有氧型运动，如跑步</item>
+    </string-array>
+
+    <string name="year">年</string>
+    <string name="month">月</string>
+    <string name="day">日</string>
+    <string name="set_unit_is_empty">设置的单位不能为空</string>
+    <string name="input_int">请输入整数！</string>
+    <string name="device_set_empty">当前需要设置的设备不能为空</string>
+    <string name="connecting">正在连接</string>
+    <string name="disconnected">断开连接</string>
+    <string name="connected">已连接</string>
+    <string name="disconnect_in_progress">正在断开连接</string>
+    <string name="connect">连接</string>
+    <string name="measuring">正在测量</string>
+    <string name="connection_disconnected">连接已断开</string>
+    <string name="real_time_weight_measurement">正在测量实时体重</string>
+    <string name="impedance_measured">正在测量阻抗</string>
+    <string name="measuring_heart_rate">正在测量心率</string>
+    <string name="measure_complete">测量完成</string>
+    <string name="start_set_wifi">开始设置WiFi</string>
+    <string name="failed_to_set_wifi">设置WiFi失败</string>
+    <string name="success_to_set_wifi">设置WiFi成功</string>
+    <string name="please_enter_body_fat_change_control">请输入体脂变化控制</string>
+    <string name="set_body_fat_change_hint">请先完成一次体重测量,作为第二次测量的对比数据</string>
+    <string name="set_body_fat_change_hint1">用户只测量了一次,没有上一次的数据进行对比设置</string>
+    <string name="input_cloth">请填写正确的衣服重量</string>
+    <string name="user_id_empty">用户id不能为空</string>
+    <string name="select_grander">请选择性别</string>
+    <string name="input_height">请输入身高</string>
+    <string name="input_birthday">请输入出生日期</string>
+    <string name="select_weight">请选择重量单位</string>
+    <string name="scan_exception">扫描异常</string>
+    <string name="scan_stopped">已经停止扫描</string>
+    <string name="scanning">正在扫描</string>
+    <string name="input_date_time">请输入正确的有效时间</string>
+    <string name="decode_fail">解析失败</string>
+    <string name="permission">权限</string>
+    <string name="apply_for_to_success">申请成功</string>
+    <string name="apply_for_to_fail">申请失败</string>
+    <string name="device_not_support">设备不支持</string>
+    <string name="open_ble">请打开蓝牙</string>
+    <string name="connect_successfully">连接成功</string>
+    <string name="percentage_of_battery_received">收到电池电量百分比:</string>
+    <string name="enter_right_scan_time">请填写正确的扫描时间</string>
+    <string name="enter_right_scan_out_time">请填写正确的扫描超时时间</string>
+    <string name="enter_right_connect_out_time">请填写正确的连接超时时间</string>
+    <string name="select_scan_mode">请选择蓝牙扫描模式</string>
+    <string name="broadcast_hint1"> 备注：(0 为 kg，默认值 1 为 lb,磅，所有秤都能够支持这个单位 2 为 斤，秤端如果不支持，则会显示kg 3 为 st，英石，秤端如果不支持，则会显示lb，的数值)</string>
+    <string name="input_weight_unit">输入要切换的单位</string>
+    <string name="broadcast_hint2">此功能只对双向广播秤有效</string>
+    <string name="set_scale_unit">设置秤单位</string>
+    <string name="receive_real_time_weight">收到实时重量：</string>
+    <string name="back">返回</string>
+    <string name="user_generated_storage_data">用户生成双模存储数据</string>
+    <string name="set_body_fat_change">设置体脂变化</string>
+    <string name="setting">设置</string>
+    <string name="user_info">用户资料</string>
+    <string name="user_shape">用户体型</string>
+    <string name="user_goal">用户目标</string>
+    <string name="user_id">用户id</string>
+    <string name="grander">性别</string>
+    <string name="male">男</string>
+    <string name="female">女</string>
+    <string name="algorithm_model">算法模式</string>
+    <string name="normal_model">普通模式</string>
+    <string name="athlete_mode">运动员模式</string>
+    <string name="mode_hint">运动员模式，适用于经常运动的用户</string>
+    <string name="user_cloth_weight"> 用户衣服重量</string>
+    <string name="user_cloth_weight_hint">用户的衣服重量，计算各项指标时会去掉</string>
+    <string name="height">身高</string>
+    <string name="birthday">生日</string>
+    <string name="weight_unit">重量单位</string>
+    <string name="jin">斤</string>
+    <string name="confirm">确定</string>
+    <string name="measure">测量</string>
+    <string name="qr_data">二维码扫描的数据</string>
+    <string name="qr_scan">二维码扫描</string>
+    <string name="qr_scan_hint">二维码扫描的有效时间，默认0s，表示不校验有效时间</string>
+    <string name="decode_qr_scan_content">解析的二维码数据</string>
+    <string name="click_to_connect_device">点击连接设备</string>
+    <string name="name">名称</string>
+    <string name="mode">型号</string>
+    <string name="mac">mac地址</string>
+    <string name="rssi">强度</string>
+    <string name="main_hint">根据自己的实际情况选择相应的蓝牙管理方式</string>
+    <string name="sdk_api">SDK蓝牙管理</string>
+    <string name="sdk_customer_api">自主管理连接</string>
+    <string name="sdk_api_measure">自主管理连接测量</string>
+    <string name="ble_setting">蓝牙相关设置</string>
+    <string name="first_time">首次</string>
+    <string name="every_time">每次</string>
+    <string name="scan_time">扫描时间（ms)</string>
+    <string name="scan_out_time">扫描超时时间（ms）</string>
+    <string name="connect_out_time">连接超时时间（ms）</string>
+    <string name="broadcast_ble_intensify">强化蓝牙广播（只对广播秤有用）</string>
+    <string name="aim_qr_code">对准二维码</string>
+    <string name="open_flash">打开闪光灯</string>
+    <string name="set_wifi_setting">设置WIFI配置</string>
+    <string name="weight">重量</string>
+    <string name="is_peel">是否去皮</string>
+    <string name="is_negative">是否负重量</string>
+    <string name="is_overload">是否超重</string>
+    <string name="type_very_low">严重偏低</string>
+    <string name="type_low">偏低</string>
+    <string name="type_standar">标准</string>
+    <string name="type_high">偏高</string>
+    <string name="type_very_high">严重偏高</string>
+    <string name="type_sufficient">充足</string>
+    <string name="type_shape_fueling">肥胖型</string>
+    <string name="type_shape_full_figured">偏胖型</string>
+    <string name="type_shape_invisible_obesity">隐形肥胖型</string>
+    <string name="type_shape_standard">标准型</string>
+    <string name="type_shape_standard_muscle">标准肌肉型</string>
+    <string name="type_shape_very_muscular">非常肌肉型</string>
+    <string name="type_shape_lean">偏瘦型</string>
+    <string name="type_shape_lean_and_muscular">偏瘦肌肉型</string>
+    <string name="type_shape_hypokinesia">运动不足型</string>
+    <string name="type_reach_standard">达标</string>
+    <string name="type_not_reach_standard">不达标</string>
+    <string name="type_shape_none">无体型值</string>
+    <string name="no_standard">无标准</string>
+    <string name="kitchen_scale">厨房秤</string>
+</resources>

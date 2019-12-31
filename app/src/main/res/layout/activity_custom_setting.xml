@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center"
+            android:text="@string/setting"
+            android:textSize="20sp"/>
+
+        <TextView
+            style="@style/user_big_text"
+            android:text="@string/user_info"/>
+
+        <TextView style="@style/divide_line"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/user_shape_explain"
+                style="@style/user_small_text"
+                android:text="@string/user_shape"/>
+
+            <Spinner
+                android:id="@+id/user_shape_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/user_shape_explain"
+                android:layout_toRightOf="@+id/user_shape_explain"
+                android:entries="@array/user_shape_des">
+
+            </Spinner>
+
+        </RelativeLayout>
+
+        <TextView style="@style/divide_line"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/user_goal_explain"
+                style="@style/user_small_text"
+                android:text="@string/user_goal"/>
+
+            <Spinner
+                android:id="@+id/user_goal_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/user_goal_explain"
+                android:layout_toRightOf="@+id/user_goal_explain"
+                android:entries="@array/user_goal_des">
+
+            </Spinner>
+
+        </RelativeLayout>
+
+        <TextView style="@style/divide_line"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/user_name_explain"
+                    style="@style/user_small_text"
+                    android:text="@string/user_id"/>
+
+                <ImageView
+                    android:id="@+id/user_id_arrow"
+                    style="@style/user_arrow_image"
+                    android:src="@drawable/system_item_arrow"/>
+
+                <EditText
+                    android:id="@+id/user_id_edt"
+                    android:layout_width="180dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_toStartOf="@+id/user_id_arrow"
+                    android:background="@drawable/edittext_background"
+                    android:inputType="phone"
+                    android:text="123456789"/>
+
+
+            </RelativeLayout>
+
+            <TextView
+                style="@style/user_explain_text"
+                android:text="@string/user_id_explain"/>
+        </LinearLayout>
+
+        <TextView style="@style/divide_line"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/user_gender_explain"
+                    style="@style/user_small_text"
+                    android:text="@string/grander"/>
+
+                <ImageView
+                    android:id="@+id/user_gender_arrow"
+                    style="@style/user_arrow_image"
+                    android:layout_marginStart="30dp"
+                    android:src="@drawable/system_item_arrow"/>
+
+
+                <RadioGroup
+                    android:id="@+id/user_gender_grp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_toStartOf="@id/user_gender_arrow"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/user_male_rb"
+                        style="@style/user_radio_button"
+                        android:checked="true"
+                        android:text="@string/male"/>
+
+                    <RadioButton
+                        android:id="@+id/user_female_rb"
+                        style="@style/user_radio_button"
+                        android:layout_marginStart="10dp"
+                        android:text="@string/female"/>
+
+                </RadioGroup>
+
+            </RelativeLayout>
+
+            <TextView
+                style="@style/user_explain_text"
+                android:text="@string/user_gender_explain"/>
+        </LinearLayout>
+
+        <TextView style="@style/divide_line"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/user_calc_explain"
+                style="@style/user_small_text"
+                android:text="@string/algorithm_model"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+
+                <ImageView
+                    android:id="@+id/user_calc_arrow"
+                    style="@style/user_arrow_image"
+                    android:layout_marginStart="30dp"
+                    android:src="@drawable/system_item_arrow"/>
+
+
+                <RadioGroup
+                    android:id="@+id/user_calc_grp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/normal_calc_rb"
+                        style="@style/user_radio_button"
+                        android:checked="true"
+                        android:text="@string/normal_model"/>
+
+                    <RadioButton
+                        android:id="@+id/athlete_calc_rb"
+                        style="@style/user_radio_button"
+                        android:layout_marginStart="10dp"
+                        android:text="@string/athlete_mode"/>
+
+                </RadioGroup>
+
+            </RelativeLayout>
+
+            <TextView
+                style="@style/user_explain_text"
+                android:text="@string/mode_hint"/>
+        </LinearLayout>
+
+        <TextView style="@style/divide_line"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/user_clothes_explain"
+                    style="@style/user_small_text"
+                    android:text="@string/user_cloth_weight"/>
+
+                <ImageView
+                    android:id="@+id/user_clothes_arrow"
+                    style="@style/user_arrow_image"
+                    android:src="@drawable/system_item_arrow"/>
+
+                <EditText
+                    android:id="@+id/user_clothes_edt"
+                    android:layout_width="120dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_toStartOf="@+id/user_clothes_arrow"
+                    android:background="@drawable/edittext_background"
+                    android:text="0"
+                    android:inputType="numberDecimal"/>
+
+
+            </RelativeLayout>
+
+            <TextView
+                style="@style/user_explain_text"
+                android:text="@string/user_cloth_weight_hint"/>
+        </LinearLayout>
+
+        <TextView style="@style/divide_line"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/user_height_explain"
+                    style="@style/user_small_text"
+                    android:text="@string/height"/>
+
+                <ImageView
+                    android:id="@+id/user_height_arrow"
+                    style="@style/user_arrow_image"
+                    android:layout_marginStart="30dp"
+                    android:src="@drawable/system_item_arrow"/>
+
+                <TextView
+                    android:id="@+id/user_height_tv"
+                    style="@style/user_small_text"
+                    android:layout_toStartOf="@id/user_height_arrow"
+                    android:text="172cm"/>
+
+            </RelativeLayout>
+
+            <TextView
+                style="@style/user_explain_text"
+                android:text="@string/user_height_explain"/>
+        </LinearLayout>
+
+        <TextView style="@style/divide_line"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/user_birthday_explain"
+                    style="@style/user_small_text"
+                    android:text="@string/birthday"/>
+
+                <ImageView
+                    android:id="@+id/user_birthday_arrow"
+                    style="@style/user_arrow_image"
+                    android:layout_marginStart="30dp"
+                    android:src="@drawable/system_item_arrow"/>
+
+                <TextView
+                    android:id="@+id/user_birthday_tv"
+                    style="@style/user_small_text"
+                    android:layout_toStartOf="@id/user_birthday_arrow"/>
+
+            </RelativeLayout>
+
+            <TextView
+                style="@style/user_explain_text"
+                android:text="@string/user_birthday_explain"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/user_unit_explain"
+                    style="@style/user_small_text"
+                    android:text="@string/weight_unit"/>
+
+                <RadioGroup
+                    android:id="@+id/user_unit_grp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/user_unit_kg"
+                        style="@style/user_radio_button"
+                        android:checked="true"
+                        android:paddingStart="4dp"
+                        android:text="kg"/>
+
+                    <RadioButton
+                        android:id="@+id/user_unit_lb"
+                        style="@style/user_radio_button"
+                        android:layout_marginStart="4dp"
+                        android:paddingStart="4dp"
+                        android:text="lb"/>
+
+                    <RadioButton
+                        android:id="@+id/user_unit_jin"
+                        style="@style/user_radio_button"
+                        android:layout_marginStart="4dp"
+                        android:paddingStart="4dp"
+                        android:text="@string/jin"/>
+
+                    <RadioButton
+                        android:id="@+id/user_unit_st"
+                        style="@style/user_radio_button"
+                        android:layout_marginStart="4dp"
+                        android:paddingStart="4dp"
+                        android:text="st"/>
+                </RadioGroup>
+
+            </RelativeLayout>
+
+            <TextView
+                style="@style/user_explain_text"
+                android:text="@string/user_unit_explain"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_sure"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="10dp"
+            android:text="@string/confirm"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
+
+</ScrollView>
