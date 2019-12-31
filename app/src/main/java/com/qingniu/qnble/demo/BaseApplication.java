@@ -8,9 +8,8 @@ import com.yolanda.health.qnblesdk.listener.QNResultCallback;
 import com.yolanda.health.qnblesdk.out.QNBleApi;
 
 /**
- * @author: hekang
  * @description:
- * @date: 2018/03/21 20:20
+ * @date: 2019/12/31 18:20
  */
 
 public class BaseApplication extends Application {

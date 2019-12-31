@@ -53,10 +53,7 @@ import butterknife.OnClick;
 import static com.qingniu.qnble.demo.R.id.connectBtn;
 
 /**
- * author: yolanda-XY
- * date: 2018/3/23
- * package_name: com.qingniu.qnble.demo
- * description: ${设置用户信息界面}
+ * Created by ch on 2019/12/31.
  */
 
 public class ConnectActivity extends AppCompatActivity implements View.OnClickListener {

@@ -58,9 +58,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * author: yolanda-zhao
- * description:自主普通秤连接测量界面
- * date: 2019/9/6
+ * Created by ch on 2019/12/31.
  */
 
 public class SelfConnectActivity extends AppCompatActivity implements View.OnClickListener {

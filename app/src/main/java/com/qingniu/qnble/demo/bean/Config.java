@@ -4,9 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * @author: hekang
  * @description:
- * @date: 2018/5/12 11:20
+ * @date: 2019/12/31 10:31
  */
 public class Config implements Parcelable {
     private boolean onlyScreenOn;

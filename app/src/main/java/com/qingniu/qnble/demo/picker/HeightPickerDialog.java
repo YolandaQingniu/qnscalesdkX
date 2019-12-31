@@ -7,10 +7,7 @@ import com.qingniu.qnble.demo.R;
 import butterknife.OnClick;
 
 /**
- * author: yolanda-XY
- * date: 2018/3/30
- * package_name: com.qingniu.qnble.demo.picker
- * description: ${TODO}
+ * Created by ch on 2019/12/31.
  */
 
 public class HeightPickerDialog extends BaseDataPickerDialog {

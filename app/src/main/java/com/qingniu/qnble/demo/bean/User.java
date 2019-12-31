@@ -6,9 +6,7 @@ import android.os.Parcelable;
 import java.util.Date;
 
 /**
- * author: yolanda-XY
- * description: ${用户本地信息}
- * date: 2018/4/28
+ * Created by ch on 2019/12/31.
  */
 
 public class User implements Parcelable {

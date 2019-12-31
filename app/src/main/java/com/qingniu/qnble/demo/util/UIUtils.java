@@ -3,7 +3,7 @@ package com.qingniu.qnble.demo.util;
 import android.content.Context;
 
 /**
- * Created by hdr on 15/9/7.
+ * Created by ch on 2019/12/31.
  */
 public class UIUtils {
 

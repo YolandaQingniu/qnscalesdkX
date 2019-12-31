@@ -1,9 +1,7 @@
 package com.qingniu.qnble.demo.util;
 
 /**
- * author: yolanda-XY
- * description: ${常量类}
- * date: 2018/4/28
+ * Created by ch on 2019/12/31.
  */
 
 public class UserConst {

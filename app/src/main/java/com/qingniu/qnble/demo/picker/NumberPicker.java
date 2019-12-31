@@ -44,10 +44,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * author: yolanda-XY
- * date: 2018/3/30
- * package_name: com.qingniu.qnble.demo.picker
- * description: ${TODO}
+ * Created by ch on 2019/12/31.
  */
 
 public class NumberPicker extends LinearLayout {

@@ -21,10 +21,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * author: yolanda-XY
- * date: 2018/3/30
- * package_name: com.qingniu.qnble.demo.picker
- * description: ${TODO}
+ * Created by ch on 2019/12/31.
  */
 
 public class BaseDataPickerDialog extends Dialog implements NumberPicker.OnValueChangeListener, StringWheelView.OnWheelViewListener {
