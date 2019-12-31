@@ -70,8 +70,6 @@ dependencies {
     implementation 'com.jakewharton:butterknife:10.2.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
 //    compile ("com.github.duodebuyali:QNScaleSDK:master-SNAPSHOT") {
-    compile("com.github.YolandaQingniu:qnscalesdkX:1.0.0") {
-        exclude module: "support-v4"//防止和module引用的v4资源版本不同
-    }
+    compile("com.github.YolandaQingniu:qnscalesdkX:1.0.0")
 
 }

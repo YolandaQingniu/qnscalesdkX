@@ -47,7 +47,6 @@
     ```
 * 需要在**AndroidManifest.xml**注册SDK中的组件：
    ```
-  <!--qnscalesdk:1.1.3-beta3 之后(1.1.3-beta4开始)的版本配置-->
    <service android:name="com.qingniu.qnble.scanner.BleScanService" android:permission="android.permission.BIND_JOB_SERVICE"/>
    <service android:name="com.qingniu.scale.measure.ble.ScaleBleService" android:permission="android.permission.BIND_JOB_SERVICE"/>
    <service android:name="com.qingniu.scale.measure.broadcast.ScaleBroadcastService" android:permission="android.permission.BIND_JOB_SERVICE"/>
