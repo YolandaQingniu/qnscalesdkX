@@ -7,7 +7,7 @@
 ##具体操作文档
 [具体集成说明文档](https://yolandaqingniu.github.io/zh/)
 
-### Android Studio
+### Android Studio 线上依赖
 * 在你工程的根目录下的 **build.gradle**添加**jitpack**支持
    ```
    allprojects {
@@ -27,8 +27,18 @@
 	}
 	```
 	
-### Eclipse
+### Android Studio 本地依赖
 * 下载最新的[jar和so库](https://github.com/YolandaQingniu/qnscalesdkX/releases/download/1.0.0/qnsdkX-1.0.0-Android.zip)，导入下载的`jar和so库`
+* 在app moudle 下建立libs文件夹，将so库和jar包放入libs 文件夹内。
+*  在app moudle 的gradle文件中增加配置
+```
+ sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+```    
+ 
 * 在清单文件中申请蓝牙权限、位置权限、网络权限（离线SDK不需要）
     ```
    <!--蓝牙权限-->
@@ -50,6 +60,8 @@
    <service android:name="com.qingniu.qnble.scanner.BleScanService" android:permission="android.permission.BIND_JOB_SERVICE"/>
    <service android:name="com.qingniu.scale.measure.ble.ScaleBleService" android:permission="android.permission.BIND_JOB_SERVICE"/>
    <service android:name="com.qingniu.scale.measure.broadcast.ScaleBroadcastService" android:permission="android.permission.BIND_JOB_SERVICE"/>
+    <service android:name="com.qingniu.scale.wsp.ble.ScaleWspBleService" android:permission="android.permission.BIND_JOB_SERVICE" />
+   <service android:name="com.qingniu.scale.measure.broadcast.ScaleFoodBroadcastService" android:permission="android.permission.BIND_JOB_SERVICE" />
     ```
 
 ## 注意事项
@@ -58,7 +70,7 @@
 - 如果你的项目是多进程的，建议限制在主进程才进行SDK的初始化
 
 ## 常见问题
-具体使用参考[API文档](https://yolandaqingniu.github.io/)和`Demo`，以下为一些常见问题。
+具体使用参考[API文档](https://yolandaqingniu.gitee.io/sdk-doc/)和`Demo`，以下为一些常见问题。
 
 1. 初始化提示appid错误
     + 检查初始化文件和使用的appid是否匹配
