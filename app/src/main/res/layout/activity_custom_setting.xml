@@ -384,14 +384,33 @@
                 android:text="@string/user_unit_explain"/>
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_sure"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="10dp"
-            android:text="@string/confirm"
-            android:textSize="18sp"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_sure"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
+                android:text="@string/single_connect"
+                android:textSize="18sp"/>
+
+            <Button
+                android:id="@+id/btn_double_sure"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:text="@string/multi_connect"
+                android:textSize="18sp"/>
+
+        </RelativeLayout>
+
+
 
     </LinearLayout>
 

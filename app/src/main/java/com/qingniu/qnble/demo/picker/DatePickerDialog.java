@@ -9,8 +9,12 @@ import java.util.Calendar;
 import java.util.Date;
 
 import butterknife.OnClick;
+
 /**
- * Created by ch on 2019/12/31.
+ * author: ch
+ * date: 2018/3/30
+ * package_name: com.qingniu.qnble.demo.picker
+ * description: ${TODO}
  */
 
 public class DatePickerDialog extends BaseDataPickerDialog {

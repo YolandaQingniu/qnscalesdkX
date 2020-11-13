@@ -8,7 +8,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 /**
- * Created by ch on 2019/12/31.
+ * author: yolanda-XY
+ * date: 2018/4/2
+ * package_name: com.qingniu.qnble.demo.util
+ * description: ${动态申请权限}
  */
 
 public class AndroidPermissionCenter {

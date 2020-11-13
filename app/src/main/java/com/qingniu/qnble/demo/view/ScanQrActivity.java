@@ -18,7 +18,7 @@ import butterknife.OnClick;
 import cn.bingoogolapple.qrcode.core.QRCodeView;
 
 /**
- * Created by ch on 2019/12/31.
+ * Created by CHENHUA on 2018/4/3.
  */
 public class ScanQrActivity extends AppCompatActivity {
 

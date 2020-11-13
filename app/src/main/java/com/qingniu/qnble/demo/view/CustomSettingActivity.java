@@ -33,7 +33,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by ch on 2019/12/31.
+ * author: yolanda-zhao
+ * description:自我管理的设置界面
+ * date: 2019/9/10
  */
 
 public class CustomSettingActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener, View.OnClickListener {
@@ -72,6 +74,8 @@ public class CustomSettingActivity extends AppCompatActivity implements RadioGro
 
     @BindView(R.id.user_clothes_edt)
     EditText user_clothes_edt;
+    @BindView(R.id.btn_double_sure)
+    Button btnDoubleSure;
 
     private Config mBleConfig; //蓝牙配置对象
     private String mGender = "male";//用户性别
@@ -112,6 +116,7 @@ public class CustomSettingActivity extends AppCompatActivity implements RadioGro
         mUserUnitGrp.setOnCheckedChangeListener(this);
         mUserHeightTv.setOnClickListener(this);
         mUserBirthdayTv.setOnClickListener(this);
+        btnDoubleSure.setOnClickListener(this);
         mSure.setOnClickListener(this);
 
 
@@ -219,6 +224,12 @@ public class CustomSettingActivity extends AppCompatActivity implements RadioGro
                 startActivity(SelfManagementActivity.getCallIntent(this, mUser, mBleConfig));
                 finish();
                 break;
+
+            case R.id.btn_double_sure:
+                if (checkInfo()) return;
+                startActivity(SelfMultiDeviceConnectActivity.getCallIntent(this,mUser,mBleConfig));
+                finish();
+                break;
         }
     }
 
@@ -242,16 +253,16 @@ public class CustomSettingActivity extends AppCompatActivity implements RadioGro
             ToastMaker.show(this, getResources().getString(R.string.user_id_empty));
             return true;
         } else if (mUserGenderGrp.getCheckedRadioButtonId() == -1) {
-            ToastMaker.show(this,getResources().getString(R.string.select_grander));
+            ToastMaker.show(this, getResources().getString(R.string.select_grander));
             return true;
         } else if (mHeight == 0) {
             ToastMaker.show(this, getResources().getString(R.string.input_height));
             return true;
         } else if (mBirthday == null) {
-            ToastMaker.show(this,getString(R.string.input_birthday));
+            ToastMaker.show(this, getString(R.string.input_birthday));
             return true;
         } else if (mUserUnitGrp.getCheckedRadioButtonId() == -1) {
-            ToastMaker.show(this,getResources().getString(R.string.select_weight));
+            ToastMaker.show(this, getResources().getString(R.string.select_weight));
             return true;
         }
 

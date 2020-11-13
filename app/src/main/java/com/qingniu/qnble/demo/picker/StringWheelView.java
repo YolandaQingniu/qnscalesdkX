@@ -16,7 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by ch on 2019/12/31.
+ * author: yolanda-XY
+ * date: 2018/3/30
+ * package_name: com.qingniu.qnble.demo.picker
+ * description: ${TODO}
  */
 
 public class StringWheelView extends ScrollView {

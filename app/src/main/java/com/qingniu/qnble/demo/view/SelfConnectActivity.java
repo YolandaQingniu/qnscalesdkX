@@ -58,7 +58,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by ch on 2019/12/31.
+ * author: yolanda-zhao
+ * description:自主普通秤连接测量界面(单设备连接)
+ * date: 2019/9/6
  */
 
 public class SelfConnectActivity extends AppCompatActivity implements View.OnClickListener {
@@ -149,6 +151,7 @@ public class SelfConnectActivity extends AppCompatActivity implements View.OnCli
                     mBluetoothGatt = null;
                 }
                 setBleStatus(QNScaleStatus.STATE_DISCONNECTED);
+                mIsConnected = false;
                 Log.e(TAG, err);
                 return;
             }
@@ -318,13 +321,13 @@ public class SelfConnectActivity extends AppCompatActivity implements View.OnCli
     private void buildHandler() {
         mProtocolhandler = mQNBleApi.buildProtocolHandler(mBleDevice, createQNUser(), new QNBleProtocolDelegate() {
             @Override
-            public void writeCharacteristicValue(String service_uuid, String characteristic_uuid, byte[] data) {
-                writeCharacteristicData(service_uuid, characteristic_uuid, data);
+            public void writeCharacteristicValue(String service_uuid, String characteristic_uuid, byte[] data, QNBleDevice qnBleDevice) {
+                writeCharacteristicData(service_uuid, characteristic_uuid, data, qnBleDevice.getMac());
             }
 
             @Override
-            public void readCharacteristic(String service_uuid, String characteristic_uuid) {
-                readCharacteristicData(service_uuid, characteristic_uuid);
+            public void readCharacteristic(String service_uuid, String characteristic_uuid, QNBleDevice qnBleDevice) {
+                readCharacteristicData(service_uuid, characteristic_uuid, qnBleDevice.getMac());
 
             }
         }, new QNResultCallback() {
@@ -335,7 +338,7 @@ public class SelfConnectActivity extends AppCompatActivity implements View.OnCli
         });
     }
 
-    private void readCharacteristicData(String service_uuid, String characteristic_uuid) {
+    private void readCharacteristicData(String service_uuid, String characteristic_uuid, String mac) {
 
         switch (characteristic_uuid) {
             case QNBleConst.UUID_IBT_READ:
@@ -364,7 +367,7 @@ public class SelfConnectActivity extends AppCompatActivity implements View.OnCli
 
     }
 
-    private void writeCharacteristicData(String service_uuid, String characteristic_uuid, byte[] data) {
+    private void writeCharacteristicData(String service_uuid, String characteristic_uuid, byte[] data, String mac) {
         switch (characteristic_uuid) {
             case QNBleConst.UUID_IBT_WRITE:
 
@@ -597,6 +600,11 @@ public class SelfConnectActivity extends AppCompatActivity implements View.OnCli
                 Log.d(TAG, "秤的连接状态是:" + status);
                 setBleStatus(status);
             }
+
+            @Override
+            public void onScaleEventChange(QNBleDevice device, int scaleEvent) {
+                Log.d("ConnectActivity", "秤返回的事件是:" + scaleEvent);
+            }
         });
     }
 
@@ -618,7 +626,7 @@ public class SelfConnectActivity extends AppCompatActivity implements View.OnCli
     private void initView() {
         mConnectBtn.setOnClickListener(this);
         mBackTv.setOnClickListener(this);
-        listAdapter = new ListAdapter(mDatas,mQNBleApi,createQNUser());
+        listAdapter = new ListAdapter(mDatas, mQNBleApi, createQNUser());
         mListView.setAdapter(listAdapter);
         listAdapter.notifyDataSetChanged();
     }
@@ -670,11 +678,11 @@ public class SelfConnectActivity extends AppCompatActivity implements View.OnCli
             }
             case QNScaleStatus.STATE_START_MEASURE: {
                 stateString = getResources().getString(R.string.measuring);
-                btnString =getResources().getString(R.string.disconnected);
+                btnString = getResources().getString(R.string.disconnected);
                 break;
             }
             case QNScaleStatus.STATE_REAL_TIME: {
-                stateString =getResources().getString(R.string.real_time_weight_measurement);
+                stateString = getResources().getString(R.string.real_time_weight_measurement);
                 btnString = getResources().getString(R.string.disconnected);
                 break;
             }
@@ -694,7 +702,7 @@ public class SelfConnectActivity extends AppCompatActivity implements View.OnCli
                 break;
             }
             case QNScaleStatus.STATE_WIFI_BLE_START_NETWORK:
-                stateString =getResources().getString(R.string.start_set_wifi);
+                stateString = getResources().getString(R.string.start_set_wifi);
                 btnString = getResources().getString(R.string.disconnected);
                 Log.d(TAG, "开始设置WiFi");
                 break;
@@ -704,8 +712,8 @@ public class SelfConnectActivity extends AppCompatActivity implements View.OnCli
                 Log.d(TAG, "设置WiFi失败");
                 break;
             case QNScaleStatus.STATE_WIFI_BLE_NETWORK_SUCCESS:
-                stateString =getResources().getString(R.string.success_to_set_wifi);
-                btnString =getResources().getString(R.string.disconnected);
+                stateString = getResources().getString(R.string.success_to_set_wifi);
+                btnString = getResources().getString(R.string.disconnected);
                 Log.d(TAG, "设置WiFi成功");
                 break;
             default: {
@@ -734,6 +742,7 @@ public class SelfConnectActivity extends AppCompatActivity implements View.OnCli
                 }
                 break;
             case R.id.back_tv:
+                doDisconnect();
                 finish();
                 break;
         }

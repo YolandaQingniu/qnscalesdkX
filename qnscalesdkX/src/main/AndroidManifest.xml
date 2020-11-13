@@ -34,6 +34,19 @@
         <service
             android:name="com.qingniu.scale.measure.broadcast.ScaleBroadcastService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <service
+            android:name="com.qingniu.scale.wsp.ble.ScaleWspBleService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service
+            android:name="com.qingniu.scale.measure.broadcast.ScaleFoodBroadcastService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service
+            android:name="com.qingniu.scale.other.lefu.ble.ScaleLefuBleService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service
+            android:name="com.qingniu.heightscale.ble.HeightScaleBleService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
 
 </manifest>

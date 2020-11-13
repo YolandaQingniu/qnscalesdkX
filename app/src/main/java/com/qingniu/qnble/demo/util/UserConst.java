@@ -1,7 +1,9 @@
 package com.qingniu.qnble.demo.util;
 
 /**
- * Created by ch on 2019/12/31.
+ * author: yolanda-XY
+ * description: ${常量类}
+ * date: 2018/4/28
  */
 
 public class UserConst {
@@ -9,8 +11,10 @@ public class UserConst {
 
     public static final String DEVICE = "device"; //连接的设备
 
-    public static final String CONFIG = "qnconfig"; //连接的设备
+    public static final String CONFIG = "qnconfig"; //扫描配置
 
-    public static final String WIFI_CONFIG = "WIFI_CONFIG"; //wifi 配置信息
+    public static final String WIFI_CONFIG = "WIFI_CONFIG"; //普通双模秤wifi 配置信息
+
+    public static final String WSPCONFIG = "qnwspconfig"; //wsp 配置信息
 
 }

@@ -45,7 +45,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by ch on 2019/12/31.
+ * author: yolanda-zhao
+ * description: 自主广播秤解析界面
+ * date: 2019/9/9
  */
 
 public class SelfBroadcastScaleActivity extends AppCompatActivity {

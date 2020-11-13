@@ -71,6 +71,18 @@
         <activity
             android:name=".view.SelfKitchenScaleActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".view.WspConfigActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.WspScaleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.HeightScaleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.SelfMultiDeviceConnectActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

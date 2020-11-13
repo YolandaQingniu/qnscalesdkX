@@ -13,8 +13,9 @@ import com.qingniu.qnble.scanner.ScanResult;
 import java.util.LinkedHashMap;
 
 /**
+ * @author: hekang
  * @description:展示设备的适配器
- * @date: 2019/12/31 10:31
+ * @date: 2018/6/13 10:31
  */
 public class DeviceAdapter extends BaseAdapter {
     private LinkedHashMap<String, ScanResult> resultMap;

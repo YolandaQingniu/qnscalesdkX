@@ -12,7 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.qingniu.qnble.demo.R;
 
 /**
- * Created by ch on 2019/12/31.
+ * author: yolanda-zhao
+ * description:分类管理界面
+ * date: 2019/9/6
  */
 
 public class ManageClassifyActivity extends AppCompatActivity implements View.OnClickListener {

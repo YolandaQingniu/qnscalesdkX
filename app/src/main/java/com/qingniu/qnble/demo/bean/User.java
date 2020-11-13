@@ -3,10 +3,14 @@ package com.qingniu.qnble.demo.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.yolanda.health.qnblesdk.out.QNIndicateConfig;
+
 import java.util.Date;
 
 /**
- * Created by ch on 2019/12/31.
+ * author: yolanda-XY
+ * description: ${用户本地信息}
+ * date: 2018/4/28
  */
 
 public class User implements Parcelable {
@@ -47,6 +51,12 @@ public class User implements Parcelable {
 
 
     private double clothesWeight;
+
+
+    /**
+     * wsp 秤端显示指标控制对象
+     */
+    private QNIndicateConfig qnIndicateConfig;
 
     public String getUserId() {
         return userId;
@@ -115,6 +125,14 @@ public class User implements Parcelable {
         this.clothesWeight = clothesWeight;
     }
 
+    public QNIndicateConfig getQnIndicateConfig() {
+        return qnIndicateConfig;
+    }
+
+    public void setQnIndicateConfig(QNIndicateConfig qnIndicateConfig) {
+        this.qnIndicateConfig = qnIndicateConfig;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -126,6 +144,7 @@ public class User implements Parcelable {
                 ", choseShape=" + choseShape +
                 ", choseGoal=" + choseGoal +
                 ", clothesWeight=" + clothesWeight +
+                ", qnIndicateConfig=" + qnIndicateConfig +
                 '}';
     }
 
@@ -144,6 +163,7 @@ public class User implements Parcelable {
         dest.writeInt(this.choseShape);
         dest.writeInt(this.choseGoal);
         dest.writeDouble(this.clothesWeight);
+        dest.writeParcelable(this.qnIndicateConfig, flags);
     }
 
     protected User(Parcel in) {
@@ -156,6 +176,7 @@ public class User implements Parcelable {
         this.choseShape = in.readInt();
         this.choseGoal = in.readInt();
         this.clothesWeight = in.readDouble();
+        this.qnIndicateConfig = in.readParcelable(QNIndicateConfig.class.getClassLoader());
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {

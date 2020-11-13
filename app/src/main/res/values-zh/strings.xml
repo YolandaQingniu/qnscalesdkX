@@ -36,6 +36,12 @@
         <item>每周数次有氧型运动，如跑步</item>
     </string-array>
 
+
+    <string-array name="choiceArray">
+        <item>是</item>
+        <item>否</item>
+    </string-array>
+
     <string name="year">年</string>
     <string name="month">月</string>
     <string name="day">日</string>
@@ -156,4 +162,51 @@
     <string name="type_shape_none">无体型值</string>
     <string name="no_standard">无标准</string>
     <string name="kitchen_scale">厨房秤</string>
+    <string name="fatty_liver_risk_level0">0级:暂⽆肥胖性脂肪肝风险</string>
+    <string name="fatty_liver_risk_level1">I级:存在患上脂肪肝的风险</string>
+    <string name="fatty_liver_risk_level2">II级:存在轻度脂肪肝的风险</string>
+    <string name="fatty_liver_risk_level3">III级:存在中度脂肪肝的风险</string>
+    <string name="fatty_liver_risk_level4">IV级:存在重度脂肪肝的风险</string>
+    <string name="wsp_scale_config">WSP双模秤配置</string>
+    <string name="register_user">注册用户</string>
+    <string name="modify_user">修改用户信息</string>
+    <string name="distribution_network_information">配网信息</string>
+    <string name="SSID">WIFI名称</string>
+    <string name="wifi_pwd">WIFI密码</string>
+    <string name="server_url">服务器地址</string>
+    <string name="ota_url">OTA升级地址</string>
+    <string name="secret_key">通讯秘钥</string>
+    <string name="visitor_model">是否是游客模式</string>
+    <string name="delete_user">需要删除的用户(注册用户时有效，不需要删除用户则不需要填写)</string>
+    <string name="delete_user_hint">请输入要删除的用户索引（用户索引是注册用户后得到用户Index,类型为整形），如果传入多个请用空格隔开</string>
+    <string name="wifi_config_request_server">进行WIFI配置时服务器地址不能为空</string>
+    <string name="wifi_config_request_ota">进行WIFI配置时OTA地址不能为空</string>
+    <string name="wifi_config_request_secret">进行WIFI配置时通讯密钥不能为空</string>
+    <string name="user_index_error">用户索引不合法</string>
+    <string name="user_secret_error">用户密钥不合法</string>
+    <string name="input_user_index">请填写用户索引</string>
+    <string name="input_user_secret">请填写用户访问秘钥</string>
+    <string name="register_user_index">注册返回的用户索引是：</string>
+    <string name="wsp_bow_config">WSP秤端指标显示配置：</string>
+    <string name="wsp_show_user_name">显示用户名</string>
+    <string name="wsp_show_bmi">显示BMI</string>
+    <string name="wsp_show_bone">显示骨量</string>
+    <string name="wsp_show_fat">显示体脂率</string>
+    <string name="wsp_show_muscle">显示肌肉量</string>
+    <string name="wsp_show_water">显示体水分</string>
+    <string name="wsp_show_heartrate">显示心率</string>
+    <string name="wsp_show_weather">显示天气</string>
+    <string name="wsp_location_info">位置信息</string>
+    <string name="longitude">经度</string>
+    <string name="latitude">纬度</string>
+    <string name="latitude_longitude_desc">经纬度说明：填写格式为：+123.23 或者-123.26。长度为7</string>
+    <string name="latitude_longitude_error">经纬度格式错误</string>
+    <string name="only_wifi_no_user">只配网不设置用户信息</string>
+    <string name="read_sn">是否读取SN</string>
+    <string name="single_connect">单设备连接</string>
+    <string name="multi_connect">多设备连接</string>
+    <string name="sdk_api_measure_multil">自主管理多设备连接测量</string>
+    <string name="current_device_connected">该设备已连接，请不要重复连接</string>
+    <string name="clear_data">清除数据</string>
+    <string name="delay_screen_off">是否延时息屏时间</string>
 </resources>

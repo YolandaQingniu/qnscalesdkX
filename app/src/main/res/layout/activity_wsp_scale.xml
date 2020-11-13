@@ -10,14 +10,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:paddingEnd="10dp"
         android:paddingStart="10dp">
 
         <Button
             android:id="@+id/connectBtn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/connect"
+            android:layout_height="wrap_content"
             android:layout_gravity="end" />
 
         <TextView
@@ -49,54 +50,35 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/stroteDataTest"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/user_generated_storage_data" />
-
-            <EditText
-                android:id="@+id/threshold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="@string/please_enter_body_fat_change_control"
-                android:inputType="numberDecimal"
-                android:textSize="16sp" />
-
-            <Button
-                android:id="@+id/setThreshold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/set_body_fat_change" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/hmacTest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp">
 
         <Button
-            android:id="@+id/testHmac"
+            android:id="@+id/stroteDataTest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="扫描获取测试hmac"
-            android:visibility="gone" />
+            android:text="@string/user_generated_storage_data" />
+
+        <TextView
+            android:id="@+id/registerUserIndex"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/snTextView"
+        android:layout_width="wrap_content"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp"
+        android:layout_height="wrap_content" />
 
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 
 </LinearLayout>

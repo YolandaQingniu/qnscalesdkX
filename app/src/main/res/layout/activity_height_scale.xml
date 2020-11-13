@@ -17,7 +17,6 @@
             android:id="@+id/connectBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/connect"
             android:layout_gravity="end" />
 
         <TextView
@@ -44,52 +43,6 @@
             android:padding="8dp"
             android:text="@string/back" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/stroteDataTest"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/user_generated_storage_data" />
-
-            <EditText
-                android:id="@+id/threshold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="@string/please_enter_body_fat_change_control"
-                android:inputType="numberDecimal"
-                android:textSize="16sp" />
-
-            <Button
-                android:id="@+id/setThreshold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/set_body_fat_change" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/hmacTest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/testHmac"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="扫描获取测试hmac"
-            android:visibility="gone" />
     </LinearLayout>
 
 

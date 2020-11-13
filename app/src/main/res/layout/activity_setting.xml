@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,13 +14,13 @@
             android:layout_height="45dp"
             android:gravity="center"
             android:text="@string/setting"
-            android:textSize="20sp"/>
+            android:textSize="20sp" />
 
         <TextView
             style="@style/user_big_text"
-            android:text="@string/user_info"/>
+            android:text="@string/user_info" />
 
-        <TextView style="@style/divide_line"/>
+        <TextView style="@style/divide_line" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -29,7 +29,7 @@
             <TextView
                 android:id="@+id/user_shape_explain"
                 style="@style/user_small_text"
-                android:text="@string/user_shape"/>
+                android:text="@string/user_shape" />
 
             <Spinner
                 android:id="@+id/user_shape_spinner"
@@ -44,7 +44,7 @@
 
         </RelativeLayout>
 
-        <TextView style="@style/divide_line"/>
+        <TextView style="@style/divide_line" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -53,7 +53,7 @@
             <TextView
                 android:id="@+id/user_goal_explain"
                 style="@style/user_small_text"
-                android:text="@string/user_goal"/>
+                android:text="@string/user_goal" />
 
             <Spinner
                 android:id="@+id/user_goal_spinner"
@@ -68,7 +68,7 @@
 
         </RelativeLayout>
 
-        <TextView style="@style/divide_line"/>
+        <TextView style="@style/divide_line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -82,12 +82,12 @@
                 <TextView
                     android:id="@+id/user_name_explain"
                     style="@style/user_small_text"
-                    android:text="@string/user_id"/>
+                    android:text="@string/user_id" />
 
                 <ImageView
                     android:id="@+id/user_id_arrow"
                     style="@style/user_arrow_image"
-                    android:src="@drawable/system_item_arrow"/>
+                    android:src="@drawable/system_item_arrow" />
 
                 <EditText
                     android:id="@+id/user_id_edt"
@@ -98,18 +98,17 @@
                     android:layout_marginTop="4dp"
                     android:layout_toStartOf="@+id/user_id_arrow"
                     android:background="@drawable/edittext_background"
-                    android:inputType="phone"
-                    android:text="123456789"/>
+                    android:text="123456789" />
 
 
             </RelativeLayout>
 
             <TextView
                 style="@style/user_explain_text"
-                android:text="@string/user_id_explain"/>
+                android:text="@string/user_id_explain" />
         </LinearLayout>
 
-        <TextView style="@style/divide_line"/>
+        <TextView style="@style/divide_line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -123,13 +122,13 @@
                 <TextView
                     android:id="@+id/user_gender_explain"
                     style="@style/user_small_text"
-                    android:text="@string/grander"/>
+                    android:text="@string/grander" />
 
                 <ImageView
                     android:id="@+id/user_gender_arrow"
                     style="@style/user_arrow_image"
                     android:layout_marginStart="30dp"
-                    android:src="@drawable/system_item_arrow"/>
+                    android:src="@drawable/system_item_arrow" />
 
 
                 <RadioGroup
@@ -145,13 +144,13 @@
                         android:id="@+id/user_male_rb"
                         style="@style/user_radio_button"
                         android:checked="true"
-                        android:text="@string/male"/>
+                        android:text="@string/male" />
 
                     <RadioButton
                         android:id="@+id/user_female_rb"
                         style="@style/user_radio_button"
                         android:layout_marginStart="10dp"
-                        android:text="@string/female"/>
+                        android:text="@string/female" />
 
                 </RadioGroup>
 
@@ -159,19 +158,21 @@
 
             <TextView
                 style="@style/user_explain_text"
-                android:text="@string/user_gender_explain"/>
+                android:text="@string/user_gender_explain" />
         </LinearLayout>
 
-        <TextView style="@style/divide_line"/>
+        <TextView style="@style/divide_line" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/user_calc_explain"
                 style="@style/user_small_text"
-                android:text="@string/algorithm_model"/>
+                android:text="@string/algorithm_model" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -180,7 +181,7 @@
                     android:id="@+id/user_calc_arrow"
                     style="@style/user_arrow_image"
                     android:layout_marginStart="30dp"
-                    android:src="@drawable/system_item_arrow"/>
+                    android:src="@drawable/system_item_arrow" />
 
 
                 <RadioGroup
@@ -195,13 +196,13 @@
                         android:id="@+id/normal_calc_rb"
                         style="@style/user_radio_button"
                         android:checked="true"
-                        android:text="@string/normal_model"/>
+                        android:text="@string/normal_model" />
 
                     <RadioButton
                         android:id="@+id/athlete_calc_rb"
                         style="@style/user_radio_button"
                         android:layout_marginStart="10dp"
-                        android:text="@string/athlete_mode"/>
+                        android:text="@string/athlete_mode" />
 
                 </RadioGroup>
 
@@ -209,10 +210,10 @@
 
             <TextView
                 style="@style/user_explain_text"
-                android:text="@string/mode_hint"/>
+                android:text="@string/mode_hint" />
         </LinearLayout>
 
-        <TextView style="@style/divide_line"/>
+        <TextView style="@style/divide_line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -226,12 +227,12 @@
                 <TextView
                     android:id="@+id/user_clothes_explain"
                     style="@style/user_small_text"
-                    android:text="@string/user_cloth_weight"/>
+                    android:text="@string/user_cloth_weight" />
 
                 <ImageView
                     android:id="@+id/user_clothes_arrow"
                     style="@style/user_arrow_image"
-                    android:src="@drawable/system_item_arrow"/>
+                    android:src="@drawable/system_item_arrow" />
 
                 <EditText
                     android:id="@+id/user_clothes_edt"
@@ -242,18 +243,18 @@
                     android:layout_marginTop="4dp"
                     android:layout_toStartOf="@+id/user_clothes_arrow"
                     android:background="@drawable/edittext_background"
-                    android:text="0"
-                    android:inputType="numberDecimal"/>
+                    android:inputType="numberDecimal"
+                    android:text="0" />
 
 
             </RelativeLayout>
 
             <TextView
                 style="@style/user_explain_text"
-                android:text="@string/user_cloth_weight_hint"/>
+                android:text="@string/user_cloth_weight_hint" />
         </LinearLayout>
 
-        <TextView style="@style/divide_line"/>
+        <TextView style="@style/divide_line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -267,28 +268,28 @@
                 <TextView
                     android:id="@+id/user_height_explain"
                     style="@style/user_small_text"
-                    android:text="@string/height"/>
+                    android:text="@string/height" />
 
                 <ImageView
                     android:id="@+id/user_height_arrow"
                     style="@style/user_arrow_image"
                     android:layout_marginStart="30dp"
-                    android:src="@drawable/system_item_arrow"/>
+                    android:src="@drawable/system_item_arrow" />
 
                 <TextView
                     android:id="@+id/user_height_tv"
                     style="@style/user_small_text"
                     android:layout_toStartOf="@id/user_height_arrow"
-                    android:text="172cm"/>
+                    android:text="172cm" />
 
             </RelativeLayout>
 
             <TextView
                 style="@style/user_explain_text"
-                android:text="@string/user_height_explain"/>
+                android:text="@string/user_height_explain" />
         </LinearLayout>
 
-        <TextView style="@style/divide_line"/>
+        <TextView style="@style/divide_line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -302,41 +303,178 @@
                 <TextView
                     android:id="@+id/user_birthday_explain"
                     style="@style/user_small_text"
-                    android:text="@string/birthday"/>
+                    android:text="@string/birthday" />
 
                 <ImageView
                     android:id="@+id/user_birthday_arrow"
                     style="@style/user_arrow_image"
                     android:layout_marginStart="30dp"
-                    android:src="@drawable/system_item_arrow"/>
+                    android:src="@drawable/system_item_arrow" />
 
                 <TextView
                     android:id="@+id/user_birthday_tv"
                     style="@style/user_small_text"
-                    android:layout_toStartOf="@id/user_birthday_arrow"/>
+                    android:layout_toStartOf="@id/user_birthday_arrow" />
 
             </RelativeLayout>
 
             <TextView
                 style="@style/user_explain_text"
-                android:text="@string/user_birthday_explain"/>
+                android:text="@string/user_birthday_explain" />
         </LinearLayout>
 
-        <TextView
-            style="@style/user_big_text"
-            android:layout_marginTop="30dp"
-            android:text="@string/ble_setting"/>
+        <TextView style="@style/divide_line" />
 
-        <TextView style="@style/divide_line"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <TextView
+                style="@style/user_small_text"
+                android:text="@string/wsp_bow_config" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <TextView
+                    style="@style/user_small_text"
+                    android:text="@string/wsp_show_user_name" />
+
+                <Spinner
+                    android:id="@+id/scale_show_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/choiceArray"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <TextView
+                    style="@style/user_small_text"
+                    android:text="@string/wsp_show_bmi" />
+
+                <Spinner
+                    android:id="@+id/scale_show_bmi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/choiceArray"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <TextView
+                    style="@style/user_small_text"
+                    android:text="@string/wsp_show_bone" />
+
+                <Spinner
+                    android:id="@+id/scale_show_bone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/choiceArray"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <TextView
+                    style="@style/user_small_text"
+                    android:text="@string/wsp_show_fat" />
+
+                <Spinner
+                    android:id="@+id/scale_show_fat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/choiceArray"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <TextView
+                    style="@style/user_small_text"
+                    android:text="@string/wsp_show_muscle" />
+
+                <Spinner
+                    android:id="@+id/scale_show_muscle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/choiceArray"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <TextView
+                    style="@style/user_small_text"
+                    android:text="@string/wsp_show_water" />
+
+                <Spinner
+                    android:id="@+id/scale_show_water"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/choiceArray"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <TextView
+                    style="@style/user_small_text"
+                    android:text="@string/wsp_show_heartrate" />
+
+                <Spinner
+                    android:id="@+id/scale_show_heart_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/choiceArray"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <TextView
+                    style="@style/user_small_text"
+                    android:text="@string/wsp_show_weather" />
+
+                <Spinner
+                    android:id="@+id/scale_show_weather"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/choiceArray"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            style="@style/user_big_text"
+            android:layout_marginTop="30dp"
+            android:text="@string/ble_setting" />
+
+        <TextView style="@style/divide_line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
             <TextView
                 android:id="@+id/ble_scan_explain"
                 style="@style/user_small_text"
-                android:text="@string/select_scan_mode"/>
+                android:text="@string/select_scan_mode" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -354,23 +492,23 @@
                         android:id="@+id/ble_scan_first_time"
                         style="@style/user_radio_button"
                         android:checked="true"
-                        android:text="@string/first_time"/>
+                        android:text="@string/first_time" />
 
                     <RadioButton
                         android:id="@+id/ble_scan_every_time"
                         style="@style/user_radio_button"
                         android:layout_marginStart="10dp"
-                        android:text="@string/every_time"/>
+                        android:text="@string/every_time" />
                 </RadioGroup>
 
             </RelativeLayout>
 
             <TextView
                 style="@style/user_explain_text"
-                android:text="@string/ble_scan_explain"/>
+                android:text="@string/ble_scan_explain" />
         </LinearLayout>
 
-        <TextView style="@style/divide_line"/>
+        <TextView style="@style/divide_line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -384,12 +522,12 @@
                 <TextView
                     android:id="@+id/scan_timeTv"
                     style="@style/user_small_text"
-                    android:text="@string/scan_time"/>
+                    android:text="@string/scan_time" />
 
                 <ImageView
                     style="@style/user_arrow_image"
                     android:layout_marginStart="30dp"
-                    android:src="@drawable/system_item_arrow"/>
+                    android:src="@drawable/system_item_arrow" />
             </RelativeLayout>
 
             <EditText
@@ -402,9 +540,9 @@
                 android:background="@drawable/edittext_background"
                 android:hint="@string/scan_time_remind"
                 android:inputType="number"
-                android:text="0"/>
+                android:text="0" />
 
-            <TextView style="@style/divide_line"/>
+            <TextView style="@style/divide_line" />
         </LinearLayout>
 
         <LinearLayout
@@ -419,12 +557,12 @@
                 <TextView
                     android:id="@+id/scan_out_timeTv"
                     style="@style/user_small_text"
-                    android:text="@string/scan_out_time"/>
+                    android:text="@string/scan_out_time" />
 
                 <ImageView
                     style="@style/user_arrow_image"
                     android:layout_marginStart="30dp"
-                    android:src="@drawable/system_item_arrow"/>
+                    android:src="@drawable/system_item_arrow" />
             </RelativeLayout>
 
             <EditText
@@ -437,9 +575,9 @@
                 android:background="@drawable/edittext_background"
                 android:hint="@string/scan_out_time_remind"
                 android:inputType="number"
-                android:text="6000"/>
+                android:text="6000" />
 
-            <TextView style="@style/divide_line"/>
+            <TextView style="@style/divide_line" />
         </LinearLayout>
 
         <LinearLayout
@@ -454,19 +592,19 @@
                 <TextView
                     android:id="@+id/connect_out_timeTv"
                     style="@style/user_small_text"
-                    android:text="@string/connect_out_time"/>
+                    android:text="@string/connect_out_time" />
 
                 <ImageView
                     style="@style/user_arrow_image"
                     android:layout_marginStart="30dp"
-                    android:src="@drawable/system_item_arrow"/>
+                    android:src="@drawable/system_item_arrow" />
             </RelativeLayout>
 
             <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/onlyBroadCast"
                 android:layout_width="wrap_content"
-                android:text="@string/broadcast_ble_intensify"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="@string/broadcast_ble_intensify" />
 
             <EditText
                 android:id="@+id/connect_out_timeEt"
@@ -478,9 +616,9 @@
                 android:background="@drawable/edittext_background"
                 android:hint="@string/scan_out_time_remind"
                 android:inputType="number"
-                android:text="10000"/>
+                android:text="30000" />
 
-            <TextView style="@style/divide_line"/>
+            <TextView style="@style/divide_line" />
         </LinearLayout>
 
 
@@ -496,7 +634,7 @@
                 <TextView
                     android:id="@+id/user_unit_explain"
                     style="@style/user_small_text"
-                    android:text="@string/weight_unit"/>
+                    android:text="@string/weight_unit" />
 
                 <RadioGroup
                     android:id="@+id/user_unit_grp"
@@ -513,35 +651,35 @@
                         style="@style/user_radio_button"
                         android:checked="true"
                         android:paddingStart="4dp"
-                        android:text="kg"/>
+                        android:text="kg" />
 
                     <RadioButton
                         android:id="@+id/user_unit_lb"
                         style="@style/user_radio_button"
                         android:layout_marginStart="4dp"
                         android:paddingStart="4dp"
-                        android:text="lb"/>
+                        android:text="lb" />
 
                     <RadioButton
                         android:id="@+id/user_unit_jin"
                         style="@style/user_radio_button"
                         android:layout_marginStart="4dp"
                         android:paddingStart="4dp"
-                        android:text="@string/jin"/>
+                        android:text="@string/jin" />
 
                     <RadioButton
                         android:id="@+id/user_unit_st"
                         style="@style/user_radio_button"
                         android:layout_marginStart="4dp"
                         android:paddingStart="4dp"
-                        android:text="st"/>
+                        android:text="st" />
                 </RadioGroup>
 
             </RelativeLayout>
 
             <TextView
                 style="@style/user_explain_text"
-                android:text="@string/user_unit_explain"/>
+                android:text="@string/user_unit_explain" />
         </LinearLayout>
 
         <Button
@@ -551,7 +689,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="10dp"
             android:text="@string/confirm"
-            android:textSize="18sp"/>
+            android:textSize="18sp" />
 
     </LinearLayout>
 
