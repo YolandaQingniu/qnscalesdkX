@@ -1,3 +1,5 @@
+# [English document](https://github.com/YolandaQingniu/qnscalesdkX/wiki/English-document)
+
 # 轻牛蓝牙Android SDK 
 
 ## 快速集成 
