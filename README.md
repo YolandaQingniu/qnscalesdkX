@@ -5,7 +5,7 @@
 + -keep class com.qingniu.scale.model.BleScaleData{*;}
 
 ##具体操作文档
-[具体集成说明文档](https://yolandaqingniu.github.io/zh/)
+[具体集成说明文档](https://yolandaqingniu.gitee.io/sdk-doc/)
 
 ### Android Studio 线上依赖
 * 在你工程的根目录下的 **build.gradle**添加**jitpack**支持
