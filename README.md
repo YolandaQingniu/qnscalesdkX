@@ -21,16 +21,16 @@
    ```
 * 在你的module的根目录下的**build.gradle**添加依赖
 	```
-	<!--这里的版本号，1.1.1 可以指定为任意release版本-->
-	<!--如果希望一直使用最新版本可以替换 1.1.1 master-SNAPSHOT -->
+	<!--这里的版本号，1.1.2 可以指定为任意release版本-->
+	<!--如果希望一直使用最新版本可以替换 1.1.2 master-SNAPSHOT -->
 	dependencies {
 	        ...
-	        compile 'com.github.YolandaQingniu:qnscalesdkX:1.1.1'
+	        compile 'com.github.YolandaQingniu:qnscalesdkX:1.1.2'
 	}
 	```
 	
 ### Android Studio 本地依赖
-* 下载最新的[jar和so库](https://github.com/YolandaQingniu/qnscalesdkX/releases/download/1.1.1/qnsdkX-1.1.1-Android.zip)，导入下载的`jar和so库`
+* 下载最新的[jar和so库](https://github.com/YolandaQingniu/qnscalesdkX/releases/download/1.1.2/qnsdkX-1.1.2-Android.zip)，导入下载的`jar和so库`
 * 在app moudle 下建立libs文件夹，将so库和jar包放入libs 文件夹内。
 *  在app moudle 的gradle文件中增加配置
 ```
