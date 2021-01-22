@@ -3,7 +3,7 @@ package com.qingniu.qnble.demo.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.yolanda.health.qnblesdk.out.QNIndicateConfig;
+import com.qn.device.out.QNIndicateConfig;
 
 import java.util.Date;
 

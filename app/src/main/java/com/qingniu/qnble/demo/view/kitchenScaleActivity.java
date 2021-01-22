@@ -10,13 +10,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.qingniu.qnble.demo.R;
-import com.yolanda.health.qnblesdk.listener.QNBleDeviceDiscoveryListener;
-import com.yolanda.health.qnblesdk.listener.QNResultCallback;
-import com.yolanda.health.qnblesdk.out.QNBleApi;
-import com.yolanda.health.qnblesdk.out.QNBleBroadcastDevice;
-import com.yolanda.health.qnblesdk.out.QNBleDevice;
-import com.yolanda.health.qnblesdk.out.QNBleKitchenDevice;
-import com.yolanda.health.qnblesdk.out.QNConfig;
+import com.qn.device.listener.QNBleDeviceDiscoveryListener;
+import com.qn.device.listener.QNResultCallback;
+import com.qn.device.out.QNBleApi;
+import com.qn.device.out.QNBleBroadcastDevice;
+import com.qn.device.out.QNBleDevice;
+import com.qn.device.out.QNBleKitchenDevice;
+import com.qn.device.out.QNConfig;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

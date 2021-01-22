@@ -10,10 +10,10 @@ import com.qingniu.qnble.demo.R;
 import com.qingniu.qnble.demo.bean.IndicateBean;
 import com.qingniu.qnble.demo.util.IndicateUtils;
 import com.qingniu.qnble.utils.QNLogUtils;
-import com.yolanda.health.qnblesdk.constant.QNIndicator;
-import com.yolanda.health.qnblesdk.out.QNBleApi;
-import com.yolanda.health.qnblesdk.out.QNScaleItemData;
-import com.yolanda.health.qnblesdk.out.QNUser;
+import com.qn.device.constant.QNIndicator;
+import com.qn.device.out.QNBleApi;
+import com.qn.device.out.QNScaleItemData;
+import com.qn.device.out.QNUser;
 
 import java.util.Calendar;
 import java.util.Date;

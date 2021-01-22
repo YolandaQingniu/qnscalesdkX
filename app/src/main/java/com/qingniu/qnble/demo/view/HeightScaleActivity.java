@@ -18,26 +18,30 @@ import com.qingniu.qnble.demo.adapter.ListAdapter;
 import com.qingniu.qnble.demo.bean.User;
 import com.qingniu.qnble.demo.util.UserConst;
 import com.qingniu.scale.constant.DecoderConst;
-import com.yolanda.health.qnblesdk.constant.QNIndicator;
-import com.yolanda.health.qnblesdk.constant.QNScaleStatus;
-import com.yolanda.health.qnblesdk.constant.UserGoal;
-import com.yolanda.health.qnblesdk.constant.UserShape;
-import com.yolanda.health.qnblesdk.listener.QNBleConnectionChangeListener;
-import com.yolanda.health.qnblesdk.listener.QNLogListener;
-import com.yolanda.health.qnblesdk.listener.QNResultCallback;
-import com.yolanda.health.qnblesdk.listener.QNScaleDataListener;
-import com.yolanda.health.qnblesdk.out.QNBleApi;
-import com.yolanda.health.qnblesdk.out.QNBleDevice;
-import com.yolanda.health.qnblesdk.out.QNScaleData;
-import com.yolanda.health.qnblesdk.out.QNScaleItemData;
-import com.yolanda.health.qnblesdk.out.QNScaleStoreData;
-import com.yolanda.health.qnblesdk.out.QNUser;
+import com.qn.device.constant.QNIndicator;
+import com.qn.device.constant.QNScaleStatus;
+import com.qn.device.constant.UserGoal;
+import com.qn.device.constant.UserShape;
+import com.qn.device.listener.QNBleConnectionChangeListener;
+import com.qn.device.listener.QNLogListener;
+import com.qn.device.listener.QNResultCallback;
+import com.qn.device.listener.QNScaleDataListener;
+import com.qn.device.out.QNBleApi;
+import com.qn.device.out.QNBleDevice;
+import com.qn.device.out.QNScaleData;
+import com.qn.device.out.QNScaleItemData;
+import com.qn.device.out.QNScaleStoreData;
+import com.qn.device.out.QNUser;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 /**

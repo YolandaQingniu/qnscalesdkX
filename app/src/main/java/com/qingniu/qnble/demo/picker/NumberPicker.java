@@ -44,7 +44,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * author: ch
+ * author: yolanda-XY
  * date: 2018/3/30
  * package_name: com.qingniu.qnble.demo.picker
  * description: ${TODO}
@@ -90,7 +90,7 @@ public class NumberPicker extends LinearLayout {
      * 使用自定义NumberPicker格式回调使用两位数分钟 如“01”的字符串。保持一个静态格式等是最有效的
      * 的方式来做到这一点;它避免了在每次调用创建临时对象 格式（）。
      */
-    private static class TwoDigitFormatter implements NumberPicker.Formatter {
+    private static class TwoDigitFormatter implements Formatter {
         final StringBuilder mBuilder = new StringBuilder();
 
         char mZeroDigit;

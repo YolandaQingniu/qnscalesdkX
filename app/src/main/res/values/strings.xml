@@ -195,6 +195,7 @@
     <string name="wsp_show_water">Show body water</string>
     <string name="wsp_show_heartrate">Show heart rate</string>
     <string name="wsp_show_weather">Show weather</string>
+    <string name="wsp_show_weight_extend">Show weight change trend</string>
     <string name="wsp_location_info">location information</string>
     <string name="longitude">longitude</string>
     <string name="latitude">latitude</string>

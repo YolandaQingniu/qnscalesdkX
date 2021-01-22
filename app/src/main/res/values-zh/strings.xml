@@ -36,7 +36,6 @@
         <item>每周数次有氧型运动，如跑步</item>
     </string-array>
 
-
     <string-array name="choiceArray">
         <item>是</item>
         <item>否</item>
@@ -196,6 +195,7 @@
     <string name="wsp_show_water">显示体水分</string>
     <string name="wsp_show_heartrate">显示心率</string>
     <string name="wsp_show_weather">显示天气</string>
+    <string name="wsp_show_weight_extend">显示体重变化趋势</string>
     <string name="wsp_location_info">位置信息</string>
     <string name="longitude">经度</string>
     <string name="latitude">纬度</string>

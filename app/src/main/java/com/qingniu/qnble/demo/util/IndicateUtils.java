@@ -4,8 +4,8 @@ import android.content.Context;
 
 import com.qingniu.qnble.demo.R;
 import com.qingniu.qnble.demo.bean.IndicateBean;
-import com.yolanda.health.qnblesdk.constant.QNIndicator;
-import com.yolanda.health.qnblesdk.constant.QNInfoConst;
+import com.qn.device.constant.QNIndicator;
+import com.qn.device.constant.QNInfoConst;
 
 import java.util.ArrayList;
 import java.util.Arrays;

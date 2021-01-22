@@ -1,6 +1,5 @@
 package com.qingniu.qnble.demo.view;
 
-import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
@@ -39,24 +38,26 @@ import com.qingniu.qnble.demo.util.AndroidPermissionCenter;
 import com.qingniu.qnble.demo.util.ToastMaker;
 import com.qingniu.qnble.demo.util.UserConst;
 import com.qingniu.qnble.utils.QNLogUtils;
+import com.qingniu.scale.config.DecoderAdapterManager;
+import com.qingniu.scale.config.DoubleDecoderAdapter;
 import com.qingniu.scale.constant.DecoderConst;
-import com.yolanda.health.qnblesdk.constant.CheckStatus;
-import com.yolanda.health.qnblesdk.constant.QNBleConst;
-import com.yolanda.health.qnblesdk.constant.QNDeviceType;
-import com.yolanda.health.qnblesdk.constant.QNScaleStatus;
-import com.yolanda.health.qnblesdk.constant.UserGoal;
-import com.yolanda.health.qnblesdk.constant.UserShape;
-import com.yolanda.health.qnblesdk.listener.QNBleProtocolDelegate;
-import com.yolanda.health.qnblesdk.listener.QNResultCallback;
-import com.yolanda.health.qnblesdk.listener.QNScaleDataListener;
-import com.yolanda.health.qnblesdk.out.QNBleApi;
-import com.yolanda.health.qnblesdk.out.QNBleDevice;
-import com.yolanda.health.qnblesdk.out.QNBleProtocolHandler;
-import com.yolanda.health.qnblesdk.out.QNConfig;
-import com.yolanda.health.qnblesdk.out.QNScaleData;
-import com.yolanda.health.qnblesdk.out.QNScaleItemData;
-import com.yolanda.health.qnblesdk.out.QNScaleStoreData;
-import com.yolanda.health.qnblesdk.out.QNUser;
+import com.qn.device.constant.CheckStatus;
+import com.qn.device.constant.QNBleConst;
+import com.qn.device.constant.QNDeviceType;
+import com.qn.device.constant.QNScaleStatus;
+import com.qn.device.constant.UserGoal;
+import com.qn.device.constant.UserShape;
+import com.qn.device.listener.QNBleProtocolDelegate;
+import com.qn.device.listener.QNResultCallback;
+import com.qn.device.listener.QNScaleDataListener;
+import com.qn.device.out.QNBleApi;
+import com.qn.device.out.QNBleDevice;
+import com.qn.device.out.QNBleProtocolHandler;
+import com.qn.device.out.QNConfig;
+import com.qn.device.out.QNScaleData;
+import com.qn.device.out.QNScaleItemData;
+import com.qn.device.out.QNScaleStoreData;
+import com.qn.device.out.QNUser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -73,7 +74,7 @@ import butterknife.OnClick;
  * description:自主普通秤连接测量界面(多设备连接)
  * date: 2020.10.20
  */
-@SuppressLint("LongLogTag")
+
 public class SelfMultiDeviceConnectActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private static final String TAG = "SelfMultiDeviceConnectActivity";
@@ -705,7 +706,6 @@ public class SelfMultiDeviceConnectActivity extends AppCompatActivity implements
             }
         }
 
-
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
             super.onServicesDiscovered(gatt, status);
@@ -714,7 +714,7 @@ public class SelfMultiDeviceConnectActivity extends AppCompatActivity implements
                 Log.d(TAG, "未建立协议解析");
                 return;
             }
-           QNBleProtocolHandler mProtocolhandler = mProtocolhandlers.get(gatt.getDevice().getAddress());
+           QNBleProtocolHandler  mProtocolhandler = mProtocolhandlers.get(gatt.getDevice().getAddress());
             if (status == BluetoothGatt.GATT_SUCCESS) {
 
                 if (isFirstService(gatt)) {
@@ -747,7 +747,7 @@ public class SelfMultiDeviceConnectActivity extends AppCompatActivity implements
         public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicRead(gatt, characteristic, status);
             Log.d(TAG, "onCharacteristicRead---收到数据:  " + QNLogUtils.byte2hex(characteristic.getValue()));
-            QNBleProtocolHandler mProtocolhandler = mProtocolhandlers.get(gatt.getDevice().getAddress());
+            QNBleProtocolHandler  mProtocolhandler = mProtocolhandlers.get(gatt.getDevice().getAddress());
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 //获取到数据
                 if (mProtocolhandler != null) {
@@ -761,7 +761,7 @@ public class SelfMultiDeviceConnectActivity extends AppCompatActivity implements
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
             super.onCharacteristicChanged(gatt, characteristic);
-            QNBleProtocolHandler mProtocolhandler = mProtocolhandlers.get(gatt.getDevice().getAddress());
+            QNBleProtocolHandler  mProtocolhandler = mProtocolhandlers.get(gatt.getDevice().getAddress());
             Log.d(TAG, "onCharacteristicChanged---收到数据:  " + QNLogUtils.byte2hex(characteristic.getValue()));
             //获取到数据
             if (mProtocolhandler != null) {
@@ -841,7 +841,7 @@ public class SelfMultiDeviceConnectActivity extends AppCompatActivity implements
         }
 
         @Override
-        public void readCharacteristic(String service_uuid, String characteristic_uuid, QNBleDevice qnBleDevice) {
+        public void readCharacteristic(String service_uuid, String characteristic_uuid,QNBleDevice qnBleDevice) {
             readCharacteristicData(service_uuid, characteristic_uuid, qnBleDevice.getMac());
         }
     };

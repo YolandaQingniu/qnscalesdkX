@@ -7,7 +7,7 @@ import com.qingniu.qnble.demo.R;
 import butterknife.OnClick;
 
 /**
- * author: ch
+ * author: yolanda-XY
  * date: 2018/3/30
  * package_name: com.qingniu.qnble.demo.picker
  * description: ${TODO}

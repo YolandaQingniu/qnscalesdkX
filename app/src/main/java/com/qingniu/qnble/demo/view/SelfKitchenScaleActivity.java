@@ -18,15 +18,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.qingniu.qnble.demo.R;
 import com.qingniu.qnble.demo.util.UserConst;
 import com.qingniu.qnble.utils.QNLogUtils;
-import com.yolanda.health.qnblesdk.constant.CheckStatus;
-import com.yolanda.health.qnblesdk.constant.QNDeviceType;
-import com.yolanda.health.qnblesdk.listener.QNResultCallback;
-import com.yolanda.health.qnblesdk.out.QNBleApi;
-import com.yolanda.health.qnblesdk.out.QNBleDevice;
-import com.yolanda.health.qnblesdk.out.QNBleKitchenDevice;
+import com.qn.device.constant.CheckStatus;
+import com.qn.device.constant.QNDeviceType;
+import com.qn.device.listener.QNResultCallback;
+import com.qn.device.out.QNBleApi;
+import com.qn.device.out.QNBleDevice;
+import com.qn.device.out.QNBleKitchenDevice;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by ch on 2019/10/23.

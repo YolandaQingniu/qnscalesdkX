@@ -3,11 +3,6 @@ package com.qingniu.qnble.demo.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * @author: hekang
- * @description:
- * @date: 2018/5/12 11:20
- */
 public class Config implements Parcelable {
     private boolean onlyScreenOn;
     private boolean allowDuplicates;

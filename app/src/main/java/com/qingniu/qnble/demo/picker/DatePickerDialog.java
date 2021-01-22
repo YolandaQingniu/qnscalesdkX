@@ -2,8 +2,8 @@ package com.qingniu.qnble.demo.picker;
 
 import android.content.Context;
 
-import com.qingniu.qnble.demo.R;
 import com.qingniu.qnble.demo.util.DateUtils;
+import com.qingniu.qnble.demo.R;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -11,7 +11,7 @@ import java.util.Date;
 import butterknife.OnClick;
 
 /**
- * author: ch
+ * author: yolanda-XY
  * date: 2018/3/30
  * package_name: com.qingniu.qnble.demo.picker
  * description: ${TODO}
@@ -214,7 +214,7 @@ public class DatePickerDialog extends BaseDataPickerDialog {
 
             Calendar calender = Calendar.getInstance();
 
-            PickerData yearPk = new BaseDataPickerDialog.PickerData();
+            PickerData yearPk = new PickerData();
             yearPk.defaultValue = defaultYear;
             yearPk.unit = context.getResources().getString(R.string.year);
             yearPk.minValue = calender.get(Calendar.YEAR) - 80;
@@ -223,13 +223,13 @@ public class DatePickerDialog extends BaseDataPickerDialog {
             dialog.maxDate = maxDate;
             dialog.minDate = minDate;
 
-            PickerData monthPk = new BaseDataPickerDialog.PickerData();
+            PickerData monthPk = new PickerData();
             monthPk.maxValue = 12;
             monthPk.defaultValue = defaultMonth;
             monthPk.minValue = 1;
             monthPk.unit = context.getResources().getString(R.string.month);
 
-            PickerData dayPk = new BaseDataPickerDialog.PickerData();
+            PickerData dayPk = new PickerData();
             dayPk.maxValue = getMaxDay(defaultMonth,defaultYear);
             dayPk.defaultValue = defaultDay;
             dayPk.minValue = 1;

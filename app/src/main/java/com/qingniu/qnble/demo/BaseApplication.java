@@ -4,13 +4,8 @@ import android.app.Application;
 import android.util.Log;
 
 import com.qingniu.qnble.utils.QNLogUtils;
-import com.yolanda.health.qnblesdk.listener.QNResultCallback;
-import com.yolanda.health.qnblesdk.out.QNBleApi;
-
-/**
- * @description:
- * @date: 2019/12/31 18:20
- */
+import com.qn.device.listener.QNResultCallback;
+import com.qn.device.out.QNBleApi;
 
 public class BaseApplication extends Application {
     @Override
@@ -20,7 +15,7 @@ public class BaseApplication extends Application {
         QNLogUtils.setLogEnable(BuildConfig.DEBUG);//设置日志打印开关，默认关闭
 //        QNLogUtils.setWriteEnable(true);//设置日志写入文件开关，默认关闭
         QNBleApi mQNBleApi = QNBleApi.getInstance(this);
-        
+
         mQNBleApi.initSdk("123456789", encryptPath, new QNResultCallback() {
             @Override
             public void onResult(int code, String msg) {
