@@ -1,6 +1,8 @@
 # [English document](https://github.com/YolandaQingniu/qnscalesdkX/wiki/English-document)
 
-# 轻牛蓝牙Android SDK 
+# 轻牛蓝牙Android SDK
+
+# 模拟集成
 
 ## 快速集成 
 ### 混淆配置(proguard-rules)
