@@ -17,7 +17,7 @@
     <string name="register_ok">confirm</string>
     <string name="scan_out_time_remind">After setting the time, no bluetooth device is scanned within the specified time, and an error message is called back</string>
     <string name="scan_time_remind">Scan duration, unit ms, default is 0, that is, keep scanning, unless the APP calls stopBleDeviceDiscovery. If not 0, the minimum value is 3000ms, then the scan will be automatically stopped after a duration ms.</string>
-
+    <string name="wsp_show_voice">Show measure voice</string>
     <string-array name="user_shape_des">
         <item>not selected</item>
         <item>slim</item>

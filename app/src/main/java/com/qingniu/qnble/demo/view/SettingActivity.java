@@ -111,6 +111,8 @@ public class SettingActivity extends AppCompatActivity implements RadioGroup.OnC
     Spinner scaleShowWeather;
     @BindView(R.id.scale_show_weightExtend)
     Spinner scaleShowweightExtend;
+    @BindView(R.id.scale_show_voice)
+    Spinner scaleShowVoice;
 
     private Config mBleConfig; //蓝牙配置对象
     private String mGender = "male";//用户性别
@@ -336,6 +338,23 @@ public class SettingActivity extends AppCompatActivity implements RadioGroup.OnC
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 qnIndicateConfig.setWeightExtend(true);
+            }
+        });
+
+        scaleShowVoice.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    qnIndicateConfig.setShowVoice(true);
+                } else {
+                    qnIndicateConfig.setShowVoice(false);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                qnIndicateConfig.setShowVoice(true);
             }
         });
 

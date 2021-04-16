@@ -17,7 +17,7 @@
     <string name="register_ok">确认</string>
     <string name="scan_out_time_remind">设置时间后，在指定时间内没有扫描到任何蓝牙设备，会回调错误信息</string>
     <string name="scan_time_remind">扫描持续时间,单位 ms，默认为0，即一直进行扫描，除非APP调用了stopBleDeviceDiscovery.不为0时，最小值为 3000ms 则会延时 duration ms的时间后，自动停止扫描。</string>
-
+    <string name="wsp_show_voice">测量声音</string>
     <string-array name="user_shape_des">
         <item>未选择</item>
         <item>纤瘦、苗条型</item>
