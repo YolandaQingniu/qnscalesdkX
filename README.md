@@ -25,7 +25,7 @@
 	<!--如果希望一直使用最新版本可以替换 1.1.6 master-SNAPSHOT -->
 	dependencies {
 	        ...
-	        compile 'com.github.YolandaQingniu:qnscalesdkX:1.1.6'
+	        compile 'com.github.YolandaQingniu:qnscalesdkX:v1.1.6'
 	}
 	```
 	
