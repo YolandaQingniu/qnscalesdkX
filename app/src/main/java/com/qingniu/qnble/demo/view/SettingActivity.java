@@ -346,15 +346,15 @@ public class SettingActivity extends AppCompatActivity implements RadioGroup.OnC
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
-                    qnIndicateConfig.setShowVoice(true);
+                    qnIndicateConfig.setSound(true);
                 } else {
-                    qnIndicateConfig.setShowVoice(false);
+                    qnIndicateConfig.setSound(false);
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                qnIndicateConfig.setShowVoice(true);
+                qnIndicateConfig.setSound(true);
             }
         });
 
