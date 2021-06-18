@@ -71,6 +71,8 @@ public class SettingActivity extends AppCompatActivity implements RadioGroup.OnC
     RadioButton mUserUnitJin;
     @BindView(R.id.user_unit_st)
     RadioButton mUserUnitSt;
+    @BindView(R.id.user_unit_st_only)
+    RadioButton mUserUnitStOnly;
     @BindView(R.id.user_gender_grp)
     RadioGroup mUserGenderGrp;
     @BindView(R.id.user_calc_grp)
@@ -394,6 +396,9 @@ public class SettingActivity extends AppCompatActivity implements RadioGroup.OnC
                 break;
             case R.id.user_unit_st:
                 mBleConfig.setUnit(QNUnit.WEIGHT_UNIT_ST);
+                break;
+            case R.id.user_unit_st_only:
+                mBleConfig.setUnit(QNUnit.WEIGHT_UNIT_ST_ONLY);
                 break;
         }
 
