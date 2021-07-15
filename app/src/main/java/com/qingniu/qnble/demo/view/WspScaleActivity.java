@@ -15,10 +15,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.qingniu.qnble.demo.R;
 import com.qingniu.qnble.demo.adapter.ListAdapter;
+import com.qingniu.qnble.demo.util.DateUtils;
 import com.qingniu.qnble.demo.util.UserConst;
 import com.qingniu.qnble.utils.QNLogUtils;
 import com.qingniu.scale.constant.DecoderConst;
 import com.qn.device.constant.QNIndicator;
+import com.qn.device.constant.QNInfoConst;
 import com.qn.device.constant.QNScaleStatus;
 import com.qn.device.listener.QNBleConnectionChangeListener;
 import com.qn.device.listener.QNLogListener;
@@ -31,6 +33,9 @@ import com.qn.device.out.QNScaleItemData;
 import com.qn.device.out.QNScaleStoreData;
 import com.qn.device.out.QNUser;
 import com.qn.device.out.QNWspConfig;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -193,6 +198,55 @@ public class WspScaleActivity extends AppCompatActivity implements View.OnClickL
                 }
                 Log.d("WspScaleActivity", "加密hmac为:" + data.getHmac());
 //                Log.d("WspScaleActivity", "收到体脂肪:"+data.getItem(QNIndicator.TYPE_BODYFAT).getValue());
+
+                if (data.getItemValue(QNIndicator.TYPE_LEFT_ARM_MUSCLE_WEIGHT_INDEX) > 0) {
+
+                    QNUser qnUser = data.getQnUser();
+
+
+                    int gender = 0;
+                    if (QNInfoConst.GENDER_MAN.equals(qnUser.getGender())) {
+                        gender = 1;
+                    }
+
+                    JSONObject object = new JSONObject();
+
+                    try {
+                        object.putOpt("gender", gender);
+                        object.putOpt("birthday", DateUtils.dateToString(qnUser.getBirthDay()));
+                        object.putOpt("height", qnUser.getHeight());
+                        object.putOpt("bmi", data.getItemValue(QNIndicator.TYPE_BMI));
+                        object.putOpt("bmr", data.getItemValue(QNIndicator.TYPE_BMR));
+                        object.putOpt("body_age", data.getItemValue(QNIndicator.TYPE_BODY_AGE));
+                        object.putOpt("bodyfat", data.getItemValue(QNIndicator.TYPE_BODYFAT));
+                        object.putOpt("bodyfat_left_arm", data.getItemValue(QNIndicator.TYPE_LEFT_ARM_FAT_INDEX));
+                        object.putOpt("bodyfat_left_leg", data.getItemValue(QNIndicator.TYPE_LEFT_LEG_FAT_INDEX));
+                        object.putOpt("bodyfat_right_arm", data.getItemValue(QNIndicator.TYPE_RIGHT_ARM_FAT_INDEX));
+                        object.putOpt("bodyfat_right_leg", data.getItemValue(QNIndicator.TYPE_RIGHT_LEG_FAT_INDEX));
+                        object.putOpt("bodyfat_trunk", data.getItemValue(QNIndicator.TYPE_TRUNK_FAT_INDEX));
+                        object.putOpt("bone", data.getItemValue(QNIndicator.TYPE_BONE));
+                        object.putOpt("lbm", data.getItemValue(QNIndicator.TYPE_LBM));
+                        object.putOpt("muscle", data.getItemValue(QNIndicator.TYPE_MUSCLE));
+                        object.putOpt("protein", data.getItemValue(QNIndicator.TYPE_PROTEIN));
+                        object.putOpt("subfat", data.getItemValue(QNIndicator.TYPE_SUBFAT));
+                        object.putOpt("visfat", data.getItemValue(QNIndicator.TYPE_VISFAT));
+                        object.putOpt("water", data.getItemValue(QNIndicator.TYPE_WATER));
+                        object.putOpt("weight", data.getItemValue(QNIndicator.TYPE_WEIGHT));
+                        object.putOpt("sinew", data.getItemValue(QNIndicator.TYPE_MUSCLE_MASS));
+                        object.putOpt("sinew_left_arm", data.getItemValue(QNIndicator.TYPE_LEFT_ARM_MUSCLE_WEIGHT_INDEX));
+                        object.putOpt("sinew_left_leg", data.getItemValue(QNIndicator.TYPE_LEFT_LEG_MUSCLE_WEIGHT_INDEX));
+                        object.putOpt("sinew_right_arm", data.getItemValue(QNIndicator.TYPE_RIGHT_ARM_MUSCLE_WEIGHT_INDEX));
+                        object.putOpt("sinew_right_leg", data.getItemValue(QNIndicator.TYPE_RIGHT_LEG_MUSCLE_WEIGHT_INDEX));
+                        object.putOpt("sinew_trunk", data.getItemValue(QNIndicator.TYPE_TRUNK_MUSCLE_WEIGHT_INDEX));
+                        object.putOpt("score", data.getItemValue(QNIndicator.TYPE_SCORE));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    startActivity(WebEightElectroActivity.getCallIntent(WspScaleActivity.this, object));
+                }
             }
 
             @Override

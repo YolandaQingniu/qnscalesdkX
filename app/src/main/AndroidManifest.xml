@@ -83,6 +83,7 @@
         <activity
             android:name=".view.SelfMultiDeviceConnectActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".view.WebEightElectroActivity" />
     </application>
 
 </manifest>

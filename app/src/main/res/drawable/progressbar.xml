@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!--
+    这里是背景设置,感觉不需要
+    <item android:id="@android:id/background">
+
+        <shape>
+
+            <corners android:radius="5dip" />
+
+            <gradient
+                android:angle="0"
+                android:centerColor="@color/color10"
+                android:centerY="0.75"
+                android:endColor="@color/color10"
+                android:startColor="@color/color10" />
+        </shape>
+    </item>
+    -->
+
+    <item android:id="@android:id/secondaryProgress">
+
+        <clip>
+
+            <shape>
+
+                <corners android:radius="5dip" />
+
+                <gradient
+                    android:angle="0"
+                    android:centerColor="@color/color14"
+                    android:centerY="0.75"
+                    android:endColor="@color/color2"
+                    android:startColor="@color/color14" />
+            </shape>
+        </clip>
+    </item>
+
+    <item android:id="@android:id/progress">
+
+        <clip>
+
+            <shape>
+
+                <corners android:radius="5dip" />
+
+                <gradient
+                    android:angle="0"
+                    android:endColor="@color/color_8039bee7"
+                    android:startColor="@color/color_80ffffff" />
+            </shape>
+        </clip>
+    </item>
+
+</layer-list>
+
