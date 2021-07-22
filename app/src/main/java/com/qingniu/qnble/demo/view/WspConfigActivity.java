@@ -279,21 +279,29 @@ public class WspConfigActivity extends AppCompatActivity {
                 ToastMaker.show(this, getResources().getString(R.string.wifi_config_request_server));
                 return;
             }
-            if (TextUtils.isEmpty(OTAUrlEd.getText().toString())) {
-                ToastMaker.show(this, getResources().getString(R.string.wifi_config_request_ota));
-                return;
-            }
-            if (TextUtils.isEmpty(secretKeyEd.getText().toString())) {
-                ToastMaker.show(this, getResources().getString(R.string.wifi_config_request_secret));
-                return;
-            }
+            String otaUrl = OTAUrlEd.getText().toString();
+//            if (TextUtils.isEmpty(otaUrl)) {
+//                ToastMaker.show(this, getResources().getString(R.string.wifi_config_request_ota));
+//                return;
+//            }
+
+            String encryption = secretKeyEd.getText().toString();
+//            if (TextUtils.isEmpty(encryption)) {
+//                ToastMaker.show(this, getResources().getString(R.string.wifi_config_request_secret));
+//                return;
+//            }
             QNWiFiConfig qnWiFiConfig = new QNWiFiConfig();
             qnWiFiConfig.setSsid(ssidEdit.getText().toString());
             qnWiFiConfig.setPwd(wifiPwdEd.getText().toString());
+            qnWiFiConfig.setServeUrl(serverUrlEd.getText().toString());
             qnWspConfig.setWifiConfig(qnWiFiConfig);
-            qnWspConfig.setDataUrl(serverUrlEd.getText().toString());
-            qnWspConfig.setOtaUrl(OTAUrlEd.getText().toString());
-            qnWspConfig.setEncryption(secretKeyEd.getText().toString());
+
+            if (!TextUtils.isEmpty(otaUrl)) {
+                qnWspConfig.setOtaUrl(otaUrl);
+            }
+            if (!TextUtils.isEmpty(encryption)) {
+                qnWspConfig.setEncryption(encryption);
+            }
         }
         if (setUserFlag.isChecked()) {
             qnWspConfig.setCurUser(null);
@@ -311,6 +319,8 @@ public class WspConfigActivity extends AppCompatActivity {
 
         qnWspConfig.setDelayScreenOff(delayScreenOff.isChecked());
 
+        //访客模式连接WSP秤
+        qnWspConfig.setVisitor(true);
         startActivity(WspScaleActivity.getCallIntent(this, qnDevice, qnWspConfig));
     }
 
