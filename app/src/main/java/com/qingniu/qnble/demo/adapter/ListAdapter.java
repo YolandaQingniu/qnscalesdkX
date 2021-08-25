@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.qingniu.qnble.demo.R;
@@ -28,6 +29,11 @@ public class ListAdapter extends BaseAdapter {
     private List<QNScaleItemData> mDatas;
     private QNBleApi mQNBleApi;
     private QNUser qnUser;
+
+    /**
+     * 是否是八电极数据
+     */
+    private boolean isEight;
 
     public ListAdapter(List<QNScaleItemData> mDatas, QNBleApi mQNBleApi, QNUser qnUser) {
         this.mDatas = mDatas;
@@ -60,6 +66,8 @@ public class ListAdapter extends BaseAdapter {
         TextView indicateLevelTv = (TextView) convertView.findViewById(R.id.indicate_levelTv);
         TextView standardJudgeTv = (TextView) convertView.findViewById(R.id.standardJudgeTv);
         TextView currentStandardTv = (TextView) convertView.findViewById(R.id.currentStandardTv);
+
+        LinearLayout standardLl = convertView.findViewById(R.id.standard_ll);
         QNScaleItemData itemData = mDatas.get(position);
 
         indicateNameTv.setText(itemData.getName());
@@ -75,6 +83,12 @@ public class ListAdapter extends BaseAdapter {
                 qnUser.getGender(), qnUser.getHeight(), calcAge(qnUser.getBirthDay()), itemData.getValue());
         standardJudgeTv.setText(indicateBean.getIndicateDescribe().toString());
         currentStandardTv.setText(indicateBean.getCurrentIndicate());
+
+        if (isEight) {
+            standardLl.setVisibility(View.GONE);
+        } else {
+            standardLl.setVisibility(View.VISIBLE);
+        }
         return convertView;
     }
 
@@ -124,5 +138,9 @@ public class ListAdapter extends BaseAdapter {
         QNLogUtils.log("BleUser", "计算的年龄为:" + age + ";当前时间为:" + System.currentTimeMillis() +
                 ";生日为:" + birthday.getTime());
         return age;
+    }
+
+    public void setEight(boolean eight) {
+        isEight = eight;
     }
 }

@@ -45,6 +45,7 @@
             android:src="@drawable/system_item_arrow" />
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/standard_ll"
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:paddingStart="10dp"

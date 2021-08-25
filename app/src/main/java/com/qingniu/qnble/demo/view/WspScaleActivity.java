@@ -203,6 +203,7 @@ public class WspScaleActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onGetScaleData(QNBleDevice device, QNScaleData data) {
                 Log.d("WspScaleActivity", "收到测量数据");
+                listAdapter.setEight(data.getItemValue(QNIndicator.TYPE_LEFT_ARM_MUSCLE_WEIGHT_INDEX) > 0);
                 onReceiveScaleData(data);
                 QNScaleItemData fatValue = data.getItem(QNIndicator.TYPE_SUBFAT);
                 if (fatValue != null) {
