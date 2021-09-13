@@ -51,6 +51,7 @@ import com.qn.device.out.QNWiFiConfig;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -102,6 +103,8 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
     private boolean isScanning;
     private WIFISetDialog wifiSetDialog;
 
+    private List<Object> adapterList = new ArrayList<>();
+
     public static Intent getCallIntent(Context context, User user, Config mConfig) {
         return new Intent(context, ScanActivity.class)
                 .putExtra(UserConst.CONFIG, mConfig)
@@ -113,17 +116,17 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
     private BaseAdapter listAdapter = new BaseAdapter() {
         @Override
         public int getCount() {
-            return devices.size();
+            return adapterList.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return devices.get(position);
+            return adapterList.get(position);
         }
 
         @Override
         public long getItemId(int position) {
-            return devices.get(position).hashCode();
+            return adapterList.get(position).hashCode();
         }
 
         @Override
@@ -137,24 +140,31 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
             TextView rssiTv = (TextView) convertView.findViewById(R.id.rssiTv);
             ImageView deviceType = convertView.findViewById(R.id.deviceType);
 
-            QNBleDevice scanResult = devices.get(position);
-
-            nameTv.setText(scanResult.getName());
-            modelTv.setText(scanResult.getModeId());
-            macTv.setText(scanResult.getMac());
-            rssiTv.setText(String.valueOf(scanResult.getRssi()));
-            if (scanResult.isSupportWifi()) {
-                deviceType.setImageResource(R.drawable.wifi_icon);
-            } else {
-                deviceType.setImageResource(R.drawable.system_item_arrow);
+            Object obj = adapterList.get(position);
+            if (obj instanceof QNBleDevice) {
+                QNBleDevice scanResult = (QNBleDevice) obj;
+                nameTv.setText(scanResult.getName());
+                modelTv.setText(scanResult.getModeId());
+                macTv.setText(scanResult.getMac());
+                rssiTv.setText(String.valueOf(scanResult.getRssi()));
+                if (scanResult.isSupportWifi()) {
+                    deviceType.setImageResource(R.drawable.wifi_icon);
+                } else {
+                    deviceType.setImageResource(R.drawable.system_item_arrow);
+                }
+            } else if (obj instanceof QNBleKitchenDevice) {
+                QNBleKitchenDevice kitchenDevice = (QNBleKitchenDevice) obj;
+                nameTv.setText(kitchenDevice.getName());
+                modelTv.setText(kitchenDevice.getModeId());
+                macTv.setText(kitchenDevice.getMac());
+                rssiTv.setText(String.valueOf(kitchenDevice.getRSSI()));
             }
-
 
             return convertView;
         }
     };
 
-    private List<QNBleDevice> devices = new ArrayList<>();
+//    private List<QNBleDevice> devices = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -208,7 +218,8 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
         mQNBleApi.setBleDeviceDiscoveryListener(new QNBleDeviceDiscoveryListener() {
             @Override
             public void onDeviceDiscover(QNBleDevice device) {
-                devices.add(device);
+//                devices.add(device);
+                adapterList.add(device);
                 listAdapter.notifyDataSetChanged();
             }
 
@@ -241,6 +252,11 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onKitchenDeviceDiscover(QNBleKitchenDevice device) {
                 //厨房秤专用，具体使用参考 KitchenScaleActivity
+                if (device.isBluetooth()) {
+                    //蓝牙厨房秤返回的对象不同，这里简单处理
+                    adapterList.add(device);
+                    listAdapter.notifyDataSetChanged();
+                }
             }
         });
     }
@@ -283,43 +299,53 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (position < 0 || position >= this.devices.size()) {
+//        if (position < 0 || position >= this.devices.size()) {
+        if (position < 0 || position >= this.adapterList.size()) {
             return;
         }
         stopScan();
-        final QNBleDevice device = this.devices.get(position);
-        if (device.isSupportWifi()) {
-            //普通双模秤
-            if (device.getDeviceType() == QNDeviceType.SCALE_BLE_DEFAULT) {
-                wifiSetDialog.setDialogClickListener(new WIFISetDialog.DialogClickListener() {
-                    @Override
-                    public void confirmClick(String ssid, String pwd) {
-                        Log.e(TAG, "ssid：" + ssid);
-                        startActivity(ConnectActivity.getCallIntent(ScanActivity.this, mUser, device, new QNWiFiConfig(ssid, pwd)));
-                        wifiSetDialog.dismiss();
-                    }
+//        final QNBleDevice device = this.devices.get(position);
+        Object obj = this.adapterList.get(position);
+        if (obj instanceof QNBleDevice) {
+            QNBleDevice device = (QNBleDevice) obj;
+            if (device.isSupportWifi()) {
+                //普通双模秤
+                if (device.getDeviceType() == QNDeviceType.SCALE_BLE_DEFAULT) {
+                    wifiSetDialog.setDialogClickListener(new WIFISetDialog.DialogClickListener() {
+                        @Override
+                        public void confirmClick(String ssid, String pwd) {
+                            Log.e(TAG, "ssid：" + ssid);
+                            startActivity(ConnectActivity.getCallIntent(ScanActivity.this, mUser, device, new QNWiFiConfig(ssid, pwd)));
+                            wifiSetDialog.dismiss();
+                        }
 
-                    @Override
-                    public void cancelClick() {
+                        @Override
+                        public void cancelClick() {
 
-                    }
-                });
-                wifiSetDialog.show();
-            } else if (device.getDeviceType() == QNDeviceType.SCALE_WSP) { // wsp 双模秤
-                startActivity(WspConfigActivity.getIntent(ScanActivity.this, mUser, device));
-            } else if (device.getDeviceType() == QNDeviceType.HEIGHT_SCALE) { // 身高一体机
-                startActivity(HeightScaleActivity.getCallIntent(this, mUser, device));
+                        }
+                    });
+                    wifiSetDialog.show();
+                } else if (device.getDeviceType() == QNDeviceType.SCALE_WSP) { // wsp 双模秤
+                    startActivity(WspConfigActivity.getIntent(ScanActivity.this, mUser, device));
+                } else if (device.getDeviceType() == QNDeviceType.HEIGHT_SCALE) { // 身高一体机
+                    startActivity(HeightScaleActivity.getCallIntent(this, mUser, device));
+                }
+            } else {
+                // SCALE_BROADCAST
+                if (device.getDeviceType() == QNDeviceType.SCALE_BROADCAST) {
+                    startActivity(BroadcastScaleActivity.getCallIntent(ScanActivity.this, mUser, device));
+                } else if (device.getDeviceType() == QNDeviceType.SCALE_KITCHEN) {// SCALE_KITCHEN
+                    startActivity(kitchenScaleActivity.getCallIntent(ScanActivity.this));
+                } else {//SCALE_BLE_DEFAULT
+                    //连接设备
+                    connectDevice(device);
+                }
             }
-        } else {
-            // SCALE_BROADCAST
-            if (device.getDeviceType() == QNDeviceType.SCALE_BROADCAST) {
-                startActivity(BroadcastScaleActivity.getCallIntent(ScanActivity.this, mUser, device));
-            } else if (device.getDeviceType() == QNDeviceType.SCALE_KITCHEN) {// SCALE_KITCHEN
-                startActivity(kitchenScaleActivity.getCallIntent(ScanActivity.this));
-            } else {//SCALE_BLE_DEFAULT
-                //连接设备
-                connectDevice(device);
-            }
+        } else if (obj instanceof QNBleKitchenDevice) {
+            QNBleKitchenDevice kitchenDevice = (QNBleKitchenDevice) obj;
+
+            //这里因为蓝牙厨房秤回调的对象不一样，这里就简单处理UI做演示了
+            startActivity(BleKitchenActivity.getCallIntent(this, kitchenDevice));
         }
     }
 
@@ -346,7 +372,8 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
                 break;
             case R.id.scanBtn:
                 if (!isScanning) {
-                    this.devices.clear();
+//                    this.devices.clear();
+                    this.adapterList.clear();
 
                     listAdapter.notifyDataSetChanged();
                     startScan();

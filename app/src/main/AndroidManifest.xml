@@ -40,6 +40,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".view.BleKitchenActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".view.ScanQrActivity"
             android:screenOrientation="portrait" />
         <activity
