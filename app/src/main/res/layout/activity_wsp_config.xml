@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content" />
 
             <RadioGroup
-                android:visibility="gone"
+                android:visibility="visible"
                 android:id="@+id/radioGroup"
                 android:layout_width="wrap_content"
                 android:orientation="vertical"
@@ -62,13 +62,13 @@
             </LinearLayout>
 
             <CheckBox
-                android:visibility="gone"
+                android:visibility="visible"
                 android:id="@+id/visitorCheckBox"
                 android:layout_width="wrap_content"
                 android:text="@string/visitor_model"
                 android:layout_height="wrap_content" />
             <TextView
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_width="wrap_content"
                 android:padding="10dp"
                 android:text="@string/delete_user"
@@ -76,7 +76,7 @@
                 android:textSize="15sp"
                 android:layout_height="wrap_content" />
             <EditText
-                android:visibility="gone"
+                android:visibility="visible"
                 android:id="@+id/deleteEt"
                 android:layout_width="wrap_content"
                 android:gravity="start"

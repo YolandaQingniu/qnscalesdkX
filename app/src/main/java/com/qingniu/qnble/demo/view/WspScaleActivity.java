@@ -164,7 +164,7 @@ public class WspScaleActivity extends AppCompatActivity implements View.OnClickL
                 }
             });
         } else {
-            mQNBleApi.connectDevice(device, mQnWspConfig.getCurUser(), new QNResultCallback() {
+            mQNBleApi.connectWspDevice(device, mQnWspConfig, new QNResultCallback() {
                 @Override
                 public void onResult(int code, String msg) {
                     QNLogUtils.log("WspScaleActivity", "wifi 配置code:" + code + ",msg:" + msg);

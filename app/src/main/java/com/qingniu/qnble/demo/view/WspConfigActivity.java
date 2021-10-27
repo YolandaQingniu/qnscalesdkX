@@ -320,7 +320,7 @@ public class WspConfigActivity extends AppCompatActivity {
         qnWspConfig.setDelayScreenOff(delayScreenOff.isChecked());
 
         //访客模式连接WSP秤
-        qnWspConfig.setVisitor(true);
+//        qnWspConfig.setVisitor(true);
         startActivity(WspScaleActivity.getCallIntent(this, qnDevice, qnWspConfig));
     }
 
