@@ -10,6 +10,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="vertical"
@@ -81,6 +82,26 @@
                 android:layout_width="wrap_content"
                 android:gravity="start"
                 android:hint="@string/delete_user_hint"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="@string/indicator_ctrl"
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
+                android:padding="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <CheckBox
+                android:id="@+id/bodyfatCheckBox"
+                android:layout_width="wrap_content"
+                android:text="@string/is_measure_bodyfat"
+                android:layout_height="wrap_content" />
+
+            <CheckBox
+                android:id="@+id/indicatorCheckBox"
+                android:layout_width="wrap_content"
+                android:text="@string/is_show_indicator"
                 android:layout_height="wrap_content" />
 
             <TextView
@@ -253,6 +274,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
+
     </ScrollView>
 
 

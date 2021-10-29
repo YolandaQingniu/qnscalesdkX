@@ -75,6 +75,10 @@ public class WspConfigActivity extends AppCompatActivity {
     CheckBox readSnCheck;
     @BindView(R.id.delayScreenOff)
     CheckBox delayScreenOff;
+    @BindView(R.id.bodyfatCheckBox)
+    CheckBox bodyfatCheckBox;
+    @BindView(R.id.indicatorCheckBox)
+    CheckBox indicatorCheckBox;
 
     private User mUser;
 
@@ -318,6 +322,9 @@ public class WspConfigActivity extends AppCompatActivity {
         qnWspConfig.setReadSN(readSnCheck.isChecked());
 
         qnWspConfig.setDelayScreenOff(delayScreenOff.isChecked());
+
+        qnWspConfig.getCurUser().setMeasureFat(bodyfatCheckBox.isChecked()?1:0);
+        qnWspConfig.getCurUser().setIndicateDis(indicatorCheckBox.isChecked()?1:0);
 
         //访客模式连接WSP秤
 //        qnWspConfig.setVisitor(true);

@@ -1,6 +1,7 @@
 package com.qingniu.qnble.demo.view;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,14 +13,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.qingniu.qnble.demo.R;
 import com.qingniu.qnble.demo.adapter.ListAdapter;
 import com.qingniu.qnble.demo.util.DateUtils;
+import com.qingniu.qnble.demo.util.ToastMaker;
 import com.qingniu.qnble.demo.util.UserConst;
 import com.qingniu.qnble.utils.QNLogUtils;
 import com.qingniu.scale.constant.DecoderConst;
+import com.qingniu.scale.model.BleScale;
 import com.qn.device.constant.QNIndicator;
 import com.qn.device.constant.QNInfoConst;
 import com.qn.device.constant.QNScaleStatus;
@@ -29,6 +33,7 @@ import com.qn.device.listener.QNResultCallback;
 import com.qn.device.listener.QNWspScaleDataListener;
 import com.qn.device.out.QNBleApi;
 import com.qn.device.out.QNBleDevice;
+import com.qn.device.out.QNBleOTAConfig;
 import com.qn.device.out.QNScaleData;
 import com.qn.device.out.QNScaleItemData;
 import com.qn.device.out.QNScaleStoreData;
@@ -39,6 +44,11 @@ import com.qn.device.out.QNWspConfig;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -53,9 +63,11 @@ import butterknife.OnClick;
 
 public class WspScaleActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG = "WspScaleActivity";
 
     @BindView(R.id.snTextView)
     TextView snTextView;
+    private int bleStatus;
 
     public static Intent getCallIntent(Context context, QNBleDevice device, QNWspConfig qnWspConfig) {
         return new Intent(context, WspScaleActivity.class)
@@ -65,6 +77,10 @@ public class WspScaleActivity extends AppCompatActivity implements View.OnClickL
 
     @BindView(R.id.connectBtn)
     Button mConnectBtn;
+    @BindView(R.id.otaBtn)
+    Button otaBtn;
+    @BindView(R.id.resetBtn)
+    Button resetBtn;
     @BindView(R.id.registerUserIndex)
     TextView registerUserIndex;
     @BindView(R.id.statusTv)
@@ -110,6 +126,7 @@ public class WspScaleActivity extends AppCompatActivity implements View.OnClickL
     private void initData() {
         initBleConnectStatus();
         initUserData(); //设置数据监听器,返回数据,需在连接当前设备前设置
+
     }
 
     private void initBleConnectStatus() {
@@ -317,6 +334,8 @@ public class WspScaleActivity extends AppCompatActivity implements View.OnClickL
 
     private void initView() {
         mConnectBtn.setOnClickListener(this);
+        resetBtn.setOnClickListener(this);
+        otaBtn.setOnClickListener(this);
         mBackTv.setOnClickListener(this);
         listAdapter = new ListAdapter(mDatas, mQNBleApi, mQnWspConfig.getCurUser());
         mListView.setAdapter(listAdapter);
@@ -340,6 +359,7 @@ public class WspScaleActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void setBleStatus(int bleStatus) {
+        this.bleStatus = bleStatus;
         String stateString;
         String btnString;
         switch (bleStatus) {
@@ -422,6 +442,68 @@ public class WspScaleActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.resetBtn:
+                if (bleStatus != QNScaleStatus.STATE_DISCONNECTED) {
+                    mQNBleApi.restoreFactorySettingsCallback(new QNResultCallback() {
+                        @Override
+                        public void onResult(int code, String msg) {
+
+                        }
+                    });
+                } else {
+                    Log.d("WspScaleActivity", "请连接秤");
+                    ToastMaker.show(this, "请连接秤");
+                }
+                break;
+            case R.id.otaBtn:
+
+                if (bleStatus != QNScaleStatus.STATE_DISCONNECTED) {
+
+//                    File filesDir = new File(QNFileUtils.getDirectPath(this));
+                    File filesDir = getExternalFilesDir(null);
+                    if (filesDir != null) {
+                        File[] files = filesDir.listFiles();
+                        String[] strings = new String[files.length];
+
+                        for (int i = 0; i < files.length; i++) {
+                            strings[i] = files[i].getName();
+                        }
+
+                        new AlertDialog.Builder(this)
+                                .setNegativeButton("取消", null)
+                                .setItems(strings, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        File file = files[which];
+                                        BleScale bleScale = new BleScale();
+                                        bleScale.setMac(mBleDevice.getMac());
+//                                        OTAServiceManager.getInstance(WspScaleActivity.this).startConnect(WspScaleActivity.this, bleScale, path);
+
+                                        QNBleOTAConfig otaConfig = new QNBleOTAConfig();
+                                        otaConfig.setOTAData(file2buf(file));
+                                        otaConfig.setOTAVer(which);
+
+                                        mQnWspConfig.setOtaConfig(otaConfig);
+
+                                        mQNBleApi.connectWspDevice(mBleDevice, mQnWspConfig, new QNResultCallback() {
+                                            @Override
+                                            public void onResult(int code, String msg) {
+                                                QNLogUtils.log("WspScaleActivity", "wifi 配置code:" + code + ",msg:" + msg);
+                                            }
+                                        });
+
+                                    }
+                                })
+                                .create()
+                                .show();
+                    }
+                } else {
+                    Log.d("WspScaleActivity", "请连接秤");
+                    ToastMaker.show(this, "请连接秤");
+                }
+
+
+                break;
             case R.id.connectBtn:
                 if (mIsConnected) {
                     //已经连接,断开连接
@@ -440,6 +522,30 @@ public class WspScaleActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    public static byte[] file2buf(File file) {
+        byte[] buffer = null;
+        try {
+            if (!file.exists()) {
+                return null;
+            }
+
+            FileInputStream fis = new FileInputStream(file);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            byte[] b = new byte[1024];
+            int len = -1;
+            while ((len = fis.read(b)) != -1) {
+                bos.write(b, 0, len);
+            }
+            fis.close();
+            bos.close();
+            buffer = bos.toByteArray();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return buffer;
+    }
 
     private void doDisconnect() {
         mQNBleApi.disconnectDevice(mBleDevice, new QNResultCallback() {
