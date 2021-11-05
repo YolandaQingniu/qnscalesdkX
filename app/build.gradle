@@ -9,7 +9,7 @@ android {
         targetSdkVersion TARGET_SDK_VERSION as int
         applicationId "com.qingniu.health.scaleX.demo"
         versionCode 1
-        versionName "2.4.5"
+        versionName "2.5.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
@@ -70,6 +70,6 @@ dependencies {
     implementation 'com.jakewharton:butterknife:10.2.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
    // compile ("com.github.YolandaQingniu:QNScaleSDK:master-SNAPSHOT")
-//    compile("com.github.YolandaQingniu:qnscalesdkX:V2.5.2")
+//    compile("com.github.YolandaQingniu:qnscalesdkX:2.5.6")
     compile project(":qnscalesdkX")
 }

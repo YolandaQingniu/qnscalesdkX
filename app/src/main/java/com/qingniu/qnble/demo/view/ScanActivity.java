@@ -332,7 +332,7 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
                 }
             } else {
                 // SCALE_BROADCAST
-                if (device.getDeviceType() == QNDeviceType.SCALE_BROADCAST) {
+                if (device.getDeviceType() == QNDeviceType.SCALE_BROADCAST && !device.getOneToOne()) {
                     startActivity(BroadcastScaleActivity.getCallIntent(ScanActivity.this, mUser, device));
                 } else if (device.getDeviceType() == QNDeviceType.SCALE_KITCHEN) {// SCALE_KITCHEN
                     startActivity(kitchenScaleActivity.getCallIntent(ScanActivity.this));
