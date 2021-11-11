@@ -72,4 +72,8 @@ dependencies {
    // compile ("com.github.YolandaQingniu:QNScaleSDK:master-SNAPSHOT")
 //    compile("com.github.YolandaQingniu:qnscalesdkX:2.5.7")
     compile project(":qnscalesdkX")
+
+//    implementation project(':QNBle')
+//    implementation project(':QNScaleDecoder')
+//    implementation project(':QNBleSdk')
 }
