@@ -45,6 +45,24 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="收到的存储数据条数："
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/height_scale_store_size_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
     <ListView
         android:id="@+id/listView"

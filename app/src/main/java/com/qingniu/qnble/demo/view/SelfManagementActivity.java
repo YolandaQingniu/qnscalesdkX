@@ -274,10 +274,14 @@ public class SelfManagementActivity extends AppCompatActivity implements Adapter
         } else if (device.getDeviceType() == QNDeviceType.SCALE_BROADCAST) {
             //广播秤
             startActivity(SelfBroadcastScaleActivity.getCallIntent(SelfManagementActivity.this, mUser, device));
-        }else if (device.getDeviceType() == QNDeviceType.SCALE_KITCHEN) {
+        } else if (device.getDeviceType() == QNDeviceType.SCALE_KITCHEN) {
             //厨房秤
-            startActivity(SelfKitchenScaleActivity.getCallIntent(SelfManagementActivity.this,device));
-        } else {
+            startActivity(SelfKitchenScaleActivity.getCallIntent(SelfManagementActivity.this, device));
+        } else if (device.getDeviceType() == QNDeviceType.HEIGHT_SCALE) {
+            //身高秤 注意身高秤本身支持配网，但采用自主管理的客户目前不打算使用此功能，故暂不实现
+            startActivity(SelfHeightScaleActivity.getCallIntent(SelfManagementActivity.this, mUser,device));
+        }
+        else {
             Toast.makeText(this, getResources().getString(R.string.device_not_support), Toast.LENGTH_SHORT).show();
         }
 
