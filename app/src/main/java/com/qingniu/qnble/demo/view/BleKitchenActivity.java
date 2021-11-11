@@ -14,11 +14,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.qingniu.qnble.demo.R;
 import com.qingniu.qnble.demo.util.UserConst;
 import com.qn.device.constant.QNScaleStatus;
+import com.qn.device.listener.QNBleConnectionChangeListener;
 import com.qn.device.listener.QNBleKitchenDataListener;
 import com.qn.device.listener.QNResultCallback;
 import com.qn.device.out.QNBleApi;
+import com.qn.device.out.QNBleDevice;
 import com.qn.device.out.QNBleKitchenDevice;
-
 
 /**
  * Created by yangxiaobo
@@ -78,11 +79,9 @@ public class BleKitchenActivity extends AppCompatActivity implements View.OnClic
                 boolean isStable = device.isStable();
 
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.append("当前称体显示的单位:")
-                        .append(unit).append("\n")
-                        .append("当前秤体显示的体重数值:")
-                        .append(deviceWeight).append("\n")
-                        .append(weight).append("\n")
+                stringBuilder.append("当前秤体显示的体重数值:")
+                        .append(mQNBleApi.convertWeightWithTargetUnit(deviceWeight, unit)).append("\n")
+                        .append(weight).append("(g)\n")
                         .append("是否去皮:")
                         .append(peel).append("\n")
                         .append("是否是负重量:")
