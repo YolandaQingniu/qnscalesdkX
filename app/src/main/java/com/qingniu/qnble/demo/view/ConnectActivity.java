@@ -283,7 +283,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
                 historyQNScaleData.add(data);
                 Log.d("ConnectActivity", "加密hmac为:" + data.getHmac());
 //                Log.d("ConnectActivity", "收到体脂肪:"+data.getItem(QNIndicator.TYPE_BODYFAT).getValue());
-                doDisconnect();
+//                doDisconnect();
             }
 
             @Override

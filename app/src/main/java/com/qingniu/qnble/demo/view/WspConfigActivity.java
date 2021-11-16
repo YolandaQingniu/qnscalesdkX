@@ -323,8 +323,8 @@ public class WspConfigActivity extends AppCompatActivity {
 
         qnWspConfig.setDelayScreenOff(delayScreenOff.isChecked());
 
-        qnWspConfig.getCurUser().setMeasureFat(bodyfatCheckBox.isChecked()?1:0);
-        qnWspConfig.getCurUser().setIndicateDis(indicatorCheckBox.isChecked()?1:0);
+        qnWspConfig.getCurUser().setMeasureFat(bodyfatCheckBox.isChecked());
+        qnWspConfig.getCurUser().setIndicateDis(indicatorCheckBox.isChecked());
 
         //访客模式连接WSP秤
 //        qnWspConfig.setVisitor(true);

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -28,6 +27,7 @@ import com.qn.device.constant.QNIndicator;
 import com.qn.device.constant.QNInfoConst;
 import com.qn.device.constant.QNScaleStatus;
 import com.qn.device.listener.QNBleConnectionChangeListener;
+import com.qn.device.listener.QNBleOTAListener;
 import com.qn.device.listener.QNLogListener;
 import com.qn.device.listener.QNResultCallback;
 import com.qn.device.listener.QNWspScaleDataListener;
@@ -61,7 +61,7 @@ import butterknife.OnClick;
  * wsp 双模秤连接界面
  */
 
-public class WspScaleActivity extends AppCompatActivity implements View.OnClickListener {
+public class WspScaleActivity extends AppCompatActivity implements View.OnClickListener, QNBleOTAListener {
 
     private static final String TAG = "WspScaleActivity";
 
@@ -457,9 +457,6 @@ public class WspScaleActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.otaBtn:
 
-                if (bleStatus != QNScaleStatus.STATE_DISCONNECTED) {
-
-//                    File filesDir = new File(QNFileUtils.getDirectPath(this));
                     File filesDir = getExternalFilesDir(null);
                     if (filesDir != null) {
                         File[] files = filesDir.listFiles();
@@ -481,10 +478,10 @@ public class WspScaleActivity extends AppCompatActivity implements View.OnClickL
 
                                         QNBleOTAConfig otaConfig = new QNBleOTAConfig();
                                         otaConfig.setOTAData(file2buf(file));
-                                        otaConfig.setOTAVer(which);
+                                        otaConfig.setOTAVer(which + 1);
 
                                         mQnWspConfig.setOtaConfig(otaConfig);
-
+                                        mQNBleApi.setQNBleOTAListener(WspScaleActivity.this);
                                         mQNBleApi.connectWspDevice(mBleDevice, mQnWspConfig, new QNResultCallback() {
                                             @Override
                                             public void onResult(int code, String msg) {
@@ -497,11 +494,6 @@ public class WspScaleActivity extends AppCompatActivity implements View.OnClickL
                                 .create()
                                 .show();
                     }
-                } else {
-                    Log.d("WspScaleActivity", "请连接秤");
-                    ToastMaker.show(this, "请连接秤");
-                }
-
 
                 break;
             case R.id.connectBtn:
@@ -577,4 +569,28 @@ public class WspScaleActivity extends AppCompatActivity implements View.OnClickL
     }
 
 
+    @Override
+    public void onOTAStart(QNBleDevice device) {
+        Log.d("WspScaleActivity", "onOTAStart:" + device.getMac());
+    }
+
+    @Override
+    public void onOTAUpgrading(QNBleDevice device) {
+        Log.d("WspScaleActivity", "onOTAUpgrading:" + device.getMac());
+    }
+
+    @Override
+    public void onOTACompleted(QNBleDevice device) {
+        Log.d("WspScaleActivity", "onOTACompleted:" + device.getMac());
+    }
+
+    @Override
+    public void onOTAFailed(QNBleDevice device, int errorCode) {
+        Log.d("WspScaleActivity", "onOTAFailed:" + device.getMac());
+    }
+
+    @Override
+    public void onOTAProgress(QNBleDevice device, int progress) {
+        Log.d("WspScaleActivity", "onOTAProgress:" + progress);
+    }
 }
