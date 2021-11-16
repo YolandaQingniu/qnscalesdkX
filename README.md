@@ -21,16 +21,16 @@
    ```
 * 在你的module的根目录下的**build.gradle**添加依赖
 	```
-	<!--这里的版本号，2.5.7 可以指定为任意release版本-->
-	<!--如果希望一直使用最新版本可以替换 2.5.7 master-SNAPSHOT -->
+	<!--这里的版本号，2.5.8 可以指定为任意release版本-->
+	<!--如果希望一直使用最新版本可以替换 2.5.8 master-SNAPSHOT -->
 	dependencies {
 	        ...
-	        compile 'com.github.YolandaQingniu:qnscalesdkX:2.5.7'
+	        compile 'com.github.YolandaQingniu:qnscalesdkX:2.5.8'
 	}
 	```
 	
 ### Android Studio 本地依赖
-* 下载最新的[jar和so库](https://github.com/YolandaQingniu/qnscalesdkX/releases/download/2.5.7/qnsdkX-2.5.7-Android.zip)，导入下载的`jar和so库`
+* 下载最新的[jar和so库](https://github.com/YolandaQingniu/qnscalesdkX/releases/download/2.5.8/qnsdkX-2.5.8-Android.zip)，导入下载的`jar和so库`
 * 在app moudle 下建立libs文件夹，将so库和jar包放入libs 文件夹内。
 *  在app moudle 的gradle文件中增加配置
 ```
@@ -55,15 +55,7 @@
    <!--如果是在线的sdk需要网络权限-->
    <uses-permission android:name="android.permission.INTERNET" />
 
-      <uses-permission android:name="android.permission.WAKE_LOCK" />
-    ```
-* 需要在**AndroidManifest.xml**注册SDK中的组件：
-   ```
-   <service android:name="com.qingniu.qnble.scanner.BleScanService" android:permission="android.permission.BIND_JOB_SERVICE"/>
-   <service android:name="com.qingniu.scale.measure.ble.ScaleBleService" android:permission="android.permission.BIND_JOB_SERVICE"/>
-   <service android:name="com.qingniu.scale.measure.broadcast.ScaleBroadcastService" android:permission="android.permission.BIND_JOB_SERVICE"/>
-    <service android:name="com.qingniu.scale.wsp.ble.ScaleWspBleService" android:permission="android.permission.BIND_JOB_SERVICE" />
-   <service android:name="com.qingniu.scale.measure.broadcast.ScaleFoodBroadcastService" android:permission="android.permission.BIND_JOB_SERVICE" />
+   <uses-permission android:name="android.permission.WAKE_LOCK" />
     ```
 
 ## 注意事项
