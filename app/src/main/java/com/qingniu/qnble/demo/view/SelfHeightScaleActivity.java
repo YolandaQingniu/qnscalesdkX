@@ -559,6 +559,10 @@ public class SelfHeightScaleActivity extends AppCompatActivity implements View.O
                 stateString = getResources().getString(R.string.success_to_set_wifi);
                 btnString = getResources().getString(R.string.disconnected);
                 break;
+            case QNScaleStatus.STATE_HEIGH_SCALE_MEASURE_FAIL:
+                stateString = getResources().getString(R.string.measure_fail);
+                btnString = getResources().getString(R.string.disconnected);
+                break;
             default: {
                 stateString = getResources().getString(R.string.connection_disconnected);
                 btnString = getResources().getString(R.string.connect);

@@ -397,6 +397,11 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
                 btnString = getResources().getString(R.string.disconnected);
                 Log.d("ConnectActivity", "设置WiFi成功");
                 break;
+            case QNScaleStatus.STATE_HEIGH_SCALE_MEASURE_FAIL:
+                stateString = getResources().getString(R.string.measure_fail);
+                btnString = getResources().getString(R.string.disconnected);
+                Log.d("ConnectActivity","身高体重秤测量失败");
+                break;
             default: {
                 stateString = getResources().getString(R.string.connection_disconnected);
                 btnString = getResources().getString(R.string.connect);

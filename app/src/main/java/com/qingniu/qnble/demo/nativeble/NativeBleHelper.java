@@ -262,6 +262,10 @@ public class NativeBleHelper {
                 Log.d(TAG, "设置WiFi成功");
                 break;
 
+            case QNScaleStatus.STATE_HEIGH_SCALE_MEASURE_FAIL:
+                Log.d(TAG,"身高体重秤测量失败");
+                break;
+
             default:
                 mIsConnected = false;
                 break;

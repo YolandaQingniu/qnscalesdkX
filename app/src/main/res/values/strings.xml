@@ -209,4 +209,5 @@
     <string name="current_device_connected">The device is already connected, please do not repeat the connection</string>
     <string name="clear_data">Clear data</string>
     <string name="delay_screen_off">Delay screen time</string>
+    <string name="measure_fail">measure failed</string>
 </resources>
