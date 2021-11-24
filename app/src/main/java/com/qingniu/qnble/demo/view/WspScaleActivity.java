@@ -164,12 +164,22 @@ public class WspScaleActivity extends AppCompatActivity implements View.OnClickL
                 }
             });
         } else {
-            mQNBleApi.connectDevice(device, mQnWspConfig.getCurUser(), new QNResultCallback() {
-                @Override
-                public void onResult(int code, String msg) {
-                    QNLogUtils.log("WspScaleActivity", "wifi 配置code:" + code + ",msg:" + msg);
-                }
-            });
+            if (mQnWspConfig.isVisitor()){
+                mQNBleApi.connectDevice(device, mQnWspConfig.getCurUser(), new QNResultCallback() {
+                    @Override
+                    public void onResult(int code, String msg) {
+                        QNLogUtils.log("WspScaleActivity", "游客模式连接 wifi 配置code:" + code + ",msg:" + msg);
+                    }
+                });
+            }
+            else {
+                mQNBleApi.connectWspDevice(device, mQnWspConfig, new QNResultCallback() {
+                    @Override
+                    public void onResult(int code, String msg) {
+                        QNLogUtils.log("WspScaleActivity", "用户模式连接 wifi 配置code:" + code + ",msg:" + msg);
+                    }
+                });
+            }
         }
 
     }
