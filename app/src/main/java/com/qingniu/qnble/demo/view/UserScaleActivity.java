@@ -26,7 +26,6 @@ import com.qn.device.listener.QNBleConnectionChangeListener;
 import com.qn.device.listener.QNLogListener;
 import com.qn.device.listener.QNResultCallback;
 import com.qn.device.listener.QNUserScaleDataListener;
-import com.qn.device.listener.QNWspScaleDataListener;
 import com.qn.device.out.QNBleApi;
 import com.qn.device.out.QNBleDevice;
 import com.qn.device.out.QNScaleData;
@@ -51,14 +50,14 @@ import butterknife.OnClick;
  * wsp 双模秤连接界面
  */
 
-public class WspScaleActivity extends AppCompatActivity implements View.OnClickListener {
+public class UserScaleActivity extends AppCompatActivity implements View.OnClickListener {
 
 
     @BindView(R.id.snTextView)
     TextView snTextView;
 
     public static Intent getCallIntent(Context context, QNBleDevice device, QNUserScaleConfig qnUserScaleConfig) {
-        return new Intent(context, WspScaleActivity.class)
+        return new Intent(context, UserScaleActivity.class)
                 .putExtra(UserConst.DEVICE, device)
                 .putExtra(UserConst.WSPCONFIG, qnUserScaleConfig);
     }
@@ -258,7 +257,7 @@ public class WspScaleActivity extends AppCompatActivity implements View.OnClickL
                     }
 
 
-                    startActivity(WebEightElectroActivity.getCallIntent(WspScaleActivity.this, object));
+                    startActivity(WebEightElectroActivity.getCallIntent(UserScaleActivity.this, object));
                 }
             }
 
@@ -284,7 +283,7 @@ public class WspScaleActivity extends AppCompatActivity implements View.OnClickL
                 if (electric == DecoderConst.NONE_BATTERY_VALUE) {//获取电池信息失败
                     return;
                 }
-                Toast.makeText(WspScaleActivity.this, text, Toast.LENGTH_SHORT).show();
+                Toast.makeText(UserScaleActivity.this, text, Toast.LENGTH_SHORT).show();
             }
 
             //测量过程中的连接状态

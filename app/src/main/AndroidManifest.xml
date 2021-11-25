@@ -75,10 +75,10 @@
             android:name=".view.SelfKitchenScaleActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".view.WspConfigActivity"
+            android:name=".view.UserScaleConfigActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.WspScaleActivity"
+            android:name=".view.UserScaleActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.HeightScaleActivity"

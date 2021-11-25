@@ -37,7 +37,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class WspConfigActivity extends AppCompatActivity {
+public class UserScaleConfigActivity extends AppCompatActivity {
 
     @BindView(R.id.RegisterRb)
     RadioButton RegisterRb;
@@ -84,7 +84,7 @@ public class WspConfigActivity extends AppCompatActivity {
 
 
     public static Intent getIntent(Context context, User user, QNBleDevice device) {
-        return new Intent(context, WspConfigActivity.class)
+        return new Intent(context, UserScaleConfigActivity.class)
                 .putExtra(UserConst.DEVICE, device)
                 .putExtra(UserConst.USER, user);
     }
@@ -321,7 +321,7 @@ public class WspConfigActivity extends AppCompatActivity {
 
         //默认采用访客模式
         qnUserScaleConfig.setVisitor(visitorCheckBox.isChecked());
-        startActivity(WspScaleActivity.getCallIntent(this, qnDevice, qnUserScaleConfig));
+        startActivity(UserScaleActivity.getCallIntent(this, qnDevice, qnUserScaleConfig));
     }
 
     private boolean checkFormatter(String content) {

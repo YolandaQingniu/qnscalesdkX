@@ -325,7 +325,7 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
                     });
                     wifiSetDialog.show();
                 } else if (device.getDeviceType() == QNDeviceType.USER_SCALE) { // 支持wifi的用户秤，即wsp秤
-                    startActivity(WspConfigActivity.getIntent(ScanActivity.this, mUser, device));
+                    startActivity(UserScaleConfigActivity.getIntent(ScanActivity.this, mUser, device));
                 } else if (device.getDeviceType() == QNDeviceType.HEIGHT_SCALE) { // 身高一体机
                     startActivity(HeightScaleActivity.getCallIntent(this, mUser, device));
                 }
@@ -337,7 +337,7 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
                     startActivity(kitchenScaleActivity.getCallIntent(ScanActivity.this));
                 }
                 else if (device.getDeviceType() == QNDeviceType.USER_SCALE) { // 不支持wifi的用户秤，目前有va秤
-                    startActivity(WspConfigActivity.getIntent(ScanActivity.this, mUser, device));
+                    startActivity(UserScaleConfigActivity.getIntent(ScanActivity.this, mUser, device));
                 }
                 else {//SCALE_BLE_DEFAULT
                     //连接设备
