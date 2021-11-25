@@ -27,7 +27,7 @@ import com.qn.device.out.QNBleApi;
 import com.qn.device.out.QNBleDevice;
 import com.qn.device.out.QNUser;
 import com.qn.device.out.QNWiFiConfig;
-import com.qn.device.out.QNWspConfig;
+import com.qn.device.out.QNUserScaleConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +79,7 @@ public class WspConfigActivity extends AppCompatActivity {
     private User mUser;
 
     private QNBleDevice qnDevice;
-    private QNWspConfig qnWspConfig;
+    private QNUserScaleConfig qnUserScaleConfig;
     private QNBleApi mQNBleApi;
 
 
@@ -100,20 +100,20 @@ public class WspConfigActivity extends AppCompatActivity {
 
     private void initData() {
         mQNBleApi = QNBleApi.getInstance(this);
-        qnWspConfig = new QNWspConfig();
+        qnUserScaleConfig = new QNUserScaleConfig();
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 switch (checkedId) {
                     case R.id.RegisterRb:
-                        qnWspConfig.setRegist(true);
-                        qnWspConfig.setChange(false);
+                        qnUserScaleConfig.setRegist(true);
+                        qnUserScaleConfig.setChange(false);
                         userIndexEt.setVisibility(View.GONE);
                         userSecretEt.setVisibility(View.VISIBLE);
                         break;
                     case R.id.changeUserInfoRb:
-                        qnWspConfig.setChange(true);
-                        qnWspConfig.setRegist(false);
+                        qnUserScaleConfig.setChange(true);
+                        qnUserScaleConfig.setRegist(false);
                         userIndexEt.setVisibility(View.VISIBLE);
                         userSecretEt.setVisibility(View.VISIBLE);
                         break;
@@ -123,7 +123,7 @@ public class WspConfigActivity extends AppCompatActivity {
         visitorCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                qnWspConfig.setVisitor(isChecked);
+                qnUserScaleConfig.setVisitor(isChecked);
             }
         });
     }
@@ -269,7 +269,7 @@ public class WspConfigActivity extends AppCompatActivity {
                     }
 
                 }
-                qnWspConfig.setDeleteUsers(deletList);
+                qnUserScaleConfig.setDeleteUsers(deletList);
             }
 
         }
@@ -294,34 +294,34 @@ public class WspConfigActivity extends AppCompatActivity {
             qnWiFiConfig.setSsid(ssidEdit.getText().toString());
             qnWiFiConfig.setPwd(wifiPwdEd.getText().toString());
             qnWiFiConfig.setServeUrl(serverUrlEd.getText().toString());
-            qnWspConfig.setWifiConfig(qnWiFiConfig);
+            qnUserScaleConfig.setWifiConfig(qnWiFiConfig);
 
             if (!TextUtils.isEmpty(otaUrl)) {
-                qnWspConfig.setOtaUrl(otaUrl);
+                qnUserScaleConfig.setOtaUrl(otaUrl);
             }
             if (!TextUtils.isEmpty(encryption)) {
-                qnWspConfig.setEncryption(encryption);
+                qnUserScaleConfig.setEncryption(encryption);
             }
         }
         if (setUserFlag.isChecked()) {
-            qnWspConfig.setCurUser(null);
+            qnUserScaleConfig.setCurUser(null);
         } else {
-            qnWspConfig.setCurUser(createQNUser());
+            qnUserScaleConfig.setCurUser(createQNUser());
         }
 
 
-        if (!TextUtils.isEmpty(longitudeString) && !TextUtils.isEmpty(latitudeString)) {
-            qnWspConfig.setLatitude(latitudeString);
-            qnWspConfig.setLongitude(longitudeString);
-        }
+//        if (!TextUtils.isEmpty(longitudeString) && !TextUtils.isEmpty(latitudeString)) {
+//            qnUserScaleConfig.setLatitude(latitudeString);
+//            qnUserScaleConfig.setLongitude(longitudeString);
+//        }
 
-        qnWspConfig.setReadSN(readSnCheck.isChecked());
+//        qnUserScaleConfig.setReadSN(readSnCheck.isChecked());
 
-        qnWspConfig.setDelayScreenOff(delayScreenOff.isChecked());
+        qnUserScaleConfig.setDelayScreenOff(delayScreenOff.isChecked());
 
         //默认采用访客模式
-        qnWspConfig.setVisitor(visitorCheckBox.isChecked());
-        startActivity(WspScaleActivity.getCallIntent(this, qnDevice, qnWspConfig));
+        qnUserScaleConfig.setVisitor(visitorCheckBox.isChecked());
+        startActivity(WspScaleActivity.getCallIntent(this, qnDevice, qnUserScaleConfig));
     }
 
     private boolean checkFormatter(String content) {

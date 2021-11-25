@@ -171,6 +171,7 @@
                 android:layout_height="wrap_content" />
 
             <TextView
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:padding="10dp"
                 android:text="@string/wsp_location_info"
@@ -179,12 +180,14 @@
                 android:layout_height="wrap_content" />
 
             <TextView
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/latitude_longitude_desc"
                 android:textColor="@color/blue"
                 android:layout_height="wrap_content" />
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -222,6 +225,7 @@
                 android:orientation="horizontal"
                 android:layout_height="wrap_content">
                 <CheckBox
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:id="@+id/readSnCheck"
                     android:text="@string/read_sn"
