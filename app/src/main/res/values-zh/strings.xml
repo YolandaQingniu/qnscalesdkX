@@ -210,4 +210,13 @@
     <string name="clear_data">清除数据</string>
     <string name="delay_screen_off">是否延时息屏时间</string>
     <string name="measure_fail">测量失败</string>
+    <string name="hmac_test_explain">这个布局只当收到八电极数据时才会出现</string>
+    <string name="segmental_resistance_20k">20K 节段阻抗</string>
+    <string name="segmental_resistance_100k">100K 节段阻抗</string>
+    <string name="segmental_resistance_hint">右上肢 左上肢 躯干 右下肢 左下肢 空格分隔</string>
+    <string name="generate_hmac">生成hmac计算</string>
+    <string name="use_last_hmac">使用上条数据的hmac计算</string>
+    <string name="please_input_correct_resistance_and_weight">请输入正确的电阻和阻抗</string>
+    <string name="last_data_not_have_segmental_resistance">上次测量数据没有节段阻抗!</string>
+    <string name="set_eight_fat_threshold_success">八电极秤阻抗调整成功</string>
 </resources>

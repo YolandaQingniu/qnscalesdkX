@@ -92,6 +92,10 @@
             android:visibility="gone" />
     </LinearLayout>
 
+    <include
+        android:visibility="gone"
+        layout="@layout/eight_hmac_test_layout">
+    </include>
 
     <ListView
         android:id="@+id/listView"

@@ -14,10 +14,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kitnew.ble.utils.EncryptUtils;
 import com.qingniu.qnble.demo.R;
 import com.qingniu.qnble.demo.adapter.ListAdapter;
 import com.qingniu.qnble.demo.bean.User;
@@ -42,6 +44,8 @@ import com.qn.device.out.QNScaleItemData;
 import com.qn.device.out.QNScaleStoreData;
 import com.qn.device.out.QNUser;
 import com.qn.device.out.QNWiFiConfig;
+
+import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -97,6 +101,21 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
     TextView hmacTest;
     @BindView(R.id.testHmac)
     Button testHmac;
+
+
+
+    @BindView(R.id.eight_hamc_test_layout)
+    LinearLayout eightHmacTestLayout;
+    @BindView(R.id.resistance_20k_et)
+    EditText resistance20kEt;
+    @BindView(R.id.resistance_100k_et)
+    EditText resistance100kEt;
+    @BindView(R.id.eight_weight_et)
+    EditText eightWeightEt;
+    @BindView(R.id.generate_hmac_btn)
+    Button generateHmacBtn;
+    @BindView(R.id.use_last_hmac_btn)
+    Button useLastHmacBtn;
 
     private QNBleDevice mBleDevice;
     private List<QNScaleItemData> mDatas = new ArrayList<>();
@@ -273,8 +292,16 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onGetScaleData(QNBleDevice device, QNScaleData data) {
                 Log.d("ConnectActivity", "收到测量数据");
+                boolean isEightData = data.getItemValue(QNIndicator.TYPE_LEFT_ARM_MUSCLE_WEIGHT_INDEX) > 0;
                 //增加八电极指标适配
-                listAdapter.setEight(data.getItemValue(QNIndicator.TYPE_LEFT_ARM_MUSCLE_WEIGHT_INDEX) > 0);
+                listAdapter.setEight(isEightData);
+                if (isEightData){
+                    eightHmacTestLayout.setVisibility(View.VISIBLE);
+                }
+                else {
+                    eightHmacTestLayout.setVisibility(View.GONE);
+                }
+
                 onReceiveScaleData(data);
                 QNScaleItemData fatValue = data.getItem(QNIndicator.TYPE_SUBFAT);
                 if (fatValue != null) {
@@ -299,6 +326,17 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
                     QNUser qnUser = createQNUser();
                     data.setUser(qnUser);
                     QNScaleData qnScaleData = data.generateScaleData();
+
+                    boolean isEightData = qnScaleData.getItemValue(QNIndicator.TYPE_LEFT_ARM_MUSCLE_WEIGHT_INDEX) > 0;
+                    //增加八电极指标适配
+                    listAdapter.setEight(isEightData);
+                    if (isEightData){
+                        eightHmacTestLayout.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        eightHmacTestLayout.setVisibility(View.GONE);
+                    }
+
                     onReceiveScaleData(qnScaleData);
                     currentQNScaleData = qnScaleData;
                     historyQNScaleData.add(qnScaleData);
@@ -511,7 +549,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
         });
     }
 
-    @OnClick({R.id.stroteDataTest, R.id.setThreshold, R.id.testHmac})
+    @OnClick({R.id.stroteDataTest, R.id.setThreshold, R.id.testHmac,R.id.generate_hmac_btn,R.id.use_last_hmac_btn})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.stroteDataTest:
@@ -588,6 +626,107 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
                 } else {
                     AndroidPermissionCenter.verifyCameraPermissions(this);
                 }
+                break;
+            case R.id.generate_hmac_btn:
+                try {
+                    ArrayList<Double> list20k = new ArrayList<>();
+                    for (String s : resistance20kEt.getText().toString().split(" ")) {
+                        list20k.add(Double.valueOf(s));
+                    }
+                    ArrayList<Double> list100k = new ArrayList<>();
+                    for (String s : resistance100kEt.getText().toString().split(" ")) {
+                        list100k.add(Double.valueOf(s));
+                    }
+                    Double eightWeight = Double.valueOf(eightWeightEt.getText().toString());
+                    if (list20k.size() != 5 || list100k.size() != 5 || eightWeight<=0){
+                        Toast.makeText(ConnectActivity.this, getString(R.string.please_input_correct_resistance_and_weight), Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        JSONObject jsonObject = new JSONObject();
+
+                        jsonObject.put("resistance_50_adjust", list20k.get(4)+list20k.get(3));
+                        jsonObject.put("resistance_500_adjust", list100k.get(4)+list100k.get(3));
+
+                        jsonObject.put("weight", eightWeight);
+                        jsonObject.put("eight_flag", 1);
+
+                        jsonObject.put("res20_left_arm", list20k.get(1));
+                        jsonObject.put("res20_left_leg", list20k.get(4));
+                        jsonObject.put("res20_right_arm", list20k.get(0));
+                        jsonObject.put("res20_right_leg", list20k.get(3));
+                        jsonObject.put("res20_trunk", list20k.get(2));
+
+                        jsonObject.put("res100_left_arm", list100k.get(1));
+                        jsonObject.put("res100_left_leg", list100k.get(4));
+                        jsonObject.put("res100_right_arm", list100k.get(0));
+                        jsonObject.put("res100_right_leg", list100k.get(3));
+                        jsonObject.put("res100_trunk", list100k.get(2));
+                        String hmac = EncryptUtils.encrypt(jsonObject.toString());
+
+                        if (null == currentQNScaleData) {
+                            ToastMaker.show(this, getResources().getString(R.string.set_body_fat_change_hint));
+                            return;
+                        }
+                        if (!TextUtils.isEmpty(hmac)){
+                            currentQNScaleData.setFatThreshold(hmac, 0.0,
+                                    new QNResultCallback() {
+                                        @Override
+                                        public void onResult(int code, String msg) {
+                                            Log.e("setEightFatThreshold", "code=" + code + ",msg=" + msg);
+                                            if (code == CheckStatus.OK.getCode()) {
+                                                //设置完后得到调整后数据并进行显示
+                                                onReceiveScaleData(currentQNScaleData);
+                                                Toast.makeText(ConnectActivity.this, getResources().getString(R.string.set_eight_fat_threshold_success), Toast.LENGTH_SHORT).show();
+                                            }
+                                            else {
+                                                Toast.makeText(ConnectActivity.this, "error "+"code=" + code + ",msg=" + msg, Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                        }
+                    }
+                }
+                catch (Exception e){
+                    Toast.makeText(ConnectActivity.this, getString(R.string.please_input_correct_resistance_and_weight), Toast.LENGTH_SHORT).show();
+                }
+                finally {
+                    break;
+                }
+            case R.id.use_last_hmac_btn:
+                if (historyQNScaleData.size() < 2) {
+                    ToastMaker.show(this, getResources().getString(R.string.set_body_fat_change_hint1));
+                    return;
+                }
+                QNScaleData preData = historyQNScaleData.get(historyQNScaleData.size() - 2);
+                if (preData.getItemValue(QNIndicator.TYPE_LEFT_ARM_FAT_INDEX)< 0 ){
+                    ToastMaker.show(this, getResources().getString(R.string.set_body_fat_change_hint1));
+                    return;
+                }
+                else {
+                    if (null == currentQNScaleData) {
+                        ToastMaker.show(this, getResources().getString(R.string.set_body_fat_change_hint));
+                        return;
+                    }
+                    if (!TextUtils.isEmpty(preData.getHmac())){
+                        currentQNScaleData.setFatThreshold(preData.getHmac(), 0.0,
+                                new QNResultCallback() {
+                                    @Override
+                                    public void onResult(int code, String msg) {
+                                        Log.e("setEightFatThreshold", "code=" + code + ",msg=" + msg);
+                                        if (code == CheckStatus.OK.getCode()) {
+                                            //设置完后得到调整后数据并进行显示
+                                            onReceiveScaleData(currentQNScaleData);
+                                            Toast.makeText(ConnectActivity.this, getResources().getString(R.string.set_eight_fat_threshold_success), Toast.LENGTH_SHORT).show();
+                                        }
+                                        else {
+                                            Toast.makeText(ConnectActivity.this, "error "+"code=" + code + ",msg=" + msg, Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                    }
+                }
+                break;
+            default:
                 break;
         }
     }
