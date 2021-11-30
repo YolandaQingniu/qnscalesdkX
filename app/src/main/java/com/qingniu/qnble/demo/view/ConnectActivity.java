@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -116,6 +117,10 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
     Button generateHmacBtn;
     @BindView(R.id.use_last_hmac_btn)
     Button useLastHmacBtn;
+    @BindView(R.id.cur_resistance_20k_tv)
+    TextView curResistance20kTv;
+    @BindView(R.id.cur_resistance_100k_tv)
+    TextView curResistance100kTv;
 
     private QNBleDevice mBleDevice;
     private List<QNScaleItemData> mDatas = new ArrayList<>();
@@ -367,6 +372,43 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
         });
     }
 
+
+    /**
+     * 后续需删除，显示收到的八电极测量数据和存储数据的阻抗
+     */
+    private void initEightDataTv(@NonNull String hmac){
+        try {
+            JSONObject jsonObject = new JSONObject(EncryptUtils.decrypt(hmac));
+            int eightFlag  = jsonObject.optInt("eight_flag");
+
+            if (eightFlag == 1){
+                String lastResistanceRH20 = String.format("%.2f",jsonObject.getDouble("res20_right_arm"));
+                String lastResistanceLH20 = String.format("%.2f",jsonObject.getDouble("res20_left_arm"));
+                String lastResistanceT20 = String.format("%.2f",jsonObject.getDouble("res20_trunk"));
+                String lastResistanceRF20 = String.format("%.2f",jsonObject.getDouble("res20_right_leg"));
+                String lastResistanceLF20 = String.format("%.2f",jsonObject.getDouble("res20_left_leg"));
+
+                String lastResistanceRH100 = String.format("%.2f",jsonObject.getDouble("res100_right_arm"));
+                String lastResistanceLH100 = String.format("%.2f",jsonObject.getDouble("res100_left_arm"));
+                String lastResistanceT100 = String.format("%.2f",jsonObject.getDouble("res100_trunk"));
+                String lastResistanceRF100 = String.format("%.2f",jsonObject.getDouble("res100_right_leg"));
+                String lastResistanceLF100 = String.format("%.2f",jsonObject.getDouble("res100_left_leg"));
+
+                String cur20kString = lastResistanceRH20+" "+lastResistanceLH20+" "+lastResistanceT20+" "+lastResistanceRF20+" "+lastResistanceLF20;
+                String cur100kString = lastResistanceRH100+" "+lastResistanceLH100+" "+lastResistanceT100+" "+lastResistanceRF100+" "+lastResistanceLF100;
+                curResistance20kTv.setText(cur20kString);
+                curResistance100kTv.setText(cur100kString);
+            }
+            else {
+                curResistance20kTv.setText("");
+                curResistance100kTv.setText("");
+            }
+        }
+        catch (Exception e){
+            Toast.makeText(ConnectActivity.this, "当前数据传入的hmac错误！", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void initIntent() {
         Intent intent = getIntent();
         if (intent != null) {
@@ -406,6 +448,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
         mDatas.clear();
         mDatas.addAll(md.getAllItem());
         listAdapter.notifyDataSetChanged();
+        initEightDataTv(md.getHmac());
     }
 
     private void setBleStatus(int bleStatus) {

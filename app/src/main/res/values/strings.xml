@@ -219,4 +219,6 @@
     <string name="please_input_correct_resistance_and_weight">please input correct resistance and weight</string>
     <string name="last_data_not_have_segmental_resistance">last data not have segmental resistance</string>
     <string name="set_eight_fat_threshold_success">set_eight_fat_threshold_success</string>
+    <string name="passing_user_lists">passing_user_lists</string>
+    <string name="passing_user_lists_hint">Please input the users index(1~8) split by space</string>
 </resources>

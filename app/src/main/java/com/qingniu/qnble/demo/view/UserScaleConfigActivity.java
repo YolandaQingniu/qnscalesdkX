@@ -14,12 +14,14 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.qingniu.qnble.demo.R;
 import com.qingniu.qnble.demo.bean.User;
 import com.qingniu.qnble.demo.util.ToastMaker;
 import com.qingniu.qnble.demo.util.UserConst;
+import com.qn.device.constant.QNInfoConst;
 import com.qn.device.constant.UserGoal;
 import com.qn.device.constant.UserShape;
 import com.qn.device.listener.QNResultCallback;
@@ -75,6 +77,10 @@ public class UserScaleConfigActivity extends AppCompatActivity {
     CheckBox readSnCheck;
     @BindView(R.id.delayScreenOff)
     CheckBox delayScreenOff;
+    @BindView(R.id.passUserListCheckBox)
+    CheckBox passUserListCheck;
+    @BindView(R.id.userListEt)
+    EditText userListEdit;
 
     private User mUser;
 
@@ -307,6 +313,42 @@ public class UserScaleConfigActivity extends AppCompatActivity {
             qnUserScaleConfig.setCurUser(null);
         } else {
             qnUserScaleConfig.setCurUser(createQNUser());
+        }
+
+        if (passUserListCheck.isChecked()){
+            String userListKeyString = userListEdit.getText().toString();
+            try {
+                ArrayList<QNUser> qnUsers = new ArrayList<QNUser>();
+                if (!TextUtils.isEmpty(userListKeyString)){
+                    String[] userKeyArray = userListKeyString.split(" ");
+
+                    for (int i=0;i<userKeyArray.length;i++){
+                        int index = Integer.parseInt(userKeyArray[i]);
+
+                        if (index < 1 || index >8){
+                            ToastMaker.show(this, "Please input correct index (1~8)!");
+                            return;
+                        }
+                        else {
+                            QNUser qnUser = mQNBleApi.buildUser("12345678" + i, mUser.getHeight(), mUser.getGender(), mUser.getBirthDay(),
+                                    mUser.getAthleteType(), UserShape.SHAPE_NONE,
+                                    UserGoal.GOAL_NONE, mUser.getClothesWeight(),
+                                    index, 1000, new QNResultCallback() {
+                                        @Override
+                                        public void onResult(int i, String s) {
+                                            
+                                        }
+                                    });
+                            qnUsers.add(qnUser);
+                        }
+                    }
+                }
+                qnUserScaleConfig.setUserlist(qnUsers);
+            }
+            catch (Exception e){
+                ToastMaker.show(this, "Please input follow format!");
+                return;
+            }
         }
 
 

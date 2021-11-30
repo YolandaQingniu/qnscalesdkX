@@ -79,6 +79,18 @@
                 android:hint="@string/delete_user_hint"
                 android:layout_height="wrap_content" />
 
+            <CheckBox
+                android:id="@+id/passUserListCheckBox"
+                android:layout_width="wrap_content"
+                android:text="@string/passing_user_lists"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/userListEt"
+                android:layout_width="wrap_content"
+                android:gravity="start"
+                android:hint="@string/passing_user_lists_hint"
+                android:layout_height="wrap_content" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:padding="10dp"
