@@ -250,7 +250,7 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
             <LinearLayout
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
                 android:layout_height="wrap_content">
