@@ -24,7 +24,7 @@ android {
 }
 
 dependencies {
-    implementation files('libs/qnsdkX-2.5.11.jar')
+    implementation files('libs/qnsdkX-2.5.13.jar')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    compile files('libs/qnsdkX-2.5.11.jar')
+    compile files('libs/qnsdkX-2.5.13.jar')
 }
