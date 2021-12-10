@@ -300,7 +300,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
                 boolean isEightData = data.getItemValue(QNIndicator.TYPE_LEFT_ARM_MUSCLE_WEIGHT_INDEX) > 0;
                 //增加八电极指标适配
                 listAdapter.setEight(isEightData);
-                if (isEightData){
+                if (isEightData && false){
                     eightHmacTestLayout.setVisibility(View.VISIBLE);
                 }
                 else {
@@ -335,7 +335,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
                     boolean isEightData = qnScaleData.getItemValue(QNIndicator.TYPE_LEFT_ARM_MUSCLE_WEIGHT_INDEX) > 0;
                     //增加八电极指标适配
                     listAdapter.setEight(isEightData);
-                    if (isEightData){
+                    if (isEightData  && false){
                         eightHmacTestLayout.setVisibility(View.VISIBLE);
                     }
                     else {
