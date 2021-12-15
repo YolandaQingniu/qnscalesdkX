@@ -20,7 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kitnew.ble.utils.EncryptUtils;
+import com.kitnew.ble.utils.NewUtils;
 import com.qingniu.qnble.demo.R;
 import com.qingniu.qnble.demo.adapter.ListAdapter;
 import com.qingniu.qnble.demo.bean.User;
@@ -378,7 +378,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
      */
     private void initEightDataTv(@NonNull String hmac){
         try {
-            JSONObject jsonObject = new JSONObject(EncryptUtils.decrypt(hmac));
+            JSONObject jsonObject = new JSONObject(NewUtils.jiem(hmac));
             int eightFlag  = jsonObject.optInt("eight_flag");
 
             if (eightFlag == 1){
@@ -704,7 +704,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
                         jsonObject.put("res100_right_arm", list100k.get(0));
                         jsonObject.put("res100_right_leg", list100k.get(3));
                         jsonObject.put("res100_trunk", list100k.get(2));
-                        String hmac = EncryptUtils.encrypt(jsonObject.toString());
+                        String hmac = NewUtils.jiam(jsonObject.toString());
 
                         if (null == currentQNScaleData) {
                             ToastMaker.show(this, getResources().getString(R.string.set_body_fat_change_hint));
