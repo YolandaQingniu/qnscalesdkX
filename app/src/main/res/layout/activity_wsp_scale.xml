@@ -74,6 +74,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <Button
+            android:visibility="gone"
             android:id="@+id/otaBtn"
             android:text="start ota"
             android:layout_marginStart="10dp"
@@ -81,6 +82,7 @@
             android:layout_height="wrap_content" />
 
         <Button
+            android:visibility="gone"
             android:id="@+id/resetBtn"
             android:text="reset"
             android:layout_marginStart="10dp"
