@@ -10,6 +10,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="vertical"
@@ -92,6 +93,26 @@
                 android:layout_height="wrap_content" />
 
             <TextView
+                android:text="@string/indicator_ctrl"
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
+                android:padding="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <CheckBox
+                android:id="@+id/bodyfatCheckBox"
+                android:layout_width="wrap_content"
+                android:text="@string/is_measure_bodyfat"
+                android:layout_height="wrap_content" />
+
+            <CheckBox
+                android:id="@+id/indicatorCheckBox"
+                android:layout_width="wrap_content"
+                android:text="@string/is_show_indicator"
+                android:layout_height="wrap_content" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:padding="10dp"
                 android:text="@string/distribution_network_information"
@@ -142,6 +163,7 @@
                         android:text="@string/server_url"
                         android:layout_height="wrap_content" />
                     <EditText
+                        android:text="http://wsp-lite.yolanda.hk/yolanda/wsp?code="
                         android:id="@+id/serverUrlEd"
                         android:imeOptions="actionNext"
                         android:layout_width="match_parent"
@@ -157,6 +179,7 @@
                         android:layout_height="wrap_content" />
                     <EditText
                         android:id="@+id/OTAUrlEd"
+                        android:hint="不输入就采取默认"
                         android:imeOptions="actionNext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
@@ -171,6 +194,7 @@
                         android:layout_height="wrap_content" />
                     <EditText
                         android:id="@+id/secretKeyEd"
+                        android:hint="不输入就采取默认"
                         android:layout_width="match_parent"
                         android:imeOptions="actionDone"
                         android:layout_height="wrap_content" />
@@ -237,7 +261,6 @@
                 android:orientation="horizontal"
                 android:layout_height="wrap_content">
                 <CheckBox
-                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:id="@+id/readSnCheck"
                     android:text="@string/read_sn"
@@ -257,6 +280,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
+
     </ScrollView>
 
 

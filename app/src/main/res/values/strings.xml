@@ -209,6 +209,9 @@
     <string name="current_device_connected">The device is already connected, please do not repeat the connection</string>
     <string name="clear_data">Clear data</string>
     <string name="delay_screen_off">Delay screen time</string>
+    <string name="indicator_ctrl">Indicator Ctrl</string>
+    <string name="is_measure_bodyfat">Whether to close bodyFat (scale support is required)</string>
+    <string name="is_show_indicator">Whether to close indicator (scale support is required)</string>
     <string name="measure_fail">measure failed</string>
     <string name="hmac_test_explain">This layout only show when you get eight electrodes measure data or eight electrodes store data</string>
     <string name="segmental_resistance_20k">20k Segmental resistance</string>

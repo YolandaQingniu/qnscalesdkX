@@ -1,6 +1,9 @@
+
+
 package com.qingniu.qnble.demo.view;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,23 +14,28 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.qingniu.qnble.demo.R;
 import com.qingniu.qnble.demo.adapter.ListAdapter;
 import com.qingniu.qnble.demo.util.DateUtils;
+import com.qingniu.qnble.demo.util.ToastMaker;
 import com.qingniu.qnble.demo.util.UserConst;
 import com.qingniu.qnble.utils.QNLogUtils;
 import com.qingniu.scale.constant.DecoderConst;
+import com.qingniu.scale.model.BleScale;
 import com.qn.device.constant.QNIndicator;
 import com.qn.device.constant.QNInfoConst;
 import com.qn.device.constant.QNScaleStatus;
 import com.qn.device.listener.QNBleConnectionChangeListener;
+import com.qn.device.listener.QNBleOTAListener;
 import com.qn.device.listener.QNLogListener;
 import com.qn.device.listener.QNResultCallback;
 import com.qn.device.listener.QNUserScaleDataListener;
 import com.qn.device.out.QNBleApi;
 import com.qn.device.out.QNBleDevice;
+import com.qn.device.out.QNBleOTAConfig;
 import com.qn.device.out.QNScaleData;
 import com.qn.device.out.QNScaleItemData;
 import com.qn.device.out.QNScaleStoreData;
@@ -38,6 +46,11 @@ import com.qn.device.out.QNUserScaleConfig;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -50,11 +63,13 @@ import butterknife.OnClick;
  * wsp 双模秤连接界面
  */
 
-public class UserScaleActivity extends AppCompatActivity implements View.OnClickListener {
+public class UserScaleActivity extends AppCompatActivity implements View.OnClickListener, QNBleOTAListener {
 
+    private static final String TAG = "WspScaleActivity";
 
     @BindView(R.id.snTextView)
     TextView snTextView;
+    private int bleStatus;
 
     public static Intent getCallIntent(Context context, QNBleDevice device, QNUserScaleConfig qnUserScaleConfig) {
         return new Intent(context, UserScaleActivity.class)
@@ -64,6 +79,10 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
 
     @BindView(R.id.connectBtn)
     Button mConnectBtn;
+    @BindView(R.id.otaBtn)
+    Button otaBtn;
+    @BindView(R.id.resetBtn)
+    Button resetBtn;
     @BindView(R.id.registerUserIndex)
     TextView registerUserIndex;
     @BindView(R.id.statusTv)
@@ -297,6 +316,12 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
             public void onScaleEventChange(QNBleDevice device, int scaleEvent) {
                 Log.d("WspScaleActivity", "秤的事件是:" + scaleEvent);
             }
+
+            @Override
+            public void wspReadSnComplete(QNBleDevice device, String sn) {
+                Log.d("WspScaleActivity", "获取的SN：" + sn);
+                snTextView.setText("SN:" + sn);
+            }
         });
     }
 
@@ -315,6 +340,8 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
 
     private void initView() {
         mConnectBtn.setOnClickListener(this);
+        resetBtn.setOnClickListener(this);
+        otaBtn.setOnClickListener(this);
         mBackTv.setOnClickListener(this);
         listAdapter = new ListAdapter(mDatas, mQNBleApi, mQnUserScaleConfig.getCurUser());
         mListView.setAdapter(listAdapter);
@@ -338,6 +365,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void setBleStatus(int bleStatus) {
+        this.bleStatus = bleStatus;
         String stateString;
         String btnString;
         switch (bleStatus) {
@@ -420,6 +448,60 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.resetBtn:
+                if (bleStatus != QNScaleStatus.STATE_DISCONNECTED) {
+                    mQNBleApi.restoreFactorySettingsCallback(new QNResultCallback() {
+                        @Override
+                        public void onResult(int code, String msg) {
+
+                        }
+                    });
+                } else {
+                    Log.d("WspScaleActivity", "请连接秤");
+                    ToastMaker.show(this, "请连接秤");
+                }
+                break;
+            case R.id.otaBtn:
+
+                    File filesDir = getExternalFilesDir(null);
+                    if (filesDir != null) {
+                        File[] files = filesDir.listFiles();
+                        String[] strings = new String[files.length];
+
+                        for (int i = 0; i < files.length; i++) {
+                            strings[i] = files[i].getName();
+                        }
+
+                        new AlertDialog.Builder(this)
+                                .setNegativeButton("取消", null)
+                                .setItems(strings, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        File file = files[which];
+                                        BleScale bleScale = new BleScale();
+                                        bleScale.setMac(mBleDevice.getMac());
+//                                        OTAServiceManager.getInstance(WspScaleActivity.this).startConnect(WspScaleActivity.this, bleScale, path);
+
+                                        QNBleOTAConfig otaConfig = new QNBleOTAConfig();
+                                        otaConfig.setOTAData(file2buf(file));
+                                        otaConfig.setOTAVer(which + 1);
+
+                                        mQnUserScaleConfig.setOtaConfig(otaConfig);
+                                        mQNBleApi.setQNBleOTAListener(UserScaleActivity.this);
+                                        mQNBleApi.connectUserScaleDevice(mBleDevice, mQnUserScaleConfig, new QNResultCallback() {
+                                            @Override
+                                            public void onResult(int code, String msg) {
+                                                QNLogUtils.log("WspScaleActivity", "wifi 配置code:" + code + ",msg:" + msg);
+                                            }
+                                        });
+
+                                    }
+                                })
+                                .create()
+                                .show();
+                    }
+
+                break;
             case R.id.connectBtn:
                 if (mIsConnected) {
                     //已经连接,断开连接
@@ -438,6 +520,30 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
+    public static byte[] file2buf(File file) {
+        byte[] buffer = null;
+        try {
+            if (!file.exists()) {
+                return null;
+            }
+
+            FileInputStream fis = new FileInputStream(file);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            byte[] b = new byte[1024];
+            int len = -1;
+            while ((len = fis.read(b)) != -1) {
+                bos.write(b, 0, len);
+            }
+            fis.close();
+            bos.close();
+            buffer = bos.toByteArray();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return buffer;
+    }
 
     private void doDisconnect() {
         mQNBleApi.disconnectDevice(mBleDevice, new QNResultCallback() {
@@ -469,4 +575,28 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
     }
 
 
+    @Override
+    public void onOTAStart(QNBleDevice device) {
+        Log.d("WspScaleActivity", "onOTAStart:" + device.getMac());
+    }
+
+    @Override
+    public void onOTAUpgrading(QNBleDevice device) {
+        Log.d("WspScaleActivity", "onOTAUpgrading:" + device.getMac());
+    }
+
+    @Override
+    public void onOTACompleted(QNBleDevice device) {
+        Log.d("WspScaleActivity", "onOTACompleted:" + device.getMac());
+    }
+
+    @Override
+    public void onOTAFailed(QNBleDevice device, int errorCode) {
+        Log.d("WspScaleActivity", "onOTAFailed:" + device.getMac());
+    }
+
+    @Override
+    public void onOTAProgress(QNBleDevice device, int progress) {
+        Log.d("WspScaleActivity", "onOTAProgress:" + progress);
+    }
 }

@@ -81,6 +81,10 @@ public class UserScaleConfigActivity extends AppCompatActivity {
     CheckBox passUserListCheck;
     @BindView(R.id.userListEt)
     EditText userListEdit;
+    @BindView(R.id.bodyfatCheckBox)
+    CheckBox bodyfatCheckBox;
+    @BindView(R.id.indicatorCheckBox)
+    CheckBox indicatorCheckBox;
 
     private User mUser;
 
@@ -336,7 +340,7 @@ public class UserScaleConfigActivity extends AppCompatActivity {
                                     index, 1000, new QNResultCallback() {
                                         @Override
                                         public void onResult(int i, String s) {
-                                            
+
                                         }
                                     });
                             qnUsers.add(qnUser);
@@ -357,12 +361,17 @@ public class UserScaleConfigActivity extends AppCompatActivity {
 //            qnUserScaleConfig.setLongitude(longitudeString);
 //        }
 
-//        qnUserScaleConfig.setReadSN(readSnCheck.isChecked());
+        qnUserScaleConfig.setReadSN(readSnCheck.isChecked());
 
         qnUserScaleConfig.setDelayScreenOff(delayScreenOff.isChecked());
 
         //默认采用访客模式
         qnUserScaleConfig.setVisitor(visitorCheckBox.isChecked());
+        qnUserScaleConfig.getCurUser().setMeasureFat(bodyfatCheckBox.isChecked());
+        qnUserScaleConfig.getCurUser().setIndicateDis(indicatorCheckBox.isChecked());
+
+        //访客模式连接WSP秤
+//        qnWspConfig.setVisitor(true);
         startActivity(UserScaleActivity.getCallIntent(this, qnDevice, qnUserScaleConfig));
     }
 
