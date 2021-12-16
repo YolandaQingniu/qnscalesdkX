@@ -1,13 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
 
     package="com.qingniu.health.qnscalesdk">
 
-    <!--蓝牙权限-->
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <!--6.0及之后需要动态申请-->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <!--用来存储日志-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -16,37 +11,38 @@
     <!--新sdk需要网络权限-->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
+    <!-- Request legacy Bluetooth permissions on older devices. -->
+    <uses-permission android:name="android.permission.BLUETOOTH"
+        android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"
+        android:maxSdkVersion="30" />
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"
+        android:maxSdkVersion="30"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"
+        android:maxSdkVersion="30"/>
+
+    <!-- Needed only if your app looks for Bluetooth devices.
+         You must add an attribute to this permission, or declare the
+         ACCESS_FINE_LOCATION permission, depending on the results when you
+         check location usage in your app. -->
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN"
+        android:usesPermissionFlags="neverForLocation"
+        tools:targetApi="s" />
+
+    <!-- Needed only if your app makes the device discoverable to Bluetooth
+         devices. -->
+    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
+
+    <!-- Needed only if your app communicates with already-paired Bluetooth
+         devices. -->
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+
 
     <application
         android:allowBackup="true"
         android:label="@string/app_name"
         android:supportsRtl="true">
-
-        <!--ble扫描服务-->
-        <service
-            android:name="com.qingniu.qnble.scanner.BleScanService"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
-        <!--ble连接服务-->
-        <service
-            android:name="com.qingniu.scale.measure.ble.ScaleBleService"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
-        <!--broadcast连接服务-->
-        <service
-            android:name="com.qingniu.scale.measure.broadcast.ScaleBroadcastService"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
-
-        <service
-            android:name="com.qingniu.scale.wsp.ble.ScaleWspBleService"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
-        <service
-            android:name="com.qingniu.scale.measure.broadcast.ScaleFoodBroadcastService"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
-        <service
-            android:name="com.qingniu.scale.other.lefu.ble.ScaleLefuBleService"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
-        <service
-            android:name="com.qingniu.heightscale.ble.HeightScaleBleService"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
 
 </manifest>
