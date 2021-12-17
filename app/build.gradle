@@ -9,7 +9,7 @@ android {
         targetSdkVersion TARGET_SDK_VERSION as int
         applicationId "com.qingniu.health.scaleX.demo"
         versionCode 1
-        versionName "2.6.2"
+        versionName "2.6.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
@@ -52,9 +52,21 @@ android {
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
+            if (isSupportAndroidS()){
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+            }
+            else {
+                manifest.srcFile 'src/main/oldplatform/AndroidManifest.xml'
+            }
         }
     }
 
+}
+
+//是否支持Andorid 12，根据此方法返回值决定读取哪个Manifest
+def isSupportAndroidS(){
+    def tsv = TARGET_SDK_VERSION as int
+    return tsv > 30
 }
 
 dependencies {
@@ -70,7 +82,7 @@ dependencies {
     implementation 'com.jakewharton:butterknife:10.2.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
 //    compile ("com.github.YolandaQingniu:QNScaleSDK:master-SNAPSHOT")
-//    compile("com.github.YolandaQingniu:qnscalesdkX:2.6.2")
+//    compile("com.github.YolandaQingniu:qnscalesdkX:2.6.3")
     compile project(":qnscalesdkX")
 
 //    implementation project(':QNBle')
