@@ -14,14 +14,12 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import androidx.annotation.IdRes;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.qingniu.qnble.demo.R;
 import com.qingniu.qnble.demo.bean.User;
 import com.qingniu.qnble.demo.util.ToastMaker;
 import com.qingniu.qnble.demo.util.UserConst;
-import com.qn.device.constant.QNInfoConst;
 import com.qn.device.constant.UserGoal;
 import com.qn.device.constant.UserShape;
 import com.qn.device.listener.QNResultCallback;
@@ -30,6 +28,7 @@ import com.qn.device.out.QNBleDevice;
 import com.qn.device.out.QNUser;
 import com.qn.device.out.QNWiFiConfig;
 import com.qn.device.out.QNUserScaleConfig;
+import com.qn.device.out.QNWspConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,7 +90,7 @@ public class UserScaleConfigActivity extends AppCompatActivity {
     private User mUser;
 
     private QNBleDevice qnDevice;
-    private QNUserScaleConfig qnUserScaleConfig;
+    private QNWspConfig qnWspConfig;
     private QNBleApi mQNBleApi;
 
 
@@ -112,20 +111,20 @@ public class UserScaleConfigActivity extends AppCompatActivity {
 
     private void initData() {
         mQNBleApi = QNBleApi.getInstance(this);
-        qnUserScaleConfig = new QNUserScaleConfig();
+        qnWspConfig = new QNWspConfig();
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 switch (checkedId) {
                     case R.id.RegisterRb:
-                        qnUserScaleConfig.setRegist(true);
-                        qnUserScaleConfig.setChange(false);
+                        qnWspConfig.setRegist(true);
+                        qnWspConfig.setChange(false);
                         userIndexEt.setVisibility(View.GONE);
                         userSecretEt.setVisibility(View.VISIBLE);
                         break;
                     case R.id.changeUserInfoRb:
-                        qnUserScaleConfig.setChange(true);
-                        qnUserScaleConfig.setRegist(false);
+                        qnWspConfig.setChange(true);
+                        qnWspConfig.setRegist(false);
                         userIndexEt.setVisibility(View.VISIBLE);
                         userSecretEt.setVisibility(View.VISIBLE);
                         break;
@@ -135,7 +134,7 @@ public class UserScaleConfigActivity extends AppCompatActivity {
         visitorCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                qnUserScaleConfig.setVisitor(isChecked);
+                qnWspConfig.setVisitor(isChecked);
             }
         });
     }
@@ -281,7 +280,7 @@ public class UserScaleConfigActivity extends AppCompatActivity {
                     }
 
                 }
-                qnUserScaleConfig.setDeleteUsers(deletList);
+                qnWspConfig.setDeleteUsers(deletList);
             }
 
         }
@@ -306,19 +305,19 @@ public class UserScaleConfigActivity extends AppCompatActivity {
             qnWiFiConfig.setSsid(ssidEdit.getText().toString());
             qnWiFiConfig.setPwd(wifiPwdEd.getText().toString());
             qnWiFiConfig.setServeUrl(serverUrlEd.getText().toString());
-            qnUserScaleConfig.setWifiConfig(qnWiFiConfig);
+            qnWspConfig.setWifiConfig(qnWiFiConfig);
 
             if (!TextUtils.isEmpty(otaUrl)) {
-                qnUserScaleConfig.setOtaUrl(otaUrl);
+                qnWspConfig.setOtaUrl(otaUrl);
             }
             if (!TextUtils.isEmpty(encryption)) {
-                qnUserScaleConfig.setEncryption(encryption);
+                qnWspConfig.setEncryption(encryption);
             }
         }
         if (setUserFlag.isChecked()) {
-            qnUserScaleConfig.setCurUser(null);
+            qnWspConfig.setCurUser(null);
         } else {
-            qnUserScaleConfig.setCurUser(createQNUser());
+            qnWspConfig.setCurUser(createQNUser());
         }
 
         if (passUserListCheck.isChecked()){
@@ -349,7 +348,7 @@ public class UserScaleConfigActivity extends AppCompatActivity {
                         }
                     }
                 }
-                qnUserScaleConfig.setUserlist(qnUsers);
+                //qnWspConfig.setUserlist(qnUsers);
             }
             catch (Exception e){
                 ToastMaker.show(this, "Please input follow format!");
@@ -363,17 +362,18 @@ public class UserScaleConfigActivity extends AppCompatActivity {
 //            qnUserScaleConfig.setLongitude(longitudeString);
 //        }
 
-        qnUserScaleConfig.setReadSN(readSnCheck.isChecked());
+        qnWspConfig.setReadSN(readSnCheck.isChecked());
 
-        qnUserScaleConfig.setDelayScreenOff(delayScreenOff.isChecked());
+        qnWspConfig.setDelayScreenOff(delayScreenOff.isChecked());
 
         //默认采用访客模式
-        qnUserScaleConfig.setVisitor(visitorCheckBox.isChecked());
-        qnUserScaleConfig.getCurUser().setMeasureFat(bodyfatCheckBox.isChecked());
-        qnUserScaleConfig.getCurUser().setIndicateDis(indicatorCheckBox.isChecked());
+        qnWspConfig.setVisitor(visitorCheckBox.isChecked());
+        qnWspConfig.getCurUser().setMeasureFat(bodyfatCheckBox.isChecked());
+        qnWspConfig.getCurUser().setIndicateDis(indicatorCheckBox.isChecked());
+        qnWspConfig.setHideWeight(weightCheckBox.isChecked());
         //访客模式连接WSP秤
 //        qnWspConfig.setVisitor(true);
-        startActivity(UserScaleActivity.getCallIntent(this, qnDevice, qnUserScaleConfig));
+        startActivity(UserScaleActivity.getCallIntent(this, qnDevice, qnWspConfig));
     }
 
     private boolean checkFormatter(String content) {

@@ -41,7 +41,7 @@ import com.qn.device.out.QNScaleItemData;
 import com.qn.device.out.QNScaleStoreData;
 import com.qn.device.out.QNUser;
 import com.qn.device.out.QNWiFiConfig;
-import com.qn.device.out.QNUserScaleConfig;
+import com.qn.device.out.QNWspConfig;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,10 +71,10 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
     TextView snTextView;
     private int bleStatus;
 
-    public static Intent getCallIntent(Context context, QNBleDevice device, QNUserScaleConfig qnUserScaleConfig) {
+    public static Intent getCallIntent(Context context, QNBleDevice device, QNWspConfig qnWspConfig) {
         return new Intent(context, UserScaleActivity.class)
                 .putExtra(UserConst.DEVICE, device)
-                .putExtra(UserConst.WSPCONFIG, qnUserScaleConfig);
+                .putExtra(UserConst.WSPCONFIG, qnWspConfig);
     }
 
     @BindView(R.id.connectBtn)
@@ -101,7 +101,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
     private List<QNScaleItemData> mDatas = new ArrayList<>();
     private QNBleApi mQNBleApi;
 
-    private QNUserScaleConfig mQnUserScaleConfig;
+    private QNWspConfig mQnWspConfig;
 
     private boolean mIsConnected;
 
@@ -173,17 +173,17 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
 
     private void connectQnWspDevice(QNBleDevice device) {
 
-        QNWiFiConfig wifiConfig = mQnUserScaleConfig.getWifiConfig();
+        QNWiFiConfig wifiConfig = mQnWspConfig.getWifiConfig();
         if (wifiConfig != null && wifiConfig.checkSSIDVail()) {
-            mQNBleApi.connectDeviceSetWiFi(device, mQnUserScaleConfig.getCurUser(), wifiConfig, new QNResultCallback() {
+            mQNBleApi.connectDeviceSetWiFi(device, mQnWspConfig.getCurUser(), wifiConfig, new QNResultCallback() {
                 @Override
                 public void onResult(int code, String msg) {
                     QNLogUtils.log("WspScaleActivity", "wifi 配置code:" + code + ",msg:" + msg);
                 }
             });
         } else {
-            if (mQnUserScaleConfig.isVisitor()){
-                mQNBleApi.connectDevice(device, mQnUserScaleConfig.getCurUser(), new QNResultCallback() {
+            if (mQnWspConfig.isVisitor()){
+                mQNBleApi.connectDevice(device, mQnWspConfig.getCurUser(), new QNResultCallback() {
                     @Override
                     public void onResult(int code, String msg) {
                         QNLogUtils.log("WspScaleActivity", "游客模式连接 wifi 配置code:" + code + ",msg:" + msg);
@@ -191,7 +191,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                 });
             }
             else {
-                mQNBleApi.connectUserScaleDevice(device, mQnUserScaleConfig, new QNResultCallback() {
+                mQNBleApi.connectWspDevice(device, mQnWspConfig, new QNResultCallback() {
                     @Override
                     public void onResult(int code, String msg) {
                         QNLogUtils.log("WspScaleActivity", "用户模式连接 wifi 配置code:" + code + ",msg:" + msg);
@@ -288,7 +288,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                     for (int i = 0; i < storedDataList.size(); i++) {
                         Log.d("WspScaleActivity", "收到存储数据:" + storedDataList.get(i).getWeight());
                     }
-                    data.setUser(mQnUserScaleConfig.getCurUser());
+                    data.setUser(mQnWspConfig.getCurUser());
                     QNScaleData qnScaleData = data.generateScaleData();
                     onReceiveScaleData(qnScaleData);
 
@@ -323,7 +323,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
         Intent intent = getIntent();
         if (intent != null) {
             mBleDevice = intent.getParcelableExtra(UserConst.DEVICE);
-            mQnUserScaleConfig = intent.getParcelableExtra(UserConst.WSPCONFIG);
+            mQnWspConfig = intent.getParcelableExtra(UserConst.WSPCONFIG);
         }
     }
 
@@ -337,7 +337,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
         resetBtn.setOnClickListener(this);
         otaBtn.setOnClickListener(this);
         mBackTv.setOnClickListener(this);
-        listAdapter = new ListAdapter(mDatas, mQNBleApi, mQnUserScaleConfig.getCurUser());
+        listAdapter = new ListAdapter(mDatas, mQNBleApi, mQnWspConfig.getCurUser());
         mListView.setAdapter(listAdapter);
         listAdapter.notifyDataSetChanged();
     }
@@ -480,9 +480,9 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                                         otaConfig.setOTAData(file2buf(file));
                                         otaConfig.setOTAVer(which + 1);
 
-                                        mQnUserScaleConfig.setOtaConfig(otaConfig);
+                                        mQnWspConfig.setOtaConfig(otaConfig);
                                         mQNBleApi.setQNBleOTAListener(UserScaleActivity.this);
-                                        mQNBleApi.connectUserScaleDevice(mBleDevice, mQnUserScaleConfig, new QNResultCallback() {
+                                        mQNBleApi.connectWspDevice(mBleDevice, mQnWspConfig, new QNResultCallback() {
                                             @Override
                                             public void onResult(int code, String msg) {
                                                 QNLogUtils.log("WspScaleActivity", "wifi 配置code:" + code + ",msg:" + msg);
@@ -559,7 +559,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                /* hmac="3F828A0207EB762F0D12E1ED5345AF7D6907304A74A45990B254256AC08DAA76EEA778E4B50ACE92D47DA72DD7257F82734C33A56721D797FD932B3741E5C730F2901F7EFAA1755DD0683BABD0959BB1E82201C3B50B3E8A5360A3D57550CF446DC834B8FA2F0D16DA4C0797CC1C308E4253413D4AB90DC4093F8065199ABE8AB0C9D06E3172E511C54C7E5095BB92C753070DC0CEB5D64785C4577952B50465"
         // 解密后{"weight":25.35,"measure_time":"2019-05-06 14:02:51","mac":"F0:FE:6B:CB:75:6A","heart_rate":93,"resistance_50":1601,"resistance_500":65474,"model_id":"0005"}*/
                 String hmac = "3F828A0207EB762F0D12E1ED5345AF7D6907304A74A45990B254256AC08DAA76EEA778E4B50ACE92D47DA72DD7257F82734C33A56721D797FD932B3741E5C730F2901F7EFAA1755DD0683BABD0959BB1E82201C3B50B3E8A5360A3D57550CF446DC834B8FA2F0D16DA4C0797CC1C308E4253413D4AB90DC4093F8065199ABE8AB0C9D06E3172E511C54C7E5095BB92C753070DC0CEB5D64785C4577952B50465";
-                QNScaleData scaleData = mQNBleApi.generateScaleData(mQnUserScaleConfig.getCurUser(), "0005",
+                QNScaleData scaleData = mQNBleApi.generateScaleData(mQnWspConfig.getCurUser(), "0005",
                         25.35, 1601, 65474, 93, hmac, new Date(1557122571000L));
                 if (null != scaleData) {
                     onReceiveScaleData(scaleData);
