@@ -85,6 +85,8 @@ public class UserScaleConfigActivity extends AppCompatActivity {
     CheckBox bodyfatCheckBox;
     @BindView(R.id.indicatorCheckBox)
     CheckBox indicatorCheckBox;
+    @BindView(R.id.weightCheckBox)
+    CheckBox weightCheckBox;
 
     private User mUser;
 
@@ -369,7 +371,6 @@ public class UserScaleConfigActivity extends AppCompatActivity {
         qnUserScaleConfig.setVisitor(visitorCheckBox.isChecked());
         qnUserScaleConfig.getCurUser().setMeasureFat(bodyfatCheckBox.isChecked());
         qnUserScaleConfig.getCurUser().setIndicateDis(indicatorCheckBox.isChecked());
-
         //访客模式连接WSP秤
 //        qnWspConfig.setVisitor(true);
         startActivity(UserScaleActivity.getCallIntent(this, qnDevice, qnUserScaleConfig));

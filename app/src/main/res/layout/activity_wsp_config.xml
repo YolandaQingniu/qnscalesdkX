@@ -115,6 +115,14 @@
                 android:text="@string/is_show_indicator"
                 android:layout_height="wrap_content" />
 
+
+            <CheckBox
+                android:visibility="gone"
+                android:id="@+id/weightCheckBox"
+                android:layout_width="wrap_content"
+                android:text="@string/is_show_weight"
+                android:layout_height="wrap_content" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:padding="10dp"
