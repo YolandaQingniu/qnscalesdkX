@@ -33,6 +33,7 @@ import com.qn.device.listener.QNBleOTAListener;
 import com.qn.device.listener.QNLogListener;
 import com.qn.device.listener.QNResultCallback;
 import com.qn.device.listener.QNUserScaleDataListener;
+import com.qn.device.listener.QNWspScaleDataListener;
 import com.qn.device.out.QNBleApi;
 import com.qn.device.out.QNBleDevice;
 import com.qn.device.out.QNBleOTAConfig;
@@ -183,7 +184,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
             });
         } else {
             if (mQnWspConfig.isVisitor()){
-                mQNBleApi.connectDevice(device, mQnWspConfig.getCurUser(), new QNResultCallback() {
+                mQNBleApi.connectWspDevice(device, mQnWspConfig, new QNResultCallback() {
                     @Override
                     public void onResult(int code, String msg) {
                         QNLogUtils.log("WspScaleActivity", "游客模式连接 wifi 配置code:" + code + ",msg:" + msg);
@@ -204,9 +205,9 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
 
 
     private void initUserData() {
-        mQNBleApi.setDataListener(new QNUserScaleDataListener() {
+        mQNBleApi.setDataListener(new QNWspScaleDataListener() {
             @Override
-            public void registerUserComplete(QNBleDevice device, QNUser user) {
+            public void wspRegisterUserComplete(QNBleDevice device, QNUser user) {
                 Log.d("WspScaleActivity", "注册返回的用户索引：" + user.getIndex());
                 registerUserIndex.setText(getResources().getString(R.string.register_user_index) + user.getIndex());
             }
@@ -315,6 +316,22 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onScaleEventChange(QNBleDevice device, int scaleEvent) {
                 Log.d("WspScaleActivity", "秤的事件是:" + scaleEvent);
+            }
+
+            @Override
+            public void wspReadSnComplete(QNBleDevice qnBleDevice, String sn) {
+                Log.d("WspScaleActivity", "获取的SN：" + sn);
+                snTextView.setText("SN:" + sn);
+            }
+
+            @Override
+            public void wspRestoreFactorySettings(QNBleDevice qnBleDevice, boolean isSuccess) {
+                Log.d("WspScaleActivity", "reset事件秤的回复: " +qnBleDevice.getMac() +" " + isSuccess);
+            }
+
+            @Override
+            public void wspLocationSyncStatus(QNBleDevice qnBleDevice, boolean b) {
+
             }
         });
     }
@@ -447,7 +464,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                     mQNBleApi.restoreFactorySettingsCallback(new QNResultCallback() {
                         @Override
                         public void onResult(int code, String msg) {
-
+                            QNLogUtils.log("WspScaleActivity", "reset方法设置" + code + ",msg:" + msg);
                         }
                     });
                 } else {
