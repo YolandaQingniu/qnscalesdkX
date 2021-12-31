@@ -86,6 +86,8 @@ public class UserScaleConfigActivity extends AppCompatActivity {
     CheckBox indicatorCheckBox;
     @BindView(R.id.weightCheckBox)
     CheckBox weightCheckBox;
+    @BindView(R.id.heartRateCheckBox)
+    CheckBox heartRateCheckBox;
 
     private User mUser;
 
@@ -371,6 +373,7 @@ public class UserScaleConfigActivity extends AppCompatActivity {
         qnWspConfig.getCurUser().setMeasureFat(bodyfatCheckBox.isChecked());
         qnWspConfig.getCurUser().setIndicateDis(indicatorCheckBox.isChecked());
         qnWspConfig.setHideWeight(weightCheckBox.isChecked());
+        qnWspConfig.setCloseHeartRate(heartRateCheckBox.isChecked());
         //访客模式连接WSP秤
 //        qnWspConfig.setVisitor(true);
         startActivity(UserScaleActivity.getCallIntent(this, qnDevice, qnWspConfig));

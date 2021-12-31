@@ -125,6 +125,13 @@
                 android:text="@string/is_show_weight"
                 android:layout_height="wrap_content" />
 
+            <CheckBox
+                android:visibility="visible"
+                android:id="@+id/heartRateCheckBox"
+                android:layout_width="wrap_content"
+                android:text="@string/is_close_heartRate"
+                android:layout_height="wrap_content" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:padding="10dp"
