@@ -35,6 +35,8 @@ public class ManageClassifyActivity extends AppCompatActivity implements View.On
         mSdkManage = (TextView) findViewById(R.id.sdk_manage);
         mSelfManage = (TextView) findViewById(R.id.self_manage);
 
+        getExternalFilesDir(null);
+
         initData();
     }
 
