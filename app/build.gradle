@@ -82,7 +82,7 @@ dependencies {
     implementation 'com.jakewharton:butterknife:10.2.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
 //    compile("com.github.YolandaQingniu:qnscalesdkX:2.6.8-early-platform")
-//    compile("com.github.YolandaQingniu:qnscalesdkX:2.6.8-location-test")
+//    compile("com.github.YolandaQingniu:qnscalesdkX:2.6.8-location-thi")
     compile project(":qnscalesdkX")
 
 //    implementation project(':QNBle')
