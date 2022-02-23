@@ -214,6 +214,10 @@ public class NativeBleHelper {
                 setBleStatus(QNScaleStatus.STATE_DISCONNECTED);
             }
 
+            @Override
+            public void onStartInteracting(QNBleDevice device) {
+
+            }
         });
     }
 

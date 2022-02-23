@@ -149,6 +149,10 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
                 setBleStatus(QNScaleStatus.STATE_DISCONNECTED);
             }
 
+            @Override
+            public void onStartInteracting(QNBleDevice device) {
+
+            }
         });
     }
 

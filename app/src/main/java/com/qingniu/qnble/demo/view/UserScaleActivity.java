@@ -169,6 +169,10 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                 setBleStatus(QNScaleStatus.STATE_DISCONNECTED);
             }
 
+            @Override
+            public void onStartInteracting(QNBleDevice device) {
+                Log.d("WspScaleActivity", "onStartInteracting");
+            }
         });
     }
 
