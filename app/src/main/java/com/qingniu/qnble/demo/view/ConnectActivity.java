@@ -202,6 +202,10 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
                 setBleStatus(QNScaleStatus.STATE_DISCONNECTED);
             }
 
+            @Override
+            public void onStartInteracting(QNBleDevice device) {
+
+            }
         });
     }
 
