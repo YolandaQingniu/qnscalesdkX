@@ -30,7 +30,6 @@ public class AndroidPermissionCenter {
             "android.permission.READ_EXTERNAL_STORAGE",
             "android.permission.WRITE_EXTERNAL_STORAGE",
             "android.permission.BLUETOOTH_SCAN",
-            "android.permission.BLUETOOTH_ADVERTISE",
             "android.permission.BLUETOOTH_CONNECT"
     };
 
