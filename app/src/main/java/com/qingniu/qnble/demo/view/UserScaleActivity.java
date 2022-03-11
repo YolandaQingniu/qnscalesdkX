@@ -321,6 +321,11 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
             public void onScaleEventChange(QNBleDevice device, int scaleEvent) {
                 Log.d("WspScaleActivity", "秤的事件是:" + scaleEvent);
             }
+
+            @Override
+            public String getLastDataHmac(QNBleDevice qnBleDevice, QNUser qnUser) {
+                return null;
+            }
         });
     }
 
