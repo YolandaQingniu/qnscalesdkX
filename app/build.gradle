@@ -83,9 +83,9 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
 //    compile("com.github.YolandaQingniu:qnscalesdkX:2.7.4-early-platform")
 //    compile("com.github.YolandaQingniu:qnscalesdkX:2.7.4")
-    compile project(":qnscalesdkX")
+//    compile project(":qnscalesdkX")
 
-//    implementation project(':QNBle')
-//    implementation project(':QNScaleDecoder')
-//    implementation project(':QNBleSdk')
+    implementation project(':QNBle')
+    implementation project(':QNScaleDecoder')
+    implementation project(':QNBleSdk')
 }
