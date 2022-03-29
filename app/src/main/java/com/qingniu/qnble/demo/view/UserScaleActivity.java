@@ -337,6 +337,11 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
             public void wspLocationSyncStatus(QNBleDevice qnBleDevice, boolean b) {
 
             }
+
+            @Override
+            public String wspGetLastDataHmac(QNBleDevice qnBleDevice, QNUser qnUser) {
+                return null;
+            }
         });
     }
 

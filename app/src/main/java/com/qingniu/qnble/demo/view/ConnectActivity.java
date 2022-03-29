@@ -20,7 +20,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kitnew.ble.utils.NewUtils;
 import com.qingniu.qnble.demo.R;
 import com.qingniu.qnble.demo.adapter.ListAdapter;
 import com.qingniu.qnble.demo.bean.User;
@@ -45,6 +44,7 @@ import com.qn.device.out.QNScaleItemData;
 import com.qn.device.out.QNScaleStoreData;
 import com.qn.device.out.QNUser;
 import com.qn.device.out.QNWiFiConfig;
+import com.yl.pack.YLPacker;
 
 import org.json.JSONObject;
 
@@ -382,7 +382,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
      */
     private void initEightDataTv(@NonNull String hmac){
         try {
-            JSONObject jsonObject = new JSONObject(NewUtils.jiem(hmac));
+            JSONObject jsonObject = new JSONObject(YLPacker.unpack(hmac));
             int eightFlag  = jsonObject.optInt("eight_flag");
 
             if (eightFlag == 1){
@@ -708,7 +708,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
                         jsonObject.put("res100_right_arm", list100k.get(0));
                         jsonObject.put("res100_right_leg", list100k.get(3));
                         jsonObject.put("res100_trunk", list100k.get(2));
-                        String hmac = NewUtils.jiam(jsonObject.toString());
+                        String hmac = YLPacker.pack(jsonObject.toString());
 
                         if (null == currentQNScaleData) {
                             ToastMaker.show(this, getResources().getString(R.string.set_body_fat_change_hint));
