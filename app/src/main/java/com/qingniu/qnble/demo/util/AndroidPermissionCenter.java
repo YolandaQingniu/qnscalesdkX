@@ -9,6 +9,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.qingniu.qnble.demo.BaseApplication;
+import com.qingniu.qnble.utils.BleUtils;
 
 /**
  * author: yolanda-XY
@@ -40,7 +41,7 @@ public class AndroidPermissionCenter {
     //API>=23时才需要判断权限，扫描时再判断权限
     public static void verifyPermissions(Activity activity) {
         //判断是否已经赋予权限
-        if (activity.getApplicationInfo().targetSdkVersion > 30 && Build.VERSION.SDK_INT > 30){
+        if (BleUtils.isRunOnAndroid12Mode(activity)){
             //安卓12申请新的权限队列
             if (ContextCompat.checkSelfPermission(activity,
                     "android.permission.BLUETOOTH_SCAN")
