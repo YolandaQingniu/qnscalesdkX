@@ -30,9 +30,17 @@
         android:usesPermissionFlags="neverForLocation"
         tools:targetApi="s" />
 
+    <!-- Needed only if your app makes the device discoverable to Bluetooth
+         devices. -->
+    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE"
+        android:usesPermissionFlags="neverForLocation"
+        tools:targetApi="s" />
+
     <!-- Needed only if your app communicates with already-paired Bluetooth
          devices. -->
-    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"
+        android:usesPermissionFlags="neverForLocation"
+        tools:targetApi="s" />
 
 
     <application
