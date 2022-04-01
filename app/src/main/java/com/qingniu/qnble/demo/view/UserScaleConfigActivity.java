@@ -370,8 +370,10 @@ public class UserScaleConfigActivity extends AppCompatActivity {
 
         //默认采用访客模式
         qnWspConfig.setVisitor(visitorCheckBox.isChecked());
-        qnWspConfig.getCurUser().setMeasureFat(bodyfatCheckBox.isChecked());
-        qnWspConfig.getCurUser().setIndicateDis(indicatorCheckBox.isChecked());
+        //注意这里要取反
+        qnWspConfig.getCurUser().setMeasureFat(!bodyfatCheckBox.isChecked());
+        //注意这里要取反
+        qnWspConfig.getCurUser().setIndicateDis(!indicatorCheckBox.isChecked());
         qnWspConfig.setHideWeight(weightCheckBox.isChecked());
         qnWspConfig.setCloseHeartRate(heartRateCheckBox.isChecked());
         //访客模式连接WSP秤

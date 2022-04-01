@@ -200,6 +200,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                     @Override
                     public void onResult(int code, String msg) {
                         QNLogUtils.log("WspScaleActivity", "用户模式连接 wifi 配置code:" + code + ",msg:" + msg);
+                        QNLogUtils.logAndWrite("WspScaleActivity", "用户模式连接: " + (null == mQnWspConfig.getCurUser() ? "为空" : mQnWspConfig.getCurUser()));
                     }
                 });
             }
