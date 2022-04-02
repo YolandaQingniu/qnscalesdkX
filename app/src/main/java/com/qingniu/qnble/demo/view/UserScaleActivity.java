@@ -177,35 +177,13 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void connectQnWspDevice(QNBleDevice device) {
-
-        QNWiFiConfig wifiConfig = mQnWspConfig.getWifiConfig();
-        if (wifiConfig != null && wifiConfig.checkSSIDVail()) {
-            mQNBleApi.connectDeviceSetWiFi(device, mQnWspConfig.getCurUser(), wifiConfig, new QNResultCallback() {
-                @Override
-                public void onResult(int code, String msg) {
-                    QNLogUtils.log("WspScaleActivity", "wifi 配置code:" + code + ",msg:" + msg);
-                }
-            });
-        } else {
-            if (mQnWspConfig.isVisitor()){
-                mQNBleApi.connectWspDevice(device, mQnWspConfig, new QNResultCallback() {
-                    @Override
-                    public void onResult(int code, String msg) {
-                        QNLogUtils.log("WspScaleActivity", "游客模式连接 wifi 配置code:" + code + ",msg:" + msg);
-                    }
-                });
+        mQNBleApi.connectWspDevice(device, mQnWspConfig, new QNResultCallback() {
+            @Override
+            public void onResult(int code, String msg) {
+                QNLogUtils.log("WspScaleActivity", "用户模式连接 wifi 配置code:" + code + ",msg:" + msg);
+                QNLogUtils.logAndWrite("WspScaleActivity", "用户模式连接: " + (null == mQnWspConfig.getCurUser() ? "为空" : mQnWspConfig.getCurUser()));
             }
-            else {
-                mQNBleApi.connectWspDevice(device, mQnWspConfig, new QNResultCallback() {
-                    @Override
-                    public void onResult(int code, String msg) {
-                        QNLogUtils.log("WspScaleActivity", "用户模式连接 wifi 配置code:" + code + ",msg:" + msg);
-                        QNLogUtils.logAndWrite("WspScaleActivity", "用户模式连接: " + (null == mQnWspConfig.getCurUser() ? "为空" : mQnWspConfig.getCurUser()));
-                    }
-                });
-            }
-        }
-
+        });
     }
 
 
