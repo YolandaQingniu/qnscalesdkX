@@ -5,4 +5,3 @@ include ':qnscalesdkX'
 //project(":QNBle").projectDir = new File(rootProject.projectDir, '../QNBle')
 //project(":QNScaleDecoder").projectDir = new File(rootProject.projectDir, '../QNScaleDecoder')
 //project(":QNBleSdk").projectDir = new File(rootProject.projectDir, '../QNBleSdk')
-//project(":QNWristDecoder").projectDir = new File(rootProject.projectDir, '../QNWristDecoder')

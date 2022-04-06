@@ -29,6 +29,8 @@ public class AndroidPermissionCenter {
     private static String[] ANDROID_S_PERMISSIONS_STORAGE = {
             "android.permission.READ_EXTERNAL_STORAGE",
             "android.permission.WRITE_EXTERNAL_STORAGE",
+            "android.permission.ACCESS_COARSE_LOCATION",
+            "android.permission.ACCESS_FINE_LOCATION",
             "android.permission.BLUETOOTH_SCAN",
             "android.permission.BLUETOOTH_ADVERTISE",
             "android.permission.BLUETOOTH_CONNECT"
