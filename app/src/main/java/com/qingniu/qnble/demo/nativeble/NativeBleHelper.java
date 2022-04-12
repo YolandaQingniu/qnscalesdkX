@@ -325,6 +325,11 @@ public class NativeBleHelper {
                     mQNScaleDataListener.onScaleEventChange(device,scaleEvent);
                 }
             }
+
+            @Override
+            public void readSnComplete(QNBleDevice device, String sn) {
+
+            }
         });
     }
 }

@@ -326,6 +326,11 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
             public String getLastDataHmac(QNBleDevice qnBleDevice, QNUser qnUser) {
                 return null;
             }
+
+            @Override
+            public void readSnComplete(QNBleDevice qnBleDevice, String s) {
+
+            }
         });
     }
 

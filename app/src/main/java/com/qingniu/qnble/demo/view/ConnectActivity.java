@@ -121,6 +121,8 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
     TextView curResistance20kTv;
     @BindView(R.id.cur_resistance_100k_tv)
     TextView curResistance100kTv;
+    @BindView(R.id.snTextView)
+    TextView snTextView;
 
     private QNBleDevice mBleDevice;
     private List<QNScaleItemData> mDatas = new ArrayList<>();
@@ -372,6 +374,11 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onScaleEventChange(QNBleDevice device, int scaleEvent) {
                 Log.d("ConnectActivity", "秤返回的事件是:" + scaleEvent);
+            }
+
+            @Override
+            public void readSnComplete(QNBleDevice device, String sn) {
+                snTextView.setText("SN码: "+sn);
             }
         });
     }

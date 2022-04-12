@@ -283,6 +283,11 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
             public void onScaleEventChange(QNBleDevice device, int scaleEvent) {
                 Log.d("ConnectActivity", "秤返回的事件是:" + scaleEvent);
             }
+
+            @Override
+            public void readSnComplete(QNBleDevice device, String sn) {
+
+            }
         });
     }
 
