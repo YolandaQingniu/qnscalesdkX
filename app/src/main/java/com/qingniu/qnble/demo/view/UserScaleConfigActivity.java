@@ -369,8 +369,6 @@ public class UserScaleConfigActivity extends AppCompatActivity {
 
         //默认采用访客模式
         qnUserScaleConfig.setVisitor(visitorCheckBox.isChecked());
-        qnUserScaleConfig.getCurUser().setMeasureFat(bodyfatCheckBox.isChecked());
-        qnUserScaleConfig.getCurUser().setIndicateDis(indicatorCheckBox.isChecked());
         //访客模式连接WSP秤
 //        qnWspConfig.setVisitor(true);
         startActivity(UserScaleActivity.getCallIntent(this, qnDevice, qnUserScaleConfig));
