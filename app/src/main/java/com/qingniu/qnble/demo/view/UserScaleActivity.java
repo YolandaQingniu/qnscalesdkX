@@ -297,6 +297,8 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                     QNScaleData qnScaleData = data.generateScaleData();
                     onReceiveScaleData(qnScaleData);
 
+
+                    Log.d("WspScaleActivity", "存储数据 加密hmac为:" + data.getHmac());
                 }
             }
 

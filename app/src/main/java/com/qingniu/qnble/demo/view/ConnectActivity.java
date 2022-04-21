@@ -348,6 +348,8 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
                         eightHmacTestLayout.setVisibility(View.GONE);
                     }
 
+                    Log.d("ConnectActivity", "存储数据加密hmac为:" + data.getHmac());
+
                     onReceiveScaleData(qnScaleData);
                     currentQNScaleData = qnScaleData;
                     historyQNScaleData.add(qnScaleData);
