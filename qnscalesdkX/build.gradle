@@ -7,7 +7,7 @@ android {
         minSdkVersion 15//MIN_SDK_VERSION as int
         targetSdkVersion TARGET_SDK_VERSION as int
         versionCode 1
-        versionName "2.7.13"
+        versionName "2.7.14"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -41,7 +41,7 @@ def isSupportAndroidS(){
 }
 
 dependencies {
-    implementation files('libs/qnsdkX-2.7.13.jar')
+    implementation files('libs/qnsdkX-2.7.14.jar')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    compile files('libs/qnsdkX-2.7.13.jar')
+    compile files('libs/qnsdkX-2.7.14.jar')
 }
