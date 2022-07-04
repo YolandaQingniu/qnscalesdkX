@@ -87,4 +87,5 @@ dependencies {
 //    implementation project(':QNBle')
 //    implementation project(':QNScaleDecoder')
 //    implementation project(':QNBleSdk')
+//    implementation project(':QNTapeDecoder')
 }

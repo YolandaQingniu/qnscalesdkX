@@ -1,7 +1,8 @@
 include ':app'
 include ':qnscalesdkX'
 
-//include ':QNBle', ':QNScaleDecoder', ':QNBleSdk'
+//include ':QNBle', ':QNScaleDecoder', ':QNBleSdk',':QNTapeDecoder'
 //project(":QNBle").projectDir = new File(rootProject.projectDir, '../QNBle')
 //project(":QNScaleDecoder").projectDir = new File(rootProject.projectDir, '../QNScaleDecoder')
 //project(":QNBleSdk").projectDir = new File(rootProject.projectDir, '../QNBleSdk')
+//project(":QNTapeDecoder").projectDir = new File(rootProject.projectDir, '../QNTapeDecoder')
