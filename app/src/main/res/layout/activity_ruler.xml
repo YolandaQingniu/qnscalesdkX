@@ -4,6 +4,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <Button
+        android:id="@+id/scanBtn"
+        android:layout_width="wrap_content"
+        android:text="@string/scan"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="30dp"
+        android:layout_gravity="end" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,10 +38,10 @@
         <TextView
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:text="@string/mode" />
+            android:text="@string/length" />
 
         <TextView
-            android:id="@+id/modeIdTv"
+            android:id="@+id/lengthTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -47,61 +55,10 @@
         <TextView
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:text="@string/weight" />
+            android:text="unit" />
 
         <TextView
-            android:id="@+id/weightTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp">
-
-        <TextView
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:text="@string/is_peel" />
-
-        <TextView
-            android:id="@+id/peelTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp">
-
-        <TextView
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:text="@string/is_negative" />
-
-        <TextView
-            android:id="@+id/negativeTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp">
-
-        <TextView
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:text="@string/is_overload" />
-
-        <TextView
-            android:id="@+id/overloadTv"
+            android:id="@+id/unitTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

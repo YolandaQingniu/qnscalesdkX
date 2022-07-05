@@ -123,6 +123,7 @@
     <string name="mode">型号</string>
     <string name="mac">mac地址</string>
     <string name="rssi">强度</string>
+    <string name="length">长度</string>
     <string name="main_hint">根据自己的实际情况选择相应的蓝牙管理方式</string>
     <string name="sdk_api">SDK蓝牙管理</string>
     <string name="sdk_customer_api">自主管理连接</string>
@@ -161,6 +162,7 @@
     <string name="type_shape_none">无体型值</string>
     <string name="no_standard">无标准</string>
     <string name="kitchen_scale">厨房秤</string>
+    <string name="ruler">围度尺</string>
     <string name="fatty_liver_risk_level0">0级:暂⽆肥胖性脂肪肝风险</string>
     <string name="fatty_liver_risk_level1">I级:存在患上脂肪肝的风险</string>
     <string name="fatty_liver_risk_level2">II级:存在轻度脂肪肝的风险</string>

@@ -123,6 +123,7 @@
     <string name="mode">mode</string>
     <string name="mac">mac</string>
     <string name="rssi">rssi</string>
+    <string name="length">length</string>
     <string name="main_hint">Choose the appropriate bluetooth management mode according to your actual situation</string>
     <string name="sdk_api">SDK bluetooth management</string>
     <string name="sdk_customer_api">Bluetooth self-management</string>
@@ -161,6 +162,7 @@
     <string name="type_shape_none">No type</string>
     <string name="no_standard">No standard </string>
     <string name="kitchen_scale">kitchen scale</string>
+    <string name="ruler">ruler</string>
     <string name="fatty_liver_risk_level0">Level 0: no risk of fatty liver disease</string>
     <string name="fatty_liver_risk_level1">Level I: risk of fatty liver disease</string>
     <string name="fatty_liver_risk_level2">Level II: risk of mild fatty liver disease</string>

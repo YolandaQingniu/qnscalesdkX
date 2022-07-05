@@ -86,6 +86,12 @@
             android:text="@string/kitchen_scale"
             android:layout_height="wrap_content" />
     </LinearLayout>
+    <Button
+        android:layout_marginStart="10dp"
+        android:layout_width="wrap_content"
+        android:id="@+id/rulerBtn"
+        android:text="@string/ruler"
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_width="match_parent"

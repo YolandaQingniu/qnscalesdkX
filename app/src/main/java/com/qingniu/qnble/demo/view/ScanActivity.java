@@ -95,6 +95,8 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
     Button qrTestBtn;
     @BindView(R.id.kitchenBtn)
     Button kitchenBtn;
+    @BindView(R.id.rulerBtn)
+    Button rulerBtn;
 
     private QNBleApi mQNBleApi;
     private User mUser;
@@ -357,7 +359,7 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
 
-    @OnClick({R.id.scan_setting, R.id.scanBtn, R.id.stopBtn, R.id.qr_test_btn, R.id.scanQrcode, R.id.kitchenBtn})
+    @OnClick({R.id.scan_setting, R.id.scanBtn, R.id.stopBtn, R.id.qr_test_btn, R.id.scanQrcode, R.id.kitchenBtn, R.id.rulerBtn})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.scanQrcode:
@@ -418,6 +420,9 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
                 break;
             case R.id.kitchenBtn:
                 startActivity(kitchenScaleActivity.getCallIntent(ScanActivity.this));
+                break;
+            case R.id.rulerBtn:
+                startActivity(RulerActivity.getCallIntent(ScanActivity.this));
                 break;
         }
     }

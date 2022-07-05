@@ -109,6 +109,9 @@
 
         <activity android:name=".view.SelfHeightScaleActivity"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".view.RulerActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
