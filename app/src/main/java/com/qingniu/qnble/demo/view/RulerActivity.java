@@ -92,7 +92,7 @@ public class RulerActivity extends AppCompatActivity implements QNBleRulerListen
     @Override
     public void onRulerDeviceDiscover(QNBleRulerDevice device) {
         QNLogUtils.logAndWrite(TAG, "onRulerDeviceDiscover "+device.toString());
-        if (nowConnected) {
+        if (nowConnected && !nowScaning) {
             return;
         }
         nowScaning = false;
@@ -122,7 +122,7 @@ public class RulerActivity extends AppCompatActivity implements QNBleRulerListen
     @Override
     public void onRulerConnected(QNBleRulerDevice device) {
         QNLogUtils.logAndWrite(TAG, "onRulerConnected");
-        nowConnected = false;
+        nowConnected = true;
         scanBtn.setText(R.string.disconnected);
     }
 
@@ -143,15 +143,21 @@ public class RulerActivity extends AppCompatActivity implements QNBleRulerListen
     @Override
     public void onRulerDisconnected(QNBleRulerDevice device) {
         QNLogUtils.logAndWrite(TAG, "onRulerDisconnected");
+        nowConnected = false;
         scanBtn.setText(R.string.scan);
         macTv.setText("");
+        lengthTv.setText("");
+        unitTv.setText("");
     }
 
     @Override
     public void onRulerConnectFail(QNBleRulerDevice device) {
         QNLogUtils.logAndWrite(TAG, "onRulerConnectFail");
+        nowConnected = false;
         scanBtn.setText(R.string.scan);
         macTv.setText("");
+        lengthTv.setText("");
+        unitTv.setText("");
     }
 
     @Override
