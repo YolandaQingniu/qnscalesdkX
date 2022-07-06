@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ScaleSDKXDemo-2.7.16</string>
+    <string name="app_name">ScaleSDKXDemo-2.8.0</string>
     <string name="scan">扫描</string>
     <string name="stop">停止</string>
     <string name="user_id_explain">设置用户的资料,计算体脂率时会需要</string>
