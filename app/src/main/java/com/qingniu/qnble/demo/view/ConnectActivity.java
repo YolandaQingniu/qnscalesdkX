@@ -330,26 +330,25 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
                     currentQNScaleData.setFatThreshold(debugHmac, 0.0, new QNResultCallback() {
                                 @Override
                                 public void onResult(int code, String msg) {
+                                    try {
+                                        JSONObject obj = new JSONObject(YLPacker.unpack(data.getHmac()));
+                                        String[] origins = obj.getString("origin_resistances").split(",");
+
+                                        QNLogUtils.logAndWrite("八电极数据计算", "原始右上20 lastResistanceRH20:" + origins[1]);
+                                        QNLogUtils.logAndWrite("八电极数据计算", "原始左上20 lastResistanceLH20:" + origins[0]);
+                                        QNLogUtils.logAndWrite("八电极数据计算", "原始躯干20 lastResistanceT20:" + origins[4]);
+                                        QNLogUtils.logAndWrite("八电极数据计算", "原始右下20 lastResistanceRF20:" + origins[3]);
+                                        QNLogUtils.logAndWrite("八电极数据计算", "原始左下20 lastResistanceLF20:" +  origins[2]);
+                                        QNLogUtils.logAndWrite("八电极数据计算", "原始右上100 lastResistanceRH100:" + origins[6]);
+                                        QNLogUtils.logAndWrite("八电极数据计算", "原始左上100 lastResistanceLH100:" + origins[5]);
+                                        QNLogUtils.logAndWrite("八电极数据计算", "原始躯干100 lastResistanceT100:" + origins[9]);
+                                        QNLogUtils.logAndWrite("八电极数据计算", "原始右下100 lastResistanceRF100:" + origins[8]);
+                                        QNLogUtils.logAndWrite("八电极数据计算", "原始左下100 lastResistanceLF100:" + origins[7]);
+                                    }catch (Exception e){
+
+                                    }
                                 }
                             });
-                }
-
-                try {
-                    JSONObject obj = new JSONObject(YLPacker.unpack(data.getHmac()));
-                    String[] origins = obj.getString("origin_resistances").split(",");
-
-                    QNLogUtils.logAndWrite("八电极数据计算", "原始右上20 lastResistanceRH20:" + origins[1]);
-                    QNLogUtils.logAndWrite("八电极数据计算", "原始左上20 lastResistanceLH20:" + origins[0]);
-                    QNLogUtils.logAndWrite("八电极数据计算", "原始躯干20 lastResistanceT20:" + origins[4]);
-                    QNLogUtils.logAndWrite("八电极数据计算", "原始右下20 lastResistanceRF20:" + origins[3]);
-                    QNLogUtils.logAndWrite("八电极数据计算", "原始左下20 lastResistanceLF20:" +  origins[2]);
-                    QNLogUtils.logAndWrite("八电极数据计算", "原始右上100 lastResistanceRH100:" + origins[6]);
-                    QNLogUtils.logAndWrite("八电极数据计算", "原始左上100 lastResistanceLH100:" + origins[5]);
-                    QNLogUtils.logAndWrite("八电极数据计算", "原始躯干100 lastResistanceT100:" + origins[9]);
-                    QNLogUtils.logAndWrite("八电极数据计算", "原始右下100 lastResistanceRF100:" + origins[8]);
-                    QNLogUtils.logAndWrite("八电极数据计算", "原始左下100 lastResistanceLF100:" + origins[7]);
-                }catch (Exception e){
-
                 }
 
 
