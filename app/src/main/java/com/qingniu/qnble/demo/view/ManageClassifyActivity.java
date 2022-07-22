@@ -19,13 +19,14 @@ import com.qingniu.qnble.demo.R;
 
 public class ManageClassifyActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private TextView mSdkManage;
+    private TextView mSelfManage;
+    private TextView mDebugSetting;
+
     public static Intent getCallIntent(Context context) {
         return new Intent(context, ManageClassifyActivity.class);
 
     }
-
-    private TextView mSdkManage;
-    private TextView mSelfManage;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,6 +35,7 @@ public class ManageClassifyActivity extends AppCompatActivity implements View.On
 
         mSdkManage = (TextView) findViewById(R.id.sdk_manage);
         mSelfManage = (TextView) findViewById(R.id.self_manage);
+        mDebugSetting = (TextView) findViewById(R.id.debugSetting);
 
         initData();
     }
@@ -41,16 +43,20 @@ public class ManageClassifyActivity extends AppCompatActivity implements View.On
     private void initData() {
         mSelfManage.setOnClickListener(this);
         mSdkManage.setOnClickListener(this);
+        mDebugSetting.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.sdk_manage:
                 startActivity(SettingActivity.getCallIntent(this));
                 break;
             case R.id.self_manage:
                 startActivity(CustomSettingActivity.getCallIntent(this));
+                break;
+            case R.id.debugSetting:
+                startActivity(DebugSettingActivity.getCallIntent(this));
                 break;
         }
     }

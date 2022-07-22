@@ -32,4 +32,15 @@
         android:textColor="@android:color/black"
         android:textSize="18dp"/>
 
+    <Button
+        android:visibility="visible"
+        android:id="@+id/debugSetting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:text="调试设置"
+        android:textColor="@android:color/black"
+        android:textSize="18dp"/>
+
 </LinearLayout>

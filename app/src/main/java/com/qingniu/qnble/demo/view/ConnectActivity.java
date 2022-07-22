@@ -313,7 +313,6 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
                     eightHmacTestLayout.setVisibility(View.GONE);
                 }
 
-                onReceiveScaleData(data);
                 QNScaleItemData fatValue = data.getItem(QNIndicator.TYPE_SUBFAT);
                 if (fatValue != null) {
                     String value = fatValue.getValue() + "";
@@ -324,6 +323,37 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
                 Log.d("ConnectActivity", "加密hmac为:" + data.getHmac());
 //                Log.d("ConnectActivity", "收到体脂肪:"+data.getItem(QNIndicator.TYPE_BODYFAT).getValue());
 //                doDisconnect();
+
+                //todo hyr 后续需删除 测试用代码
+                String debugHmac = DebugSettingActivity.getDebugHmac();
+                if (!TextUtils.isEmpty(debugHmac)){
+                    currentQNScaleData.setFatThreshold(debugHmac, 0.0, new QNResultCallback() {
+                                @Override
+                                public void onResult(int code, String msg) {
+                                }
+                            });
+                }
+
+                try {
+                    JSONObject obj = new JSONObject(YLPacker.unpack(data.getHmac()));
+                    String[] origins = obj.getString("origin_resistances").split(",");
+
+                    QNLogUtils.logAndWrite("八电极数据计算", "原始右上20 lastResistanceRH20:" + origins[1]);
+                    QNLogUtils.logAndWrite("八电极数据计算", "原始左上20 lastResistanceLH20:" + origins[0]);
+                    QNLogUtils.logAndWrite("八电极数据计算", "原始躯干20 lastResistanceT20:" + origins[4]);
+                    QNLogUtils.logAndWrite("八电极数据计算", "原始右下20 lastResistanceRF20:" + origins[3]);
+                    QNLogUtils.logAndWrite("八电极数据计算", "原始左下20 lastResistanceLF20:" +  origins[2]);
+                    QNLogUtils.logAndWrite("八电极数据计算", "原始右上100 lastResistanceRH100:" + origins[6]);
+                    QNLogUtils.logAndWrite("八电极数据计算", "原始左上100 lastResistanceLH100:" + origins[5]);
+                    QNLogUtils.logAndWrite("八电极数据计算", "原始躯干100 lastResistanceT100:" + origins[9]);
+                    QNLogUtils.logAndWrite("八电极数据计算", "原始右下100 lastResistanceRF100:" + origins[8]);
+                    QNLogUtils.logAndWrite("八电极数据计算", "原始左下100 lastResistanceLF100:" + origins[7]);
+                }catch (Exception e){
+
+                }
+
+
+                onReceiveScaleData(currentQNScaleData);
             }
 
             @Override

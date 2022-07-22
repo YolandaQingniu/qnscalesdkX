@@ -112,6 +112,9 @@
 
         <activity android:name=".view.RulerActivity"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".view.DebugSettingActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
