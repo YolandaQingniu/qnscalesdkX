@@ -10,9 +10,11 @@ import android.widget.TextView;
 import com.qingniu.qnble.demo.R;
 import com.qingniu.qnble.demo.bean.IndicateBean;
 import com.qingniu.qnble.demo.util.IndicateUtils;
+import com.qingniu.qnble.demo.util.UnitConvertUtil;
 import com.qingniu.qnble.utils.QNLogUtils;
 import com.qn.device.constant.QNIndicator;
 import com.qn.device.out.QNBleApi;
+import com.qn.device.out.QNBleDevice;
 import com.qn.device.out.QNScaleItemData;
 import com.qn.device.out.QNUser;
 
@@ -29,6 +31,7 @@ public class ListAdapter extends BaseAdapter {
     private List<QNScaleItemData> mDatas;
     private QNBleApi mQNBleApi;
     private QNUser qnUser;
+    private QNBleDevice mBleDevice;
 
     /**
      * 是否是八电极数据
@@ -39,6 +42,13 @@ public class ListAdapter extends BaseAdapter {
         this.mDatas = mDatas;
         this.mQNBleApi = mQNBleApi;
         this.qnUser = qnUser;
+    }
+
+    public ListAdapter(List<QNScaleItemData> mDatas, QNBleApi mQNBleApi, QNUser qnUser,QNBleDevice qnBleDevice) {
+        this.mDatas = mDatas;
+        this.mQNBleApi = mQNBleApi;
+        this.qnUser = qnUser;
+        this.mBleDevice = qnBleDevice;
     }
 
     @Override
@@ -94,7 +104,11 @@ public class ListAdapter extends BaseAdapter {
 
     private String initWeight(double weight) {
         int unit = mQNBleApi.getConfig().getUnit();
-        return mQNBleApi.convertWeightWithTargetUnit(weight, unit);
+        if (null != mBleDevice) {
+            return UnitConvertUtil.getShowWeightWithUnit(mQNBleApi, weight, unit, mBleDevice.getDisplayModuleType());
+        } else {
+            return mQNBleApi.convertWeightWithTargetUnit(weight, unit);
+        }
     }
 
     private int calcAge(Date birthday) {

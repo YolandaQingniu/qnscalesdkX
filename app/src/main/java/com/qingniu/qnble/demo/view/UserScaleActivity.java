@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -42,7 +41,6 @@ import com.qn.device.out.QNScaleItemData;
 import com.qn.device.out.QNScaleStoreData;
 import com.qn.device.out.QNUser;
 import com.qn.device.out.QNUserScaleConfig;
-import com.yl.pack.YLPacker;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -335,7 +333,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
         resetBtn.setOnClickListener(this);
         otaBtn.setOnClickListener(this);
         mBackTv.setOnClickListener(this);
-        listAdapter = new ListAdapter(mDatas, mQNBleApi, mQnUserScaleConfig.getCurUser());
+        listAdapter = new ListAdapter(mDatas, mQNBleApi, mQnUserScaleConfig.getCurUser(), mBleDevice);
         mListView.setAdapter(listAdapter);
         listAdapter.notifyDataSetChanged();
     }
