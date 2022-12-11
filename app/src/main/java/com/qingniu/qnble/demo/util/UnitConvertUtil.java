@@ -35,8 +35,12 @@ public class UnitConvertUtil {
                     if (calcWeight % 14 == 0) {
                         value = (int) (calcWeight / 14) + "st";
                     } else {
-                        if (calcWeight >= 101 && displayModuleType == QNDisplayModuleType.SIMPLE) {
-                            value = (int)(calcWeight / 14) + "st" + Math.round(calcWeight % 14) + "lb";
+                        if (calcWeight >= 280 && displayModuleType == QNDisplayModuleType.SIMPLE) {
+                            if (calcWeight % 14 >=10){
+                                value = (int)(calcWeight / 14) + "st" + Math.round(calcWeight % 14) + "lb";
+                            }else {
+                                value = (int)(calcWeight / 14) + "st" + getOnePrecision(calcWeight % 14) + "lb";
+                            }
                         } else {
                             value = (int)(calcWeight / 14) + "st" + getOnePrecision(calcWeight % 14) + "lb";
                         }
