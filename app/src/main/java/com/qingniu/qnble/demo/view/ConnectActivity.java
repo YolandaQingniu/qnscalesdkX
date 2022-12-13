@@ -617,9 +617,9 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
                 qnScaleStoreData.setUser(createQNUser());
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 try {
-                    Date date = simpleDateFormat.parse("2019-05-06 14:02:51");
-                    qnScaleStoreData.buildStoreData(25.35, date, "F0:FE:6B:CB:75:6A",
-                            "3F828A0207EB762F0D12E1ED5345AF7D6907304A74A45990B254256AC08DAA76EEA778E4B50ACE92D47DA72DD7257F82734C33A56721D797FD932B3741E5C730F2901F7EFAA1755DD0683BABD0959BB1E82201C3B50B3E8A5360A3D57550CF446DC834B8FA2F0D16DA4C0797CC1C308E4253413D4AB90DC4093F8065199ABE8AB0C9D06E3172E511C54C7E5095BB92C753070DC0CEB5D64785C4577952B50465",
+                    Date date = simpleDateFormat.parse("2022-12-13 11:34:45");
+                    qnScaleStoreData.buildStoreData(17.35, date, "ED:67:39:57:26:43",
+                            "1da47865046748e3768bd10131c2516402817c1d5614d9b0f2bdfe1c9ed5d606307c068a31c77cced9327ab52a38a42026b4ac4bef7404d5de631b1c3780ea08d3cfcfe4bdf22602edc3fd4f2c490125afd341df68b2bc534dda393ee7f37271db495ac09a930870c9a73071a5139dfe61c8898ca52c59b09b32a5613867753abb4a6549d121f3e9e8854a7572fc4b40ddc91e9911dff53cdafb8545bc2a3510",
                             new QNResultCallback() {
                                 @Override
                                 public void onResult(int code, String msg) {
