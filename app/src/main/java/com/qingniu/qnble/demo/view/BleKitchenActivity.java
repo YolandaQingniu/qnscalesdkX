@@ -200,6 +200,17 @@ public class BleKitchenActivity extends AppCompatActivity implements View.OnClic
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mQNBleApi.disconnectDevice(device.getMac(), new QNResultCallback() {
+            @Override
+            public void onResult(int code, String msg) {
+                Log.d(TAG, "断开连接");
+            }
+        });
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.connectBtn:
