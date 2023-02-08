@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ScaleSDKXDemo-2.8.12</string>
+    <string name="app_name">ScaleSDKXDemo-2.8.13</string>
     <string name="scan">scan</string>
     <string name="stop">stop</string>
     <string name="user_id_explain">Set the user profile when calculating body fat percentage</string>
@@ -215,6 +215,8 @@
     <string name="is_measure_bodyfat">Whether to close bodyFat (scale support is required)</string>
     <string name="is_show_indicator">Whether to close indicator (scale support is required)</string>
     <string name="is_show_weight">Whether to close weight (scale support is required)</string>
+    <string name="is_close_heartRate">Whether to close heartRate (scale support is required)</string>
+    <string name="is_ble_transfer">Whether to set ble transfer (scale support is required)</string>
     <string name="measure_fail">measure failed</string>
     <string name="hmac_test_explain">This layout only show when you get eight electrodes measure data or eight electrodes store data</string>
     <string name="segmental_resistance_20k">20k Segmental resistance</string>
