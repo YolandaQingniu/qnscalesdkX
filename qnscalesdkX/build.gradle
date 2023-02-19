@@ -21,23 +21,6 @@ android {
     packagingOptions {
         doNotStrip '*/*/*.so'
     }
-
-    sourceSets {
-        main {
-            if (isSupportAndroidS()){
-                manifest.srcFile 'src/main/AndroidManifest.xml'
-            }
-            else {
-                manifest.srcFile 'src/main/oldplatform/AndroidManifest.xml'
-            }
-        }
-    }
-}
-
-//是否支持Andorid 12，根据此方法返回值决定读取哪个Manifest
-def isSupportAndroidS(){
-    def tsv = TARGET_SDK_VERSION as int
-    return tsv > 30
 }
 
 dependencies {
