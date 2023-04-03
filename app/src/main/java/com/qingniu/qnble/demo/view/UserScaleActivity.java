@@ -418,11 +418,15 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                 stateString = getResources().getString(R.string.failed_to_set_wifi);
                 btnString = getResources().getString(R.string.disconnected);
                 Log.d("WspScaleActivity", "设置WiFi失败");
+                //配网成功或失败后都立刻断开连接
+                doDisconnect();
                 break;
             case QNScaleStatus.STATE_WIFI_BLE_NETWORK_SUCCESS:
                 stateString = getResources().getString(R.string.success_to_set_wifi);
                 btnString = getResources().getString(R.string.disconnected);
                 Log.d("WspScaleActivity", "设置WiFi成功");
+                //配网成功或失败后都立刻断开连接
+                doDisconnect();
                 break;
             default: {
                 stateString = getResources().getString(R.string.connection_disconnected);
