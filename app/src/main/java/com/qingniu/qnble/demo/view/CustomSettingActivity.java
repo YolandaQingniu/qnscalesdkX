@@ -22,6 +22,7 @@ import com.qingniu.qnble.demo.picker.DatePickerDialog;
 import com.qingniu.qnble.demo.picker.HeightPickerDialog;
 import com.qingniu.qnble.demo.util.DateUtils;
 import com.qingniu.qnble.demo.util.ToastMaker;
+import com.qn.device.constant.QNHeightUnit;
 import com.qn.device.constant.QNInfoConst;
 import com.qn.device.constant.QNUnit;
 import com.qn.device.constant.UserGoal;
@@ -69,6 +70,8 @@ public class CustomSettingActivity extends AppCompatActivity implements RadioGro
     RadioGroup mUserCalcGrp;
     @BindView(R.id.user_unit_grp)
     RadioGroup mUserUnitGrp;
+    @BindView(R.id.height_unit_grp)
+    RadioGroup mHeightUnitGrp;
     @BindView(R.id.btn_sure)
     Button mSure;
 
@@ -114,6 +117,7 @@ public class CustomSettingActivity extends AppCompatActivity implements RadioGro
         mUserGenderGrp.setOnCheckedChangeListener(this);
         mUserCalcGrp.setOnCheckedChangeListener(this);
         mUserUnitGrp.setOnCheckedChangeListener(this);
+        mHeightUnitGrp.setOnCheckedChangeListener(this);
         mUserHeightTv.setOnClickListener(this);
         mUserBirthdayTv.setOnClickListener(this);
         btnDoubleSure.setOnClickListener(this);
@@ -176,6 +180,15 @@ public class CustomSettingActivity extends AppCompatActivity implements RadioGro
                 break;
             case R.id.user_unit_st:
                 mBleConfig.setUnit(QNUnit.WEIGHT_UNIT_ST);
+                break;
+            case R.id.user_unit_st_only:
+                mBleConfig.setUnit(QNUnit.WEIGHT_UNIT_ST_ONLY);
+                break;
+            case R.id.height_unit_cm:
+                mBleConfig.setHeightUnit(QNHeightUnit.CM);
+                break;
+            case R.id.height_unit_ft_in:
+                mBleConfig.setHeightUnit(QNHeightUnit.FT_IN);
                 break;
         }
 

@@ -51,7 +51,17 @@ public class Config implements Parcelable {
         this.unit = unit;
     }
 
+    public int getHeightUnit() {
+        return heightUnit;
+    }
+
+    public void setHeightUnit(int heightUnit) {
+        this.heightUnit = heightUnit;
+    }
+
     private int unit;
+
+    private int heightUnit;
 
     public long getScanOutTime() {
         return scanOutTime;
@@ -89,6 +99,7 @@ public class Config implements Parcelable {
         dest.writeInt(this.duration);
         dest.writeByte(this.enhanceBleBroadcast ? (byte) 1 : (byte) 0);
         dest.writeInt(this.unit);
+        dest.writeInt(this.heightUnit);
         dest.writeLong(this.scanOutTime);
         dest.writeLong(this.connectOutTime);
     }
@@ -99,6 +110,7 @@ public class Config implements Parcelable {
         this.duration = in.readInt();
         this.enhanceBleBroadcast = in.readByte() != 0;
         this.unit = in.readInt();
+        this.heightUnit = in.readInt();
         this.scanOutTime = in.readLong();
         this.connectOutTime = in.readLong();
     }

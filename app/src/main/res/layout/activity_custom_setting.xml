@@ -375,6 +375,12 @@
                         android:layout_marginStart="4dp"
                         android:paddingStart="4dp"
                         android:text="st"/>
+                    <RadioButton
+                        android:id="@+id/user_unit_st_only"
+                        style="@style/user_radio_button"
+                        android:layout_marginStart="4dp"
+                        android:paddingStart="4dp"
+                        android:text="onlySt" />
                 </RadioGroup>
 
             </RelativeLayout>
@@ -382,6 +388,43 @@
             <TextView
                 style="@style/user_explain_text"
                 android:text="@string/user_unit_explain"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/height_unit_explain"
+                    style="@style/user_small_text"
+                    android:text="@string/height_unit" />
+
+                <RadioGroup
+                    android:id="@+id/height_unit_grp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/height_unit_cm"
+                        style="@style/user_radio_button"
+                        android:checked="true"
+                        android:paddingStart="4dp"
+                        android:text="cm" />
+
+                    <RadioButton
+                        android:id="@+id/height_unit_ft_in"
+                        style="@style/user_radio_button"
+                        android:layout_marginStart="4dp"
+                        android:paddingStart="4dp"
+                        android:text="ft_in" />
+                </RadioGroup>
+
+            </RelativeLayout>
+
         </LinearLayout>
 
         <RelativeLayout

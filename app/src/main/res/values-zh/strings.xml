@@ -111,6 +111,7 @@
     <string name="height">身高</string>
     <string name="birthday">生日</string>
     <string name="weight_unit">重量单位</string>
+    <string name="height_unit">身高单位</string>
     <string name="jin">斤</string>
     <string name="confirm">确定</string>
     <string name="measure">测量</string>

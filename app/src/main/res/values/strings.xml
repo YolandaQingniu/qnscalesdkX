@@ -70,6 +70,7 @@
     <string name="input_height">Please enter height</string>
     <string name="input_birthday">Please enter date of birth</string>
     <string name="select_weight">Please select the weight unit</string>
+    <string name="select_height">Please select the height unit</string>
     <string name="scan_exception">Scan abnormal</string>
     <string name="scan_stopped">Scan stopped</string>
     <string name="scanning">scanning</string>
@@ -111,6 +112,7 @@
     <string name="height">height</string>
     <string name="birthday">birthday</string>
     <string name="weight_unit">Unit of weight</string>
+    <string name="height_unit">Unit of weight</string>
     <string name="jin">jin</string>
     <string name="confirm">confirm</string>
     <string name="measure">measure</string>

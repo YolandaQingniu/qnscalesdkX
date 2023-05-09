@@ -24,6 +24,7 @@ import com.qingniu.qnble.demo.picker.DatePickerDialog;
 import com.qingniu.qnble.demo.picker.HeightPickerDialog;
 import com.qingniu.qnble.demo.util.DateUtils;
 import com.qingniu.qnble.demo.util.ToastMaker;
+import com.qn.device.constant.QNHeightUnit;
 import com.qn.device.constant.QNInfoConst;
 import com.qn.device.constant.QNUnit;
 import com.qn.device.constant.UserGoal;
@@ -81,6 +82,8 @@ public class SettingActivity extends AppCompatActivity implements RadioGroup.OnC
     RadioGroup mBleScanGrp;
     @BindView(R.id.user_unit_grp)
     RadioGroup mUserUnitGrp;
+    @BindView(R.id.height_unit_grp)
+    RadioGroup mHeightUnitGrp;
     @BindView(R.id.btn_sure)
     Button mSure;
 
@@ -157,6 +160,7 @@ public class SettingActivity extends AppCompatActivity implements RadioGroup.OnC
         mUserCalcGrp.setOnCheckedChangeListener(this);
         mBleScanGrp.setOnCheckedChangeListener(this);
         mUserUnitGrp.setOnCheckedChangeListener(this);
+        mHeightUnitGrp.setOnCheckedChangeListener(this);
         mUserHeightTv.setOnClickListener(this);
         mUserBirthdayTv.setOnClickListener(this);
         mSure.setOnClickListener(this);
@@ -400,6 +404,12 @@ public class SettingActivity extends AppCompatActivity implements RadioGroup.OnC
             case R.id.user_unit_st_only:
                 mBleConfig.setUnit(QNUnit.WEIGHT_UNIT_ST_ONLY);
                 break;
+            case R.id.height_unit_cm:
+                mBleConfig.setHeightUnit(QNHeightUnit.CM);
+                break;
+            case R.id.height_unit_ft_in:
+                mBleConfig.setHeightUnit(QNHeightUnit.FT_IN);
+                break;
         }
 
     }
@@ -507,6 +517,10 @@ public class SettingActivity extends AppCompatActivity implements RadioGroup.OnC
             return true;
         } else if (mUserUnitGrp.getCheckedRadioButtonId() == -1) {
             ToastMaker.show(this, getResources().getString(R.string.select_weight));
+            return true;
+        }
+        else if (mHeightUnitGrp.getCheckedRadioButtonId() == -1) {
+            ToastMaker.show(this, getResources().getString(R.string.select_height));
             return true;
         }
 

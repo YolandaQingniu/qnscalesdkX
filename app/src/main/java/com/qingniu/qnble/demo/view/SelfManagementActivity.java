@@ -151,6 +151,7 @@ public class SelfManagementActivity extends AppCompatActivity implements Adapter
         //mQnConfig.setScanOutTime(mConfig.getScanOutTime());
         mQnConfig.setConnectOutTime(mConfig.getConnectOutTime());
         mQnConfig.setUnit(mConfig.getUnit());
+        mQnConfig.setHeightUnit(mConfig.getHeightUnit());
         mQnConfig.setOnlyScreenOn(mConfig.isOnlyScreenOn());
         //设置扫描对象
         mQnConfig.save(new QNResultCallback() {

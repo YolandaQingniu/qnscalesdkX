@@ -197,6 +197,7 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
         // mQnConfig.setScanOutTime(mConfig.getScanOutTime());
         mQnConfig.setConnectOutTime(mConfig.getConnectOutTime());
         mQnConfig.setUnit(mConfig.getUnit());
+        mQnConfig.setHeightUnit(mConfig.getHeightUnit());
         mQnConfig.setOnlyScreenOn(mConfig.isOnlyScreenOn());
         /**
          * 强化广播秤信号，此选项只对广播秤有效

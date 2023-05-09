@@ -1,5 +1,6 @@
 package com.qingniu.qnble.demo.view;
 
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
@@ -11,6 +12,7 @@ import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -128,7 +130,7 @@ public class SelfHeightScaleActivity extends AppCompatActivity implements View.O
                     mNativeBleHelper.getBluetoothGatt().close();
                     mNativeBleHelper.setBluetoothGatt(null);
                 }
-                onGetBleStatus(QNScaleStatus.STATE_DISCONNECTED);
+                mHandler.post(() -> onGetBleStatus(QNScaleStatus.STATE_DISCONNECTED));
                 mNativeBleHelper.setIsConnected(false);
                 Log.e(TAG, err);
                 return;
@@ -137,12 +139,9 @@ public class SelfHeightScaleActivity extends AppCompatActivity implements View.O
                 mNativeBleHelper.setIsConnected(true);
 
                 //当蓝牙设备已经接
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        onGetBleStatus(QNScaleStatus.STATE_CONNECTED);
-                        Toast.makeText(SelfHeightScaleActivity.this, getResources().getString(R.string.connect_successfully), Toast.LENGTH_SHORT).show();
-                    }
+                mHandler.post(() -> {
+                    onGetBleStatus(QNScaleStatus.STATE_CONNECTED);
+                    Toast.makeText(SelfHeightScaleActivity.this, getResources().getString(R.string.connect_successfully), Toast.LENGTH_SHORT).show();
                 });
 
                 // TODO: 2019/9/7  某些手机可能存在无法发现服务问题,此处可做延时操作
@@ -488,6 +487,7 @@ public class SelfHeightScaleActivity extends AppCompatActivity implements View.O
     /**
      * @param device 连接设备
      */
+    @SuppressLint("MissingPermission")
     private void connectQnDevice(QNBleDevice device) {
         onGetBleStatus(QNScaleStatus.STATE_CONNECTING);
         buildHandler();
@@ -498,7 +498,11 @@ public class SelfHeightScaleActivity extends AppCompatActivity implements View.O
 
         if (mDevice != null) {
             Log.d(TAG, "connectQnDevice------: " + mDevice.getAddress());
-            mNativeBleHelper.setBluetoothGatt(mDevice.connectGatt(SelfHeightScaleActivity.this, false, mGattCallback));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                mNativeBleHelper.setBluetoothGatt(mDevice.connectGatt(SelfHeightScaleActivity.this, false, mGattCallback, BluetoothDevice.TRANSPORT_LE));
+            } else {
+                mNativeBleHelper.setBluetoothGatt(mDevice.connectGatt(SelfHeightScaleActivity.this, false, mGattCallback));
+            }
         }
     }
 
