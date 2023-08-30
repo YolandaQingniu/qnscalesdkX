@@ -30,6 +30,7 @@ import com.qingniu.qnble.utils.QNLogUtils;
 import com.qingniu.scale.constant.DecoderConst;
 import com.qn.device.constant.CheckStatus;
 import com.qn.device.constant.QNIndicator;
+import com.qn.device.constant.QNScaleEvent;
 import com.qn.device.constant.QNScaleStatus;
 import com.qn.device.constant.UserGoal;
 import com.qn.device.constant.UserShape;
@@ -123,6 +124,10 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
     TextView curResistance100kTv;
     @BindView(R.id.snTextView)
     TextView snTextView;
+    @BindView(R.id.turnOnMeasureFatBtn)
+    Button turnOnMeasureFatBtn;
+    @BindView(R.id.turnOffMeasureFatBtn)
+    Button turnOffMeasureFatBtn;
 
     private QNBleDevice mBleDevice;
     private List<QNScaleItemData> mDatas = new ArrayList<>();
@@ -378,6 +383,13 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onScaleEventChange(QNBleDevice device, int scaleEvent) {
                 Log.d("ConnectActivity", "秤返回的事件是:" + scaleEvent);
+                if (scaleEvent == QNScaleEvent.EVENT_UPDATE_SCALE_CONFIG_SUCCESS) {
+                    Log.e("UserScaleActivity", "更新秤端设置成功");
+                    ToastMaker.show(ConnectActivity.this, "更新秤端设置成功");
+                } else if (scaleEvent == QNScaleEvent.EVENT_UPDATE_SCALE_CONFIG_FAIL) {
+                    Log.e("UserScaleActivity", "更新秤端设置失败");
+                    ToastMaker.show(ConnectActivity.this, "更新秤端设置失败");
+                }
             }
 
             @Override
@@ -443,6 +455,13 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
 
     private void initView() {
         mConnectBtn.setOnClickListener(this);
+        if (mBleDevice.isNormalPregnantScale()){
+            turnOnMeasureFatBtn.setVisibility(View.VISIBLE);
+            turnOffMeasureFatBtn.setVisibility(View.VISIBLE);
+        }else {
+            turnOnMeasureFatBtn.setVisibility(View.GONE);
+            turnOffMeasureFatBtn.setVisibility(View.GONE);
+        }
         mBackTv.setOnClickListener(this);
         listAdapter = new ListAdapter(mDatas, mQNBleApi, createQNUser());
         mListView.setAdapter(listAdapter);
@@ -607,7 +626,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
         });
     }
 
-    @OnClick({R.id.stroteDataTest, R.id.setThreshold, R.id.testHmac,R.id.generate_hmac_btn,R.id.use_last_hmac_btn})
+    @OnClick({R.id.stroteDataTest, R.id.setThreshold, R.id.testHmac, R.id.generate_hmac_btn, R.id.use_last_hmac_btn, R.id.turnOnMeasureFatBtn, R.id.turnOffMeasureFatBtn})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.stroteDataTest:
@@ -684,6 +703,22 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
                 } else {
                     AndroidPermissionCenter.verifyCameraPermissions(this);
                 }
+                break;
+            case R.id.turnOnMeasureFatBtn:
+                mQNBleApi.setFatMeasurementSwitch(true, false, new QNResultCallback() {
+                    @Override
+                    public void onResult(int i, String s) {
+                        ToastMaker.show(ConnectActivity.this, "秤端设置调用结果 "+s);
+                    }
+                });
+                break;
+            case R.id.turnOffMeasureFatBtn:
+                mQNBleApi.setFatMeasurementSwitch(false, false, new QNResultCallback() {
+                    @Override
+                    public void onResult(int i, String s) {
+                        ToastMaker.show(ConnectActivity.this, "秤端设置调用结果 "+s);
+                    }
+                });
                 break;
             case R.id.generate_hmac_btn:
                 try {

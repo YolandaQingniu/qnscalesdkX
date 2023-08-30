@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ScaleSDKXDemo-2.8.20</string>
+    <string name="app_name">ScaleSDKXDemo-2.9.0</string>
     <string name="scan">扫描</string>
     <string name="stop">停止</string>
     <string name="user_id_explain">设置用户的资料,计算体脂率时会需要</string>
@@ -52,6 +52,8 @@
     <string name="connected">已连接</string>
     <string name="disconnect_in_progress">正在断开连接</string>
     <string name="connect">连接</string>
+    <string name="switch_on_measure_fat">开启测脂</string>
+    <string name="switch_off_measure_fat">关闭测脂</string>
     <string name="measuring">正在测量</string>
     <string name="connection_disconnected">连接已断开</string>
     <string name="real_time_weight_measurement">正在测量实时体重</string>
@@ -124,6 +126,7 @@
     <string name="mode">型号</string>
     <string name="mac">mac地址</string>
     <string name="rssi">强度</string>
+    <string name="screen_state">屏幕状态</string>
     <string name="length">长度</string>
     <string name="main_hint">根据自己的实际情况选择相应的蓝牙管理方式</string>
     <string name="sdk_api">SDK蓝牙管理</string>

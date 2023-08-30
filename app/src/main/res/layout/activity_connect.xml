@@ -105,6 +105,31 @@
         android:paddingStart="10dp"
         android:layout_height="wrap_content" />
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp">
+
+        <Button
+            android:id="@+id/turnOnMeasureFatBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/switch_on_measure_fat"
+            android:layout_gravity="end" />
+
+        <Button
+            android:id="@+id/turnOffMeasureFatBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="@string/switch_off_measure_fat"
+            android:layout_gravity="end" />
+
+    </LinearLayout>
+
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"

@@ -87,8 +87,8 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
     TextView modelTv;
     @BindView(R.id.macTv)
     TextView macTv;
-    @BindView(R.id.rssiTv)
-    TextView rssiTv;
+    @BindView(R.id.screenStateTv)
+    TextView screenStateTv;
     @BindView(R.id.lvHeadLay)
     LinearLayout lvHeadLay;
     @BindView(R.id.qr_test_btn)
@@ -138,7 +138,7 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
             TextView nameTv = (TextView) convertView.findViewById(R.id.nameTv);
             TextView modelTv = (TextView) convertView.findViewById(R.id.modelTv);
             TextView macTv = (TextView) convertView.findViewById(R.id.macTv);
-            TextView rssiTv = (TextView) convertView.findViewById(R.id.rssiTv);
+            TextView screenStateTv = (TextView) convertView.findViewById(R.id.screenStateTv);
             ImageView deviceType = convertView.findViewById(R.id.deviceType);
 
             Object obj = adapterList.get(position);
@@ -147,7 +147,7 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
                 nameTv.setText(scanResult.getName());
                 modelTv.setText(scanResult.getModeId());
                 macTv.setText(scanResult.getMac());
-                rssiTv.setText(String.valueOf(scanResult.getRssi()));
+                screenStateTv.setText(String.valueOf(scanResult.getScreenState().getCode()));
                 if (scanResult.isSupportWifi()) {
                     deviceType.setImageResource(R.drawable.wifi_icon);
                 } else {
@@ -158,7 +158,7 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
                 nameTv.setText(kitchenDevice.getName());
                 modelTv.setText(kitchenDevice.getModeId());
                 macTv.setText(kitchenDevice.getMac());
-                rssiTv.setText(String.valueOf(kitchenDevice.getRSSI()));
+                screenStateTv.setText(String.valueOf(kitchenDevice.getRSSI()));
             }
 
             return convertView;

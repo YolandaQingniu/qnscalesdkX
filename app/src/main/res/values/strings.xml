@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ScaleSDKXDemo-2.8.20</string>
+    <string name="app_name">ScaleSDKXDemo-2.9.0</string>
     <string name="scan">scan</string>
     <string name="stop">stop</string>
     <string name="user_id_explain">Set the user profile when calculating body fat percentage</string>
@@ -52,6 +52,8 @@
     <string name="connected">connected</string>
     <string name="disconnect_in_progress">Disconnect in progress</string>
     <string name="connect">connect</string>
+    <string name="switch_on_measure_fat">turn on measure fat</string>
+    <string name="switch_off_measure_fat">trun off measure fat</string>
     <string name="measuring">Measuring </string>
     <string name="connection_disconnected">Connection disconnected</string>
     <string name="real_time_weight_measurement">Real-time weight measurement in progress</string>
@@ -125,6 +127,7 @@
     <string name="mode">mode</string>
     <string name="mac">mac</string>
     <string name="rssi">rssi</string>
+    <string name="screen_state">screen</string>
     <string name="length">length</string>
     <string name="main_hint">Choose the appropriate bluetooth management mode according to your actual situation</string>
     <string name="sdk_api">SDK bluetooth management</string>

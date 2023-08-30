@@ -38,8 +38,6 @@ import com.qingniu.qnble.demo.util.AndroidPermissionCenter;
 import com.qingniu.qnble.demo.util.ToastMaker;
 import com.qingniu.qnble.demo.util.UserConst;
 import com.qingniu.qnble.utils.QNLogUtils;
-import com.qingniu.scale.config.DecoderAdapterManager;
-import com.qingniu.scale.config.DoubleDecoderAdapter;
 import com.qingniu.scale.constant.DecoderConst;
 import com.qn.device.constant.CheckStatus;
 import com.qn.device.constant.QNBleConst;
@@ -274,7 +272,7 @@ public class SelfMultiDeviceConnectActivity extends AppCompatActivity implements
             TextView nameTv = (TextView) convertView.findViewById(R.id.nameTv);
             TextView modelTv = (TextView) convertView.findViewById(R.id.modelTv);
             TextView macTv = (TextView) convertView.findViewById(R.id.macTv);
-            TextView rssiTv = (TextView) convertView.findViewById(R.id.rssiTv);
+            TextView screenStateTv = (TextView) convertView.findViewById(R.id.screenStateTv);
             ImageView deviceType = convertView.findViewById(R.id.deviceType);
 
             QNBleDevice scanResult = devices.get(position);
@@ -282,7 +280,7 @@ public class SelfMultiDeviceConnectActivity extends AppCompatActivity implements
             nameTv.setText(scanResult.getName());
             modelTv.setText(scanResult.getModeId());
             macTv.setText(scanResult.getMac());
-            rssiTv.setText(String.valueOf(scanResult.getRssi()));
+            screenStateTv.setText(String.valueOf(scanResult.getScreenState().getCode()));
             if (scanResult.isSupportWifi()) {
                 deviceType.setImageResource(R.drawable.wifi_icon);
             } else {
