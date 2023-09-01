@@ -158,7 +158,7 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
                 nameTv.setText(kitchenDevice.getName());
                 modelTv.setText(kitchenDevice.getModeId());
                 macTv.setText(kitchenDevice.getMac());
-                screenStateTv.setText(String.valueOf(kitchenDevice.getRSSI()));
+                screenStateTv.setText(0);
             }
 
             return convertView;
