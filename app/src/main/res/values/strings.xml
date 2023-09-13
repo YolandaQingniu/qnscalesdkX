@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ScaleSDKXDemo-2.10.0</string>
+    <string name="app_name">ScaleSDKXDemo-2.10.1</string>
     <string name="scan">scan</string>
     <string name="stop">stop</string>
     <string name="user_id_explain">Set the user profile when calculating body fat percentage</string>
