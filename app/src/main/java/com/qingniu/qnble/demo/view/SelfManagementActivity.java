@@ -194,13 +194,13 @@ public class SelfManagementActivity extends AppCompatActivity implements Adapter
                 @Override
                 public void onResult(int code, String msg) {
                     if (code != CheckStatus.OK.getCode()) {
-                        QNLogUtils.log("LeScanCallback", msg);
+                        QNLogUtils.logAndWrite("LeScanCallback", msg);
                     }
                 }
             });
 
             if (qnBleDevice != null && !macList.contains(qnBleDevice.getMac())) {
-                QNLogUtils.log("LeScanCallback", qnBleDevice.getMac());
+                QNLogUtils.logAndWrite("LeScanCallback", qnBleDevice.getMac());
                 macList.add(qnBleDevice.getMac());
                 devices.add(qnBleDevice);
                 listAdapter.notifyDataSetChanged();

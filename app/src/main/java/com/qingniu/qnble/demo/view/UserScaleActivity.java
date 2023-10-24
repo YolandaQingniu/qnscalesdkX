@@ -111,13 +111,6 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wsp_scale);
         mQNBleApi = QNBleApi.getInstance(this);
-        //此API是用来监听日志的，如果需要上传日志到服务器则可以使用，否则不需要设置
-        mQNBleApi.setLogListener(new QNLogListener() {
-            @Override
-            public void onLog(String log) {
-                // Log.e("test", log);
-            }
-        });
         ButterKnife.bind(this);
         initIntent();
         initView();
@@ -179,7 +172,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
         mQNBleApi.connectUserScaleDevice(device, mQnUserScaleConfig, new QNResultCallback() {
             @Override
             public void onResult(int code, String msg) {
-                QNLogUtils.log("WspScaleActivity", "用户模式连接 wifi 配置code:" + code + ",msg:" + msg);
+                QNLogUtils.logAndWrite("WspScaleActivity", "用户模式连接 wifi 配置code:" + code + ",msg:" + msg);
             }
         });
     }
@@ -485,7 +478,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                                         mQNBleApi.connectUserScaleDevice(mBleDevice, mQnUserScaleConfig, new QNResultCallback() {
                                             @Override
                                             public void onResult(int code, String msg) {
-                                                QNLogUtils.log("WspScaleActivity", "wifi 配置code:" + code + ",msg:" + msg);
+                                                QNLogUtils.logAndWrite("WspScaleActivity", "wifi 配置code:" + code + ",msg:" + msg);
                                             }
                                         });
 

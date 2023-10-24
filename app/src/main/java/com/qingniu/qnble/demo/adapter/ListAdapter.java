@@ -149,7 +149,7 @@ public class ListAdapter extends BaseAdapter {
         if ((curMonth > userMonth) || (curMonth == userMonth && curDay >= userDay)) {
             age++;
         }
-        QNLogUtils.log("BleUser", "计算的年龄为:" + age + ";当前时间为:" + System.currentTimeMillis() +
+        QNLogUtils.logAndWrite("BleUser", "计算的年龄为:" + age + ";当前时间为:" + System.currentTimeMillis() +
                 ";生日为:" + birthday.getTime());
         return age;
     }

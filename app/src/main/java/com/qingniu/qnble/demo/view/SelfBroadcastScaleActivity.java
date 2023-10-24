@@ -104,7 +104,7 @@ public class SelfBroadcastScaleActivity extends AppCompatActivity {
                 @Override
                 public void onResult(int code, String msg) {
                     if (code != CheckStatus.OK.getCode()) {
-                        QNLogUtils.log("LeScanCallback", msg);
+                        QNLogUtils.logAndWrite("LeScanCallback", msg);
                     }
                 }
             });

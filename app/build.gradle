@@ -9,7 +9,7 @@ android {
         targetSdkVersion TARGET_SDK_VERSION as int
         applicationId "com.qingniu.health.scaleX.demo"
         versionCode 1
-        versionName "2.10.2"
+        versionName "2.10.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
@@ -68,9 +68,9 @@ dependencies {
     if (USE_BLE_TYPE as int == 0) {
         implementation project(":qnscalesdkX")
     } else if (USE_BLE_TYPE as int == 1) {
-        implementation("com.github.YolandaQingniu:qnscalesdkX:2.10.2")
+        implementation("com.github.YolandaQingniu:qnscalesdkX:2.10.3")
     } else if (USE_BLE_TYPE as int == 2) {
-        implementation project(':QNBle')
+        implementation project(':qnble')
         implementation project(':QNScaleDecoder')
         implementation project(':QNBleSdk')
         implementation project(':QNTapeDecoder')

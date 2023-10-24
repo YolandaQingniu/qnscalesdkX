@@ -147,16 +147,6 @@ public class NativeBleHelper {
         mBleStatusAction = bleStatusAction;
         mQNScaleDataListener = qnScaleDataListener;
 
-        if (!TextUtils.isEmpty(tag)) {
-            //此API是用来监听日志的，如果需要上传日志到服务器则可以使用，否则不需要设置
-            mQNBleApi.setLogListener(new QNLogListener() {
-                @Override
-                public void onLog(String log) {
-                    Log.e(tag, log);
-                }
-            });
-        }
-
         initDeviceAndUser(intent);
         initBleConnectStatus();
         //设置数据监听器,返回数据,需在连接当前设备前设置

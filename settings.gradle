@@ -3,8 +3,8 @@ if (USE_BLE_TYPE as int == 0){
     include ':qnscalesdkX'
 }
 else if (USE_BLE_TYPE as int == 2) {
-    include ':QNBle', ':QNScaleDecoder', ':QNBleSdk', ':QNTapeDecoder'
-    project(":QNBle").projectDir = new File(rootProject.projectDir, '../QNBle')
+    include ':qnble', ':QNScaleDecoder', ':QNBleSdk', ':QNTapeDecoder'
+    project(":qnble").projectDir = new File(rootProject.projectDir, '../qnble')
     project(":QNScaleDecoder").projectDir = new File(rootProject.projectDir, '../QNScaleDecoder')
     project(":QNBleSdk").projectDir = new File(rootProject.projectDir, '../QNBleSdk')
     project(":QNTapeDecoder").projectDir = new File(rootProject.projectDir, '../QNTapeDecoder')

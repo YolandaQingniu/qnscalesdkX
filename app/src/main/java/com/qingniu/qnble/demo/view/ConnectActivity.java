@@ -147,13 +147,6 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect);
         mQNBleApi = QNBleApi.getInstance(this);
-        //此API是用来监听日志的，如果需要上传日志到服务器则可以使用，否则不需要设置
-        mQNBleApi.setLogListener(new QNLogListener() {
-            @Override
-            public void onLog(String log) {
-                // Log.e("test", log);
-            }
-        });
         ButterKnife.bind(this);
         initIntent();
         initView();
@@ -221,7 +214,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
             mQNBleApi.connectDeviceSetWiFi(device, createQNUser(), mQnWiFiConfig, new QNResultCallback() {
                 @Override
                 public void onResult(int code, String msg) {
-                    QNLogUtils.log("ConnectActivity", "wifi 配置code:" + code + ",msg:" + msg);
+                    QNLogUtils.logAndWrite("ConnectActivity", "wifi 配置code:" + code + ",msg:" + msg);
                     // ToastMaker.show(ConnectActivity.this, code + ":" + msg);
                 }
             });
@@ -596,7 +589,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
             mQNBleApi.connectDeviceSetWiFi(mBleDevice, createQNUser(), mQnWiFiConfig, new QNResultCallback() {
                 @Override
                 public void onResult(int code, String msg) {
-                    QNLogUtils.log("ConnectActivity", "wifi 配置code:" + code + ",msg:" + msg);
+                    QNLogUtils.logAndWrite("ConnectActivity", "wifi 配置code:" + code + ",msg:" + msg);
                     if (code == 0) {
                         mIsConnected = true;
                     }

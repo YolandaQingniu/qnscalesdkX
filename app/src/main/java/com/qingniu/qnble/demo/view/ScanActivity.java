@@ -158,7 +158,7 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
                 nameTv.setText(kitchenDevice.getName());
                 modelTv.setText(kitchenDevice.getModeId());
                 macTv.setText(kitchenDevice.getMac());
-                screenStateTv.setText(0);
+                screenStateTv.setText("0");
             }
 
             return convertView;
@@ -227,13 +227,13 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
 
             @Override
             public void onStartScan() {
-                QNLogUtils.log("ScanActivity", "onStartScan");
+                QNLogUtils.logAndWrite("ScanActivity", "onStartScan");
                 isScanning = true;
             }
 
             @Override
             public void onStopScan() {
-                QNLogUtils.log("ScanActivity", "onStopScan");
+                QNLogUtils.logAndWrite("ScanActivity", "onStopScan");
                 isScanning = false;
                 ToastMaker.show(ScanActivity.this, getResources().getString(R.string.scan_stopped));
             }
@@ -241,7 +241,7 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onScanFail(int code) {
                 isScanning = false;
-                QNLogUtils.log("ScanActivity", "onScanFail:" + code);
+                QNLogUtils.logAndWrite("ScanActivity", "onScanFail:" + code);
                 Toast.makeText(ScanActivity.this, getResources().getString(R.string.scan_exception) + ":" + code, Toast.LENGTH_SHORT).show();
             }
 
@@ -407,7 +407,7 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
                 QNShareData qnShareData = QNUtils.decodeShareData(qrcode, validSecond, createQNUser(), new QNResultCallback() {
                     @Override
                     public void onResult(int code, String msg) {
-                        QNLogUtils.log(TAG, "code:" + code);
+                        QNLogUtils.logAndWrite(TAG, "code:" + code);
                     }
                 });
                 String result = getResources().getString(R.string.decode_fail);

@@ -87,13 +87,6 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_height_scale);
         mQNBleApi = QNBleApi.getInstance(this);
-        //此API是用来监听日志的，如果需要上传日志到服务器则可以使用，否则不需要设置
-        mQNBleApi.setLogListener(new QNLogListener() {
-            @Override
-            public void onLog(String log) {
-                // Log.e("test", log);
-            }
-        });
         ButterKnife.bind(this);
         initIntent();
         initView();

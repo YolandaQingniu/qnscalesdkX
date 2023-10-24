@@ -81,7 +81,7 @@ public class WebEightElectroActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 super.onProgressChanged(view, newProgress);
-                QNLogUtils.log(TAG, "onProgressChanged => " + newProgress);
+                QNLogUtils.logAndWrite(TAG, "onProgressChanged => " + newProgress);
                 if (newProgress == 100) {
                     //加载完毕进度条消失
                     progressView.setVisibility(View.GONE);
@@ -102,7 +102,7 @@ public class WebEightElectroActivity extends AppCompatActivity {
 //        Uri h5Url = Uri.parse("http://192.168.2.24:4040/h5-business-demo/eight_electrodes_report.html");
         h5Url = h5Url.buildUpon().appendQueryParameter("measureData",object).build();
 
-        QNLogUtils.log(TAG, String.valueOf(h5Url));
+        QNLogUtils.logAndWrite(TAG, String.valueOf(h5Url));
 
         webView.loadUrl(String.valueOf(h5Url));
     }
