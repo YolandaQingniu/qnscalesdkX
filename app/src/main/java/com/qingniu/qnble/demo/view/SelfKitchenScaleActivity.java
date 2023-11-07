@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.qingniu.qnble.demo.R;
 import com.qingniu.qnble.demo.util.UserConst;
-import com.qingniu.qnble.utils.QNLogUtils;
 import com.qn.device.constant.CheckStatus;
 import com.qn.device.constant.QNDeviceType;
 import com.qn.device.listener.QNResultCallback;
@@ -87,7 +86,7 @@ public class SelfKitchenScaleActivity extends AppCompatActivity {
                 @Override
                 public void onResult(int code, String msg) {
                     if (code != CheckStatus.OK.getCode()) {
-                        QNLogUtils.logAndWrite("LeScanCallback", msg);
+                        Log.e("LeScanCallback", msg);
                     }
                 }
             });

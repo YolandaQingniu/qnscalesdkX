@@ -31,7 +31,6 @@ import com.qingniu.qnble.demo.bean.User;
 import com.qingniu.qnble.demo.nativeble.BleStatusAction;
 import com.qingniu.qnble.demo.nativeble.NativeBleHelper;
 import com.qingniu.qnble.demo.util.UserConst;
-import com.qingniu.qnble.utils.QNLogUtils;
 import com.qingniu.scale.constant.DecoderConst;
 import com.qn.device.constant.QNBleConst;
 import com.qn.device.constant.QNIndicator;
@@ -208,7 +207,7 @@ public class SelfHeightScaleActivity extends AppCompatActivity implements View.O
         @Override
         public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicRead(gatt, characteristic, status);
-            Log.d(TAG, "onCharacteristicRead---收到数据:  " + QNLogUtils.byte2hex(characteristic.getValue()));
+            Log.d(TAG, "onCharacteristicRead---收到数据:  ");
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 //获取到数据
                 if (mNativeBleHelper.getProtocolhandler() != null) {
@@ -223,7 +222,7 @@ public class SelfHeightScaleActivity extends AppCompatActivity implements View.O
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
             super.onCharacteristicChanged(gatt, characteristic);
 
-            Log.d(TAG, "onCharacteristicChanged---收到数据:  " + QNLogUtils.byte2hex(characteristic.getValue()));
+            Log.d(TAG, "onCharacteristicChanged---收到数据:  ");
             //获取到数据
             if (mNativeBleHelper.getProtocolhandler() != null) {
                 mNativeBleHelper.getProtocolhandler().onGetBleData(QNBleConst.UUID_HEIGHT_SCALE_SERVICES, characteristic.getUuid().toString(), characteristic.getValue());

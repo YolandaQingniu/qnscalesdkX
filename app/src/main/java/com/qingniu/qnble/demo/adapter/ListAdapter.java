@@ -1,5 +1,6 @@
 package com.qingniu.qnble.demo.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,6 @@ import com.qingniu.qnble.demo.R;
 import com.qingniu.qnble.demo.bean.IndicateBean;
 import com.qingniu.qnble.demo.util.IndicateUtils;
 import com.qingniu.qnble.demo.util.UnitConvertUtil;
-import com.qingniu.qnble.utils.QNLogUtils;
 import com.qn.device.constant.QNIndicator;
 import com.qn.device.out.QNBleApi;
 import com.qn.device.out.QNBleDevice;
@@ -149,7 +149,7 @@ public class ListAdapter extends BaseAdapter {
         if ((curMonth > userMonth) || (curMonth == userMonth && curDay >= userDay)) {
             age++;
         }
-        QNLogUtils.logAndWrite("BleUser", "计算的年龄为:" + age + ";当前时间为:" + System.currentTimeMillis() +
+        Log.e("BleUser", "计算的年龄为:" + age + ";当前时间为:" + System.currentTimeMillis() +
                 ";生日为:" + birthday.getTime());
         return age;
     }

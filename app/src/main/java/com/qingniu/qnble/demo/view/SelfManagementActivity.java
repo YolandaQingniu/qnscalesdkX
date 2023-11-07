@@ -30,7 +30,6 @@ import com.qingniu.qnble.demo.picker.WIFISetDialog;
 import com.qingniu.qnble.demo.util.AndroidPermissionCenter;
 import com.qingniu.qnble.demo.util.ToastMaker;
 import com.qingniu.qnble.demo.util.UserConst;
-import com.qingniu.qnble.utils.QNLogUtils;
 import com.qn.device.constant.CheckStatus;
 import com.qn.device.constant.QNDeviceType;
 import com.qn.device.listener.QNResultCallback;
@@ -194,13 +193,13 @@ public class SelfManagementActivity extends AppCompatActivity implements Adapter
                 @Override
                 public void onResult(int code, String msg) {
                     if (code != CheckStatus.OK.getCode()) {
-                        QNLogUtils.logAndWrite("LeScanCallback", msg);
+                        Log.e("LeScanCallback", msg);
                     }
                 }
             });
 
             if (qnBleDevice != null && !macList.contains(qnBleDevice.getMac())) {
-                QNLogUtils.logAndWrite("LeScanCallback", qnBleDevice.getMac());
+                Log.e("LeScanCallback", qnBleDevice.getMac());
                 macList.add(qnBleDevice.getMac());
                 devices.add(qnBleDevice);
                 listAdapter.notifyDataSetChanged();

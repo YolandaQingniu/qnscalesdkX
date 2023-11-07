@@ -22,7 +22,6 @@ import com.qingniu.qnble.demo.adapter.ListAdapter;
 import com.qingniu.qnble.demo.util.DateUtils;
 import com.qingniu.qnble.demo.util.ToastMaker;
 import com.qingniu.qnble.demo.util.UserConst;
-import com.qingniu.qnble.utils.QNLogUtils;
 import com.qingniu.scale.constant.DecoderConst;
 import com.qingniu.scale.model.BleScale;
 import com.qn.device.constant.QNIndicator;
@@ -172,7 +171,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
         mQNBleApi.connectUserScaleDevice(device, mQnUserScaleConfig, new QNResultCallback() {
             @Override
             public void onResult(int code, String msg) {
-                QNLogUtils.logAndWrite("WspScaleActivity", "用户模式连接 wifi 配置code:" + code + ",msg:" + msg);
+                Log.e("WspScaleActivity", "用户模式连接 wifi 配置code:" + code + ",msg:" + msg);
             }
         });
     }
@@ -478,7 +477,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                                         mQNBleApi.connectUserScaleDevice(mBleDevice, mQnUserScaleConfig, new QNResultCallback() {
                                             @Override
                                             public void onResult(int code, String msg) {
-                                                QNLogUtils.logAndWrite("WspScaleActivity", "wifi 配置code:" + code + ",msg:" + msg);
+                                                Log.e("WspScaleActivity", "wifi 配置code:" + code + ",msg:" + msg);
                                             }
                                         });
 
