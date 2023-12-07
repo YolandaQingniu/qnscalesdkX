@@ -15,7 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.qingniu.qnble.demo.R;
-import com.qingniu.qnble.utils.QNLogUtils;
 
 import org.json.JSONObject;
 
@@ -81,7 +80,6 @@ public class WebEightElectroActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 super.onProgressChanged(view, newProgress);
-                QNLogUtils.logAndWrite(TAG, "onProgressChanged => " + newProgress);
                 if (newProgress == 100) {
                     //加载完毕进度条消失
                     progressView.setVisibility(View.GONE);
@@ -101,8 +99,6 @@ public class WebEightElectroActivity extends AppCompatActivity {
         Uri h5Url = Uri.parse("https://app-h5.yolanda.hk/h5-business-demo/eight_electrodes_report.html");
 //        Uri h5Url = Uri.parse("http://192.168.2.24:4040/h5-business-demo/eight_electrodes_report.html");
         h5Url = h5Url.buildUpon().appendQueryParameter("measureData",object).build();
-
-        QNLogUtils.logAndWrite(TAG, String.valueOf(h5Url));
 
         webView.loadUrl(String.valueOf(h5Url));
     }

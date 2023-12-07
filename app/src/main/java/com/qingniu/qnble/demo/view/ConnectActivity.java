@@ -26,7 +26,6 @@ import com.qingniu.qnble.demo.bean.User;
 import com.qingniu.qnble.demo.util.AndroidPermissionCenter;
 import com.qingniu.qnble.demo.util.ToastMaker;
 import com.qingniu.qnble.demo.util.UserConst;
-import com.qingniu.qnble.utils.QNLogUtils;
 import com.qingniu.scale.constant.DecoderConst;
 import com.qn.device.constant.CheckStatus;
 import com.qn.device.constant.QNIndicator;
@@ -214,7 +213,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
             mQNBleApi.connectDeviceSetWiFi(device, createQNUser(), mQnWiFiConfig, new QNResultCallback() {
                 @Override
                 public void onResult(int code, String msg) {
-                    QNLogUtils.logAndWrite("ConnectActivity", "wifi 配置code:" + code + ",msg:" + msg);
+                    Log.e("ConnectActivity", "wifi 配置code:" + code + ",msg:" + msg);
                     // ToastMaker.show(ConnectActivity.this, code + ":" + msg);
                 }
             });
@@ -589,7 +588,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
             mQNBleApi.connectDeviceSetWiFi(mBleDevice, createQNUser(), mQnWiFiConfig, new QNResultCallback() {
                 @Override
                 public void onResult(int code, String msg) {
-                    QNLogUtils.logAndWrite("ConnectActivity", "wifi 配置code:" + code + ",msg:" + msg);
+                    Log.e("ConnectActivity", "wifi 配置code:" + code + ",msg:" + msg);
                     if (code == 0) {
                         mIsConnected = true;
                     }

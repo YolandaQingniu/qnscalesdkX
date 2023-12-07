@@ -28,7 +28,6 @@ import com.qingniu.qnble.demo.R;
 import com.qingniu.qnble.demo.adapter.ListAdapter;
 import com.qingniu.qnble.demo.bean.User;
 import com.qingniu.qnble.demo.util.UserConst;
-import com.qingniu.qnble.utils.QNLogUtils;
 import com.qingniu.scale.config.DecoderAdapterManager;
 import com.qingniu.scale.config.DoubleDecoderAdapter;
 import com.qingniu.scale.constant.DecoderConst;
@@ -238,7 +237,7 @@ public class SelfConnectActivity extends AppCompatActivity implements View.OnCli
         @Override
         public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicRead(gatt, characteristic, status);
-            Log.d(TAG, "onCharacteristicRead---收到数据:  " + QNLogUtils.byte2hex(characteristic.getValue()));
+            Log.d(TAG, "onCharacteristicRead---收到数据:  ");
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 //获取到数据
                 if (mProtocolhandler != null) {
@@ -253,7 +252,7 @@ public class SelfConnectActivity extends AppCompatActivity implements View.OnCli
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
             super.onCharacteristicChanged(gatt, characteristic);
 
-            Log.d(TAG, "onCharacteristicChanged---收到数据:  " + QNLogUtils.byte2hex(characteristic.getValue()));
+            Log.d(TAG, "onCharacteristicChanged---收到数据:  ");
             //获取到数据
             if (mProtocolhandler != null) {
                 mProtocolhandler.onGetBleData(getService(), characteristic.getUuid().toString(), characteristic.getValue());

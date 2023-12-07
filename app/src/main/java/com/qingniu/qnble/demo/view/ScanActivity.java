@@ -31,7 +31,6 @@ import com.qingniu.qnble.demo.picker.WIFISetDialog;
 import com.qingniu.qnble.demo.util.AndroidPermissionCenter;
 import com.qingniu.qnble.demo.util.ToastMaker;
 import com.qingniu.qnble.demo.util.UserConst;
-import com.qingniu.qnble.utils.QNLogUtils;
 import com.qn.device.constant.CheckStatus;
 import com.qn.device.constant.QNDeviceType;
 import com.qn.device.constant.QNIndicator;
@@ -227,13 +226,13 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
 
             @Override
             public void onStartScan() {
-                QNLogUtils.logAndWrite("ScanActivity", "onStartScan");
+                Log.e("ScanActivity", "onStartScan");
                 isScanning = true;
             }
 
             @Override
             public void onStopScan() {
-                QNLogUtils.logAndWrite("ScanActivity", "onStopScan");
+                Log.e("ScanActivity", "onStopScan");
                 isScanning = false;
                 ToastMaker.show(ScanActivity.this, getResources().getString(R.string.scan_stopped));
             }
@@ -241,7 +240,7 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onScanFail(int code) {
                 isScanning = false;
-                QNLogUtils.logAndWrite("ScanActivity", "onScanFail:" + code);
+                Log.e("ScanActivity", "onScanFail:" + code);
                 Toast.makeText(ScanActivity.this, getResources().getString(R.string.scan_exception) + ":" + code, Toast.LENGTH_SHORT).show();
             }
 
@@ -407,7 +406,7 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
                 QNShareData qnShareData = QNUtils.decodeShareData(qrcode, validSecond, createQNUser(), new QNResultCallback() {
                     @Override
                     public void onResult(int code, String msg) {
-                        QNLogUtils.logAndWrite(TAG, "code:" + code);
+                        Log.e(TAG, "code:" + code);
                     }
                 });
                 String result = getResources().getString(R.string.decode_fail);

@@ -3,7 +3,6 @@ package com.qingniu.qnble.demo;
 import android.app.Application;
 import android.util.Log;
 
-import com.qingniu.qnble.utils.QNLogUtils;
 import com.qn.device.listener.QNLogListener;
 import com.qn.device.listener.QNResultCallback;
 import com.qn.device.out.QNBleApi;

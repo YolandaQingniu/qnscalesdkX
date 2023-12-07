@@ -37,7 +37,6 @@ import com.qingniu.qnble.demo.bean.User;
 import com.qingniu.qnble.demo.util.AndroidPermissionCenter;
 import com.qingniu.qnble.demo.util.ToastMaker;
 import com.qingniu.qnble.demo.util.UserConst;
-import com.qingniu.qnble.utils.QNLogUtils;
 import com.qingniu.scale.constant.DecoderConst;
 import com.qn.device.constant.CheckStatus;
 import com.qn.device.constant.QNBleConst;
@@ -389,7 +388,6 @@ public class SelfMultiDeviceConnectActivity extends AppCompatActivity implements
                 @Override
                 public void onResult(int code, String msg) {
                     if (code != CheckStatus.OK.getCode()) {
-                        QNLogUtils.logAndWrite("LeScanCallback", msg);
                     }
                 }
             });
@@ -400,7 +398,6 @@ public class SelfMultiDeviceConnectActivity extends AppCompatActivity implements
             if (null != qnBleDevice && qnBleDevice.getDeviceType() == QNDeviceType.SCALE_BLE_DEFAULT) {
 
                 if (qnBleDevice != null && !macList.contains(qnBleDevice.getMac())) {
-                    QNLogUtils.logAndWrite("LeScanCallback", qnBleDevice.getMac());
                     macList.add(qnBleDevice.getMac());
                     devices.add(qnBleDevice);
                     listAdapter.notifyDataSetChanged();
@@ -750,7 +747,7 @@ public class SelfMultiDeviceConnectActivity extends AppCompatActivity implements
         @Override
         public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicRead(gatt, characteristic, status);
-            Log.d(TAG, "onCharacteristicRead---收到数据:  " + QNLogUtils.byte2hex(characteristic.getValue()));
+            Log.d(TAG, "onCharacteristicRead---收到数据:  ");
             QNBleProtocolHandler  mProtocolhandler = mProtocolhandlers.get(gatt.getDevice().getAddress());
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 //获取到数据
@@ -766,7 +763,7 @@ public class SelfMultiDeviceConnectActivity extends AppCompatActivity implements
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
             super.onCharacteristicChanged(gatt, characteristic);
             QNBleProtocolHandler  mProtocolhandler = mProtocolhandlers.get(gatt.getDevice().getAddress());
-            Log.d(TAG, "onCharacteristicChanged---收到数据:  " + QNLogUtils.byte2hex(characteristic.getValue()));
+            Log.d(TAG, "onCharacteristicChanged---收到数据:  ");
             //获取到数据
             if (mProtocolhandler != null) {
                 mProtocolhandler.onGetBleData(getService(gatt), characteristic.getUuid().toString(), characteristic.getValue());

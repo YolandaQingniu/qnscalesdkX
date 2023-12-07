@@ -24,7 +24,6 @@ import com.qingniu.qnble.demo.adapter.ListAdapter;
 import com.qingniu.qnble.demo.bean.User;
 import com.qingniu.qnble.demo.util.ToastMaker;
 import com.qingniu.qnble.demo.util.UserConst;
-import com.qingniu.qnble.utils.QNLogUtils;
 import com.qn.device.constant.CheckStatus;
 import com.qn.device.constant.QNDeviceType;
 import com.qn.device.constant.UserGoal;
@@ -104,7 +103,6 @@ public class SelfBroadcastScaleActivity extends AppCompatActivity {
                 @Override
                 public void onResult(int code, String msg) {
                     if (code != CheckStatus.OK.getCode()) {
-                        QNLogUtils.logAndWrite("LeScanCallback", msg);
                     }
                 }
             });
