@@ -1,4 +1,4 @@
-# [English document](https://github.com/YolandaQingniu/qnscalesdkX/wiki/English-document)
+# [English document](https://yolandaqingniu.github.io/)
 
 # 轻牛蓝牙Android SDK
 
