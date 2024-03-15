@@ -7,7 +7,7 @@
 + -keep class com.qingniu.scale.model.BleScaleData{*;}
 
 ##具体操作文档
-[具体集成说明文档](https://yolandaqingniu.gitee.io/sdk-doc/)
+[具体集成说明文档](https://yolandaqingniu.github.io/)
 
 ### Android Studio 线上依赖
 * 在你工程的根目录下的 **build.gradle**添加**jitpack**支持
@@ -28,35 +28,6 @@
 	        compile 'com.github.YolandaQingniu:qnscalesdkX:2.13.0'
 	}
 	```
-	
-### Android Studio 本地依赖
-* 下载最新的[jar和so库](https://github.com/YolandaQingniu/qnscalesdkX/releases/download/2.13.0/qnsdkX-2.13.0-Android.zip)，导入下载的`jar和so库`
-* 在app moudle 下建立libs文件夹，将so库和jar包放入libs 文件夹内。
-*  在app moudle 的gradle文件中增加配置
-```
- sourceSets {
-        main {
-            jniLibs.srcDirs = ['libs']
-        }
-    }
-```    
- 
-* 在清单文件中申请蓝牙权限、位置权限、网络权限（离线SDK不需要）
-    ```
-   <!--蓝牙权限-->
-   <uses-permission android:name="android.permission.BLUETOOTH" />
-   <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-   <!--6.0及之后需要动态申请-->
-   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-   <!--用来存储日志-->
-   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-   <!--如果是在线的sdk需要网络权限-->
-   <uses-permission android:name="android.permission.INTERNET" />
-
-   <uses-permission android:name="android.permission.WAKE_LOCK" />
-    ```
 
 ## 注意事项
 - targetSdkVersion 在28及以上，需要先获取定位权限，才能扫描到设备，需要开发者自己申请
@@ -64,7 +35,7 @@
 - 如果你的项目是多进程的，建议限制在主进程才进行SDK的初始化
 
 ## 常见问题
-具体使用参考[API文档](https://yolandaqingniu.gitee.io/sdk-doc/)和`Demo`，以下为一些常见问题。
+具体使用参考[API文档](https://yolandaqingniu.github.io/)和`Demo`，以下为一些常见问题。
 
 1. 初始化提示appid错误
     + 检查初始化文件和使用的appid是否匹配
