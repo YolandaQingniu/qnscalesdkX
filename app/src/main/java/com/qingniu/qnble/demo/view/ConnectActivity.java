@@ -327,7 +327,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
 
             @Override
             public void onGetStoredScale(QNBleDevice device, List<QNScaleStoreData> storedDataList) {
-                Log.d("ConnectActivity", "收到存储数据");
+                Log.d("ConnectActivity", "收到存储数据 " + storedDataList.size() + "条");
                 if (storedDataList != null && storedDataList.size() > 0) {
                     QNScaleStoreData data = storedDataList.get(0);
                     for (int i = 0; i < storedDataList.size(); i++) {

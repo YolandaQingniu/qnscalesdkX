@@ -138,7 +138,7 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
             //出现了连接错误，错误码参考附表
             @Override
             public void onConnectError(QNBleDevice device, int errorCode) {
-                Log.d("ConnectActivity", "onConnectError:" + errorCode);
+                Log.d("HeightScaleActivity", "onConnectError:" + errorCode);
                 setBleStatus(QNScaleStatus.STATE_DISCONNECTED);
             }
 
@@ -153,7 +153,7 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
         mQNBleApi.connectDevice(device, createQNUser(), new QNResultCallback() {
             @Override
             public void onResult(int code, String msg) {
-                Log.d("ConnectActivity", "连接设备返回:" + msg);
+                Log.d("HeightScaleActivity", "连接设备返回:" + msg);
             }
         });
 
@@ -215,7 +215,7 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
                 userShape, userGoal, mUser.getClothesWeight(), new QNResultCallback() {
                     @Override
                     public void onResult(int code, String msg) {
-                        Log.d("ConnectActivity", "创建用户信息返回:" + msg);
+                        Log.d("HeightScaleActivity", "创建用户信息返回:" + msg);
                     }
                 });
     }
@@ -225,28 +225,28 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
         mQNBleApi.setDataListener(new QNScaleDataListener() {
             @Override
             public void onGetUnsteadyWeight(QNBleDevice device, double weight) {
-                Log.d("ConnectActivity", "体重是:" + weight);
+                Log.d("HeightScaleActivity", "体重是:" + weight);
                 mWeightTv.setText(initWeight(weight));
             }
 
             @Override
             public void onGetScaleData(QNBleDevice device, QNScaleData data) {
-                Log.d("ConnectActivity", "收到测量数据");
+                Log.d("HeightScaleActivity", "收到测量数据");
                 onReceiveScaleData(data);
                 QNScaleItemData fatValue = data.getItem(QNIndicator.TYPE_SUBFAT);
                 if (fatValue != null) {
                     String value = fatValue.getValue() + "";
-                    Log.d("ConnectActivity", "收到皮下脂肪数据:" + value);
+                    Log.d("HeightScaleActivity", "收到皮下脂肪数据:" + value);
                 }
             }
 
             @Override
             public void onGetStoredScale(QNBleDevice device, List<QNScaleStoreData> storedDataList) {
-                Log.d("ConnectActivity", "收到存储数据");
+                Log.d("HeightScaleActivity", "收到存储数据 " + storedDataList.size() + "条");
                 if (storedDataList != null && storedDataList.size() > 0) {
                     QNScaleStoreData data = storedDataList.get(0);
                     for (int i = 0; i < storedDataList.size(); i++) {
-                        Log.d("ConnectActivity", "收到存储数据:" + storedDataList.get(i).getWeight());
+                        Log.d("HeightScaleActivity", "收到存储数据:" + storedDataList.get(i).getWeight());
                     }
                     QNUser qnUser = createQNUser();
                     data.setUser(qnUser);
@@ -258,7 +258,7 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onGetElectric(QNBleDevice device, int electric) {
                 String text = "收到电池电量百分比:" + electric;
-                Log.d("ConnectActivity", text);
+                Log.d("HeightScaleActivity", text);
                 if (electric == DecoderConst.NONE_BATTERY_VALUE) {//获取电池信息失败
                     return;
                 }
@@ -268,13 +268,13 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
             //测量过程中的连接状态
             @Override
             public void onScaleStateChange(QNBleDevice device, int status) {
-                Log.d("ConnectActivity", "秤的连接状态是:" + status);
+                Log.d("HeightScaleActivity", "秤的连接状态是:" + status);
                 setBleStatus(status);
             }
 
             @Override
             public void onScaleEventChange(QNBleDevice device, int scaleEvent) {
-                Log.d("ConnectActivity", "秤返回的事件是:" + scaleEvent);
+                Log.d("HeightScaleActivity", "秤返回的事件是:" + scaleEvent);
             }
 
             @Override
@@ -387,22 +387,22 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
             case QNScaleStatus.STATE_WIFI_BLE_START_NETWORK:
                 stateString = getResources().getString(R.string.start_set_wifi);
                 btnString = getResources().getString(R.string.disconnected);
-                Log.d("ConnectActivity", "开始设置WiFi");
+                Log.d("HeightScaleActivity", "开始设置WiFi");
                 break;
             case QNScaleStatus.STATE_WIFI_BLE_NETWORK_FAIL:
                 stateString = getResources().getString(R.string.failed_to_set_wifi);
                 btnString = getResources().getString(R.string.disconnected);
-                Log.d("ConnectActivity", "设置WiFi失败");
+                Log.d("HeightScaleActivity", "设置WiFi失败");
                 break;
             case QNScaleStatus.STATE_WIFI_BLE_NETWORK_SUCCESS:
                 stateString = getResources().getString(R.string.success_to_set_wifi);
                 btnString = getResources().getString(R.string.disconnected);
-                Log.d("ConnectActivity", "设置WiFi成功");
+                Log.d("HeightScaleActivity", "设置WiFi成功");
                 break;
             case QNScaleStatus.STATE_HEIGH_SCALE_MEASURE_FAIL:
                 stateString = getResources().getString(R.string.measure_fail);
                 btnString = getResources().getString(R.string.disconnected);
-                Log.d("ConnectActivity","身高体重秤测量失败");
+                Log.d("HeightScaleActivity","身高体重秤测量失败");
                 break;
             default: {
                 stateString = getResources().getString(R.string.connection_disconnected);
@@ -445,7 +445,7 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
         mQNBleApi.connectDevice(mBleDevice, createQNUser(), new QNResultCallback() {
             @Override
             public void onResult(int code, String msg) {
-                Log.d("ConnectActivity", "连接设备返回:" + msg);
+                Log.d("HeightScaleActivity", "连接设备返回:" + msg);
                 if (code == 0) {
                     mIsConnected = true;
                 }
@@ -458,7 +458,7 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
         mQNBleApi.disconnectDevice(mBleDevice, new QNResultCallback() {
             @Override
             public void onResult(int code, String msg) {
-                Log.d("ConnectActivity", "断开连接设备返回:" + msg);
+                Log.d("HeightScaleActivity", "断开连接设备返回:" + msg);
             }
         });
     }

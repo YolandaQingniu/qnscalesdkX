@@ -63,7 +63,7 @@ import butterknife.OnClick;
 
 public class UserScaleActivity extends AppCompatActivity implements View.OnClickListener, QNBleOTAListener {
 
-    private static final String TAG = "WspScaleActivity";
+    private static final String TAG = "UserScaleActivity";
 
     @BindView(R.id.snTextView)
     TextView snTextView;
@@ -155,14 +155,14 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
             //出现了连接错误，错误码参考附表
             @Override
             public void onConnectError(QNBleDevice device, int errorCode) {
-                Log.d("WspScaleActivity", "onConnectError:" + errorCode);
+                Log.d("UserScaleActivity", "onConnectError:" + errorCode);
                 setBleStatus(QNScaleStatus.STATE_DISCONNECTED);
             }
 
 
             @Override
             public void onStartInteracting(QNBleDevice device) {
-                Log.d("WspScaleActivity", "onStartInteracting");
+                Log.d("UserScaleActivity", "onStartInteracting");
             }
         });
     }
@@ -171,7 +171,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
         mQNBleApi.connectUserScaleDevice(device, mQnUserScaleConfig, new QNResultCallback() {
             @Override
             public void onResult(int code, String msg) {
-                Log.e("WspScaleActivity", "用户模式连接 wifi 配置code:" + code + ",msg:" + msg);
+                Log.e("UserScaleActivity", "用户模式连接 wifi 配置code:" + code + ",msg:" + msg);
             }
         });
     }
@@ -181,19 +181,19 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
         mQNBleApi.setDataListener(new QNUserScaleDataListener() {
             @Override
             public void registerUserComplete(QNBleDevice device, QNUser user) {
-                Log.d("WspScaleActivity", "注册返回的用户索引：" + user.getIndex());
+                Log.d("UserScaleActivity", "注册返回的用户索引：" + user.getIndex());
                 registerUserIndex.setText(getResources().getString(R.string.register_user_index) + user.getIndex());
             }
 
             @Override
             public void onGetUnsteadyWeight(QNBleDevice device, double weight) {
-                Log.d("WspScaleActivity", "体重是:" + weight);
+                Log.d("UserScaleActivity", "体重是:" + weight);
                 mWeightTv.setText(initWeight(weight));
             }
 
             @Override
             public void onGetScaleData(QNBleDevice device, QNScaleData data) {
-                Log.d("WspScaleActivity", "收到测量数据");
+                Log.d("UserScaleActivity", "收到测量数据");
                 boolean isEightData = data.getItemValue(QNIndicator.TYPE_LEFT_ARM_MUSCLE_WEIGHT_INDEX) > 0;
                 listAdapter.setEight(isEightData);
 
@@ -201,10 +201,10 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                 QNScaleItemData fatValue = data.getItem(QNIndicator.TYPE_SUBFAT);
                 if (fatValue != null) {
                     String value = fatValue.getValue() + "";
-                    Log.d("WspScaleActivity", "收到皮下脂肪数据:" + value);
+                    Log.d("UserScaleActivity", "收到皮下脂肪数据:" + value);
                 }
-                Log.d("WspScaleActivity", "加密hmac为:" + data.getHmac());
-//                Log.d("WspScaleActivity", "收到体脂肪:"+data.getItem(QNIndicator.TYPE_BODYFAT).getValue());
+                Log.d("UserScaleActivity", "加密hmac为:" + data.getHmac());
+//                Log.d("UserScaleActivity", "收到体脂肪:"+data.getItem(QNIndicator.TYPE_BODYFAT).getValue());
 
                 if (data.getItemValue(QNIndicator.TYPE_LEFT_ARM_MUSCLE_WEIGHT_INDEX) > 0) {
 
@@ -258,25 +258,25 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
 
             @Override
             public void onGetStoredScale(QNBleDevice device, List<QNScaleStoreData> storedDataList) {
-                Log.d("WspScaleActivity", "收到存储数据");
+                Log.d("UserScaleActivity", "收到存储数据 " + storedDataList.size() + "条");
                 if (storedDataList != null && storedDataList.size() > 0) {
                     QNScaleStoreData data = storedDataList.get(0);
                     for (int i = 0; i < storedDataList.size(); i++) {
-                        Log.d("WspScaleActivity", "收到存储数据:" + storedDataList.get(i).getWeight());
+                        Log.d("UserScaleActivity", "收到存储数据:" + storedDataList.get(i).getWeight());
                     }
                     data.setUser(mQnUserScaleConfig.getCurUser());
                     QNScaleData qnScaleData = data.generateScaleData();
                     onReceiveScaleData(qnScaleData);
 
 
-                    Log.d("WspScaleActivity", "存储数据 加密hmac为:" + data.getHmac());
+                    Log.d("UserScaleActivity", "存储数据 加密hmac为:" + data.getHmac());
                 }
             }
 
             @Override
             public void onGetElectric(QNBleDevice device, int electric) {
                 String text = "收到电池电量百分比:" + electric;
-                Log.d("WspScaleActivity", text);
+                Log.d("UserScaleActivity", text);
                 if (electric == DecoderConst.NONE_BATTERY_VALUE) {//获取电池信息失败
                     return;
                 }
@@ -286,13 +286,13 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
             //测量过程中的连接状态
             @Override
             public void onScaleStateChange(QNBleDevice device, int status) {
-                Log.d("WspScaleActivity", "秤的连接状态是:" + status);
+                Log.d("UserScaleActivity", "秤的连接状态是:" + status);
                 setBleStatus(status);
             }
 
             @Override
             public void onScaleEventChange(QNBleDevice device, int scaleEvent) {
-                Log.d("WspScaleActivity", "秤的事件是:" + scaleEvent);
+                Log.d("UserScaleActivity", "秤的事件是:" + scaleEvent);
             }
 
             @Override
@@ -404,19 +404,19 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
             case QNScaleStatus.STATE_WIFI_BLE_START_NETWORK:
                 stateString = getResources().getString(R.string.start_set_wifi);
                 btnString = getResources().getString(R.string.disconnected);
-                Log.d("WspScaleActivity", "开始设置WiFi");
+                Log.d("UserScaleActivity", "开始设置WiFi");
                 break;
             case QNScaleStatus.STATE_WIFI_BLE_NETWORK_FAIL:
                 stateString = getResources().getString(R.string.failed_to_set_wifi);
                 btnString = getResources().getString(R.string.disconnected);
-                Log.d("WspScaleActivity", "设置WiFi失败");
+                Log.d("UserScaleActivity", "设置WiFi失败");
                 //配网成功或失败后都立刻断开连接
                 doDisconnect();
                 break;
             case QNScaleStatus.STATE_WIFI_BLE_NETWORK_SUCCESS:
                 stateString = getResources().getString(R.string.success_to_set_wifi);
                 btnString = getResources().getString(R.string.disconnected);
-                Log.d("WspScaleActivity", "设置WiFi成功");
+                Log.d("UserScaleActivity", "设置WiFi成功");
                 //配网成功或失败后都立刻断开连接
                 doDisconnect();
                 break;
@@ -443,7 +443,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                         }
                     });
                 } else {
-                    Log.d("WspScaleActivity", "请连接秤");
+                    Log.d("UserScaleActivity", "请连接秤");
                     ToastMaker.show(this, "请连接秤");
                 }
                 break;
@@ -477,7 +477,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                                         mQNBleApi.connectUserScaleDevice(mBleDevice, mQnUserScaleConfig, new QNResultCallback() {
                                             @Override
                                             public void onResult(int code, String msg) {
-                                                Log.e("WspScaleActivity", "wifi 配置code:" + code + ",msg:" + msg);
+                                                Log.e("UserScaleActivity", "wifi 配置code:" + code + ",msg:" + msg);
                                             }
                                         });
 
@@ -535,7 +535,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
         mQNBleApi.disconnectDevice(mBleDevice, new QNResultCallback() {
             @Override
             public void onResult(int code, String msg) {
-                Log.d("WspScaleActivity", "断开连接设备返回:" + msg);
+                Log.d("UserScaleActivity", "断开连接设备返回:" + msg);
             }
         });
     }
@@ -563,26 +563,26 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onOTAStart(QNBleDevice device) {
-        Log.d("WspScaleActivity", "onOTAStart:" + device.getMac());
+        Log.d("UserScaleActivity", "onOTAStart:" + device.getMac());
     }
 
     @Override
     public void onOTAUpgrading(QNBleDevice device) {
-        Log.d("WspScaleActivity", "onOTAUpgrading:" + device.getMac());
+        Log.d("UserScaleActivity", "onOTAUpgrading:" + device.getMac());
     }
 
     @Override
     public void onOTACompleted(QNBleDevice device) {
-        Log.d("WspScaleActivity", "onOTACompleted:" + device.getMac());
+        Log.d("UserScaleActivity", "onOTACompleted:" + device.getMac());
     }
 
     @Override
     public void onOTAFailed(QNBleDevice device, int errorCode) {
-        Log.d("WspScaleActivity", "onOTAFailed:" + device.getMac());
+        Log.d("UserScaleActivity", "onOTAFailed:" + device.getMac());
     }
 
     @Override
     public void onOTAProgress(QNBleDevice device, int progress) {
-        Log.d("WspScaleActivity", "onOTAProgress:" + progress);
+        Log.d("UserScaleActivity", "onOTAProgress:" + progress);
     }
 }

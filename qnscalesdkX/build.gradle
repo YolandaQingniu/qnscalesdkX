@@ -7,7 +7,7 @@ android {
         minSdkVersion 15//MIN_SDK_VERSION as int
         targetSdkVersion TARGET_SDK_VERSION as int
         versionCode 1
-        versionName "2.15.1"
+        versionName "2.16.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -24,7 +24,7 @@ android {
 }
 
 dependencies {
-    implementation files('libs/qnsdkX-2.15.1.jar')
+    implementation files('libs/qnsdkX-2.16.0.jar')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    compile files('libs/qnsdkX-2.15.1.jar')
+    compile files('libs/qnsdkX-2.16.0.jar')
 }
