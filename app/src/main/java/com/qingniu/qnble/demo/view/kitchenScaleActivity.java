@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.qingniu.qnble.demo.R;
+import com.qingniu.qnble.demo.util.QNDemoLogger;
 import com.qn.device.listener.QNBleDeviceDiscoveryListener;
 import com.qn.device.listener.QNResultCallback;
 import com.qn.device.out.QNBleApi;
@@ -68,7 +69,7 @@ public class kitchenScaleActivity extends AppCompatActivity {
         mQnConfig.save(new QNResultCallback() {
             @Override
             public void onResult(int i, String s) {
-                Log.d("ScanActivity", "initData:" + s);
+                QNDemoLogger.d("ScanActivity", "initData:" + s);
             }
         });
 
@@ -91,7 +92,7 @@ public class kitchenScaleActivity extends AppCompatActivity {
             @Override
             public void onScanFail(int code) {
                 //扫描失败
-                Log.e("onScanFail", "反馈码" + code);
+                QNDemoLogger.e("onScanFail", "反馈码" + code);
             }
 
             //蓝牙广播秤专用数据
@@ -124,7 +125,7 @@ public class kitchenScaleActivity extends AppCompatActivity {
             @Override
             public void onResult(int code, String msg) {
                 //开启扫描
-                Log.e("startBleDeviceDiscovery", "结果" + code + ",msg:" + msg);
+                QNDemoLogger.e("startBleDeviceDiscovery", "结果" + code + ",msg:" + msg);
             }
         });
     }

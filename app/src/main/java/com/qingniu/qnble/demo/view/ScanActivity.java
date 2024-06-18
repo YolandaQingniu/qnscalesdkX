@@ -29,6 +29,7 @@ import com.qingniu.qnble.demo.bean.Config;
 import com.qingniu.qnble.demo.bean.User;
 import com.qingniu.qnble.demo.picker.WIFISetDialog;
 import com.qingniu.qnble.demo.util.AndroidPermissionCenter;
+import com.qingniu.qnble.demo.util.QNDemoLogger;
 import com.qingniu.qnble.demo.util.ToastMaker;
 import com.qingniu.qnble.demo.util.UserConst;
 import com.qn.device.constant.CheckStatus;
@@ -206,7 +207,7 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
         mQnConfig.save(new QNResultCallback() {
             @Override
             public void onResult(int i, String s) {
-                Log.d("ScanActivity", "initData:" + s);
+                QNDemoLogger.d("ScanActivity", "initData:" + s);
             }
         });
         wifiSetDialog = new WIFISetDialog(ScanActivity.this);
@@ -226,13 +227,13 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
 
             @Override
             public void onStartScan() {
-                Log.e("ScanActivity", "onStartScan");
+                QNDemoLogger.e("ScanActivity", "onStartScan");
                 isScanning = true;
             }
 
             @Override
             public void onStopScan() {
-                Log.e("ScanActivity", "onStopScan");
+                QNDemoLogger.e("ScanActivity", "onStopScan");
                 isScanning = false;
                 ToastMaker.show(ScanActivity.this, getResources().getString(R.string.scan_stopped));
             }
@@ -240,7 +241,7 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onScanFail(int code) {
                 isScanning = false;
-                Log.e("ScanActivity", "onScanFail:" + code);
+                QNDemoLogger.e("ScanActivity", "onScanFail:" + code);
                 Toast.makeText(ScanActivity.this, getResources().getString(R.string.scan_exception) + ":" + code, Toast.LENGTH_SHORT).show();
             }
 
@@ -279,7 +280,7 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
         mQNBleApi.startBleDeviceDiscovery(new QNResultCallback() {
             @Override
             public void onResult(int code, String msg) {
-                Log.d("ScanActivity", "code:" + code + ";msg:" + msg);
+                QNDemoLogger.d("ScanActivity", "code:" + code + ";msg:" + msg);
                 if (code != CheckStatus.OK.getCode()) {
                     ToastMaker.show(ScanActivity.this, code + ":" + msg);
                 }
@@ -315,7 +316,7 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
                     wifiSetDialog.setDialogClickListener(new WIFISetDialog.DialogClickListener() {
                         @Override
                         public void confirmClick(String ssid, String pwd) {
-                            Log.e(TAG, "ssid：" + ssid);
+                            QNDemoLogger.e(TAG, "ssid：" + ssid);
                             startActivity(ConnectActivity.getCallIntent(ScanActivity.this, mUser, device, new QNWiFiConfig(ssid, pwd)));
                             wifiSetDialog.dismiss();
                         }
@@ -406,7 +407,7 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
                 QNShareData qnShareData = QNUtils.decodeShareData(qrcode, validSecond, createQNUser(), new QNResultCallback() {
                     @Override
                     public void onResult(int code, String msg) {
-                        Log.e(TAG, "code:" + code);
+                        QNDemoLogger.e(TAG, "code:" + code);
                     }
                 });
                 String result = getResources().getString(R.string.decode_fail);
@@ -482,7 +483,7 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
                 mUser.getHeight(), mUser.getGender(), mUser.getBirthDay(), mUser.getAthleteType(), userShape, userGoal, new QNResultCallback() {
                     @Override
                     public void onResult(int code, String msg) {
-                        Log.d("ConnectActivity", "创建用户信息返回:" + msg);
+                        QNDemoLogger.d("ConnectActivity", "创建用户信息返回:" + msg);
                     }
                 });
     }
@@ -511,7 +512,7 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
         if (requestCode == 100) {
             if (resultCode == 200) {
                 String qrCode = data.getStringExtra("code").trim();
-                Log.e(TAG, "二维码：" + qrCode);
+                QNDemoLogger.e(TAG, "二维码：" + qrCode);
                 if (!TextUtils.isEmpty(qrCode)) {
                     qr_data_et.setText(qrCode);
                 } else {

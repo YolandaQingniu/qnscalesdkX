@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.qingniu.qnble.demo.R;
 import com.qingniu.qnble.demo.bean.User;
+import com.qingniu.qnble.demo.util.QNDemoLogger;
 import com.qingniu.qnble.demo.util.ToastMaker;
 import com.qingniu.qnble.demo.util.UserConst;
 import com.qn.device.constant.QNInfoConst;
@@ -222,7 +223,7 @@ public class UserScaleConfigActivity extends AppCompatActivity {
                 new QNResultCallback() {
                     @Override
                     public void onResult(int code, String msg) {
-                        Log.d("ConnectActivity", "创建用户信息返回:" + msg);
+                        QNDemoLogger.d("ConnectActivity", "创建用户信息返回:" + msg);
                     }
                 });
     }

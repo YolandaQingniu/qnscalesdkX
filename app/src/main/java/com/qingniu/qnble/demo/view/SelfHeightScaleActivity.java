@@ -30,6 +30,7 @@ import com.qingniu.qnble.demo.adapter.ListAdapter;
 import com.qingniu.qnble.demo.bean.User;
 import com.qingniu.qnble.demo.nativeble.BleStatusAction;
 import com.qingniu.qnble.demo.nativeble.NativeBleHelper;
+import com.qingniu.qnble.demo.util.QNDemoLogger;
 import com.qingniu.qnble.demo.util.UserConst;
 import com.qingniu.scale.constant.DecoderConst;
 import com.qn.device.constant.QNBleConst;
@@ -118,7 +119,7 @@ public class SelfHeightScaleActivity extends AppCompatActivity implements View.O
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             super.onConnectionStateChange(gatt, status, newState);
 
-            Log.d(TAG, "onConnectionStateChange: " + newState);
+            QNDemoLogger.d(TAG, "onConnectionStateChange: " + newState);
 
             if (status != BluetoothGatt.GATT_SUCCESS) {
                 String err = "Cannot connect device with error status: " + status;
@@ -131,7 +132,7 @@ public class SelfHeightScaleActivity extends AppCompatActivity implements View.O
                 }
                 mHandler.post(() -> onGetBleStatus(QNScaleStatus.STATE_DISCONNECTED));
                 mNativeBleHelper.setIsConnected(false);
-                Log.e(TAG, err);
+                QNDemoLogger.e(TAG, err);
                 return;
             }
             if (newState == BluetoothProfile.STATE_CONNECTED) {
@@ -148,7 +149,7 @@ public class SelfHeightScaleActivity extends AppCompatActivity implements View.O
                     mNativeBleHelper.getBluetoothGatt().discoverServices();
                 }
 
-                Log.d(TAG, "onConnectionStateChange: " + "连接成功");
+                QNDemoLogger.d(TAG, "onConnectionStateChange: " + "连接成功");
 
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 mNativeBleHelper.setIsConnected(false);
@@ -179,7 +180,7 @@ public class SelfHeightScaleActivity extends AppCompatActivity implements View.O
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
             super.onServicesDiscovered(gatt, status);
-            Log.d(TAG, "onServicesDiscovered------: " + "发现服务----" + status);
+            QNDemoLogger.d(TAG, "onServicesDiscovered------: " + "发现服务----" + status);
 
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 //发现服务,并遍历服务,找到公司对于的设备服务
@@ -191,7 +192,7 @@ public class SelfHeightScaleActivity extends AppCompatActivity implements View.O
                         if (mNativeBleHelper.getProtocolhandler() != null) {
                             //使能所有特征值
                             initCharacteristic(gatt);
-                            Log.d(TAG, "onServicesDiscovered------: " + "发现身高一体机服务");
+                            QNDemoLogger.d(TAG, "onServicesDiscovered------: " + "发现身高一体机服务");
                             mNativeBleHelper.getProtocolhandler().prepare(QNBleConst.UUID_HEIGHT_SCALE_SERVICES);
                         }
                         break;
@@ -199,7 +200,7 @@ public class SelfHeightScaleActivity extends AppCompatActivity implements View.O
                 }
 
             } else {
-                Log.d(TAG, "onServicesDiscovered---error: " + status);
+                QNDemoLogger.d(TAG, "onServicesDiscovered---error: " + status);
             }
         }
 
@@ -207,14 +208,14 @@ public class SelfHeightScaleActivity extends AppCompatActivity implements View.O
         @Override
         public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicRead(gatt, characteristic, status);
-            Log.d(TAG, "onCharacteristicRead---收到数据:  ");
+            QNDemoLogger.d(TAG, "onCharacteristicRead---收到数据:  ");
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 //获取到数据
                 if (mNativeBleHelper.getProtocolhandler() != null) {
                     mNativeBleHelper.getProtocolhandler().onGetBleData(QNBleConst.UUID_HEIGHT_SCALE_SERVICES, characteristic.getUuid().toString(), characteristic.getValue());
                 }
             } else {
-                Log.d(TAG, "onCharacteristicRead---error: " + status);
+                QNDemoLogger.d(TAG, "onCharacteristicRead---error: " + status);
             }
         }
 
@@ -222,7 +223,7 @@ public class SelfHeightScaleActivity extends AppCompatActivity implements View.O
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
             super.onCharacteristicChanged(gatt, characteristic);
 
-            Log.d(TAG, "onCharacteristicChanged---收到数据:  ");
+            QNDemoLogger.d(TAG, "onCharacteristicChanged---收到数据:  ");
             //获取到数据
             if (mNativeBleHelper.getProtocolhandler() != null) {
                 mNativeBleHelper.getProtocolhandler().onGetBleData(QNBleConst.UUID_HEIGHT_SCALE_SERVICES, characteristic.getUuid().toString(), characteristic.getValue());
@@ -236,29 +237,29 @@ public class SelfHeightScaleActivity extends AppCompatActivity implements View.O
     private QNScaleDataListener mQNScaleDataListener  = new QNScaleDataListener() {
         @Override
         public void onGetUnsteadyWeight(QNBleDevice device, double weight) {
-            Log.d("ConnectActivity", "体重是:" + weight);
+            QNDemoLogger.d("ConnectActivity", "体重是:" + weight);
             mWeightTv.setText(initWeight(weight));
         }
 
         @Override
         public void onGetScaleData(QNBleDevice device, QNScaleData data) {
-            Log.d("ConnectActivity", "收到测量数据");
+            QNDemoLogger.d("ConnectActivity", "收到测量数据");
             onReceiveScaleData(data);
             QNScaleItemData fatValue = data.getItem(QNIndicator.TYPE_SUBFAT);
             if (fatValue != null) {
                 String value = fatValue.getValue() + "";
-                Log.d("ConnectActivity", "收到皮下脂肪数据:" + value);
+                QNDemoLogger.d("ConnectActivity", "收到皮下脂肪数据:" + value);
             }
         }
 
         @Override
         public void onGetStoredScale(QNBleDevice device, List<QNScaleStoreData> storedDataList) {
-            Log.d("ConnectActivity", "收到存储数据");
+            QNDemoLogger.d("ConnectActivity", "收到存储数据");
             if (storedDataList != null && storedDataList.size() > 0) {
                 heightScaleStoreSizeTv.setText(storedDataList.size() + "");
                 QNScaleStoreData data = storedDataList.get(0);
                 for (int i = 0; i < storedDataList.size(); i++) {
-                    Log.d("ConnectActivity", "收到存储数据:" + storedDataList.get(i).getWeight());
+                    QNDemoLogger.d("ConnectActivity", "收到存储数据:" + storedDataList.get(i).getWeight());
                 }
                 QNUser qnUser = createQNUser();
                 data.setUser(qnUser);
@@ -270,7 +271,7 @@ public class SelfHeightScaleActivity extends AppCompatActivity implements View.O
         @Override
         public void onGetElectric(QNBleDevice device, int electric) {
             String text = "收到电池电量百分比:" + electric;
-            Log.d("ConnectActivity", text);
+            QNDemoLogger.d("ConnectActivity", text);
             if (electric == DecoderConst.NONE_BATTERY_VALUE) {//获取电池信息失败
                 return;
             }
@@ -280,12 +281,12 @@ public class SelfHeightScaleActivity extends AppCompatActivity implements View.O
         //测量过程中的连接状态
         @Override
         public void onScaleStateChange(QNBleDevice device, int status) {
-            Log.d("ConnectActivity", "秤的连接状态是:" + status);
+            QNDemoLogger.d("ConnectActivity", "秤的连接状态是:" + status);
         }
 
         @Override
         public void onScaleEventChange(QNBleDevice device, int scaleEvent) {
-            Log.d("ConnectActivity", "秤返回的事件是:" + scaleEvent);
+            QNDemoLogger.d("ConnectActivity", "秤返回的事件是:" + scaleEvent);
         }
 
         @Override
@@ -407,7 +408,7 @@ public class SelfHeightScaleActivity extends AppCompatActivity implements View.O
                 new QNResultCallback() {
                     @Override
                     public void onResult(int code, String msg) {
-                        Log.d(TAG, "创建用户信息返回:" + msg);
+                        QNDemoLogger.d(TAG, "创建用户信息返回:" + msg);
                     }
                 });
     }
@@ -496,7 +497,7 @@ public class SelfHeightScaleActivity extends AppCompatActivity implements View.O
         BluetoothDevice mDevice = adapter.getRemoteDevice(device.getMac());
 
         if (mDevice != null) {
-            Log.d(TAG, "connectQnDevice------: " + mDevice.getAddress());
+            QNDemoLogger.d(TAG, "connectQnDevice------: " + mDevice.getAddress());
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 mNativeBleHelper.setBluetoothGatt(mDevice.connectGatt(SelfHeightScaleActivity.this, false, mGattCallback, BluetoothDevice.TRANSPORT_LE));
             } else {
@@ -596,7 +597,7 @@ public class SelfHeightScaleActivity extends AppCompatActivity implements View.O
         }, new QNResultCallback() {
             @Override
             public void onResult(int code, String msg) {
-                Log.d(TAG, "创建结果----" + code + " ------------- " + msg);
+                QNDemoLogger.d(TAG, "创建结果----" + code + " ------------- " + msg);
             }
         });
 

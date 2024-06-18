@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.qingniu.qnble.demo.R;
+import com.qingniu.qnble.demo.util.QNDemoLogger;
 import com.qn.device.constant.QNBleRulerUnit;
 import com.qn.device.listener.QNBleRulerListener;
 import com.qn.device.listener.QNResultCallback;
@@ -91,7 +92,7 @@ public class RulerActivity extends AppCompatActivity implements QNBleRulerListen
 
     @Override
     public void onRulerDeviceDiscover(QNBleRulerDevice device) {
-        Log.e(TAG, "onRulerDeviceDiscover "+device.toString());
+        QNDemoLogger.e(TAG, "onRulerDeviceDiscover "+device.toString());
         if (nowConnected && !nowScaning) {
             return;
         }
@@ -114,13 +115,13 @@ public class RulerActivity extends AppCompatActivity implements QNBleRulerListen
 
     @Override
     public void onRulerConnecting(QNBleRulerDevice device) {
-        Log.e(TAG, "onRulerConnecting");
+        QNDemoLogger.e(TAG, "onRulerConnecting");
         scanBtn.setText(R.string.connecting);
     }
 
     @Override
     public void onRulerConnected(QNBleRulerDevice device) {
-        Log.e(TAG, "onRulerConnected");
+        QNDemoLogger.e(TAG, "onRulerConnected");
         macTv.setText(qnBleRulerDevice.getMac());
         nowConnected = true;
         scanBtn.setText(R.string.disconnected);
@@ -128,21 +129,21 @@ public class RulerActivity extends AppCompatActivity implements QNBleRulerListen
 
     @Override
     public void onGetReceiveRealTimeData(QNBleRulerData data, QNBleRulerDevice device) {
-        //Log.e(TAG, "onGetReceiveRealTimeData");
+        //QNDemoLogger.e(TAG, "onGetReceiveRealTimeData");
         lengthTv.setText("实时数据: "+ data.getValue());
         unitTv.setText((data.getUnit() == QNBleRulerUnit.QNBleRulerUnitCM) ? "cm" : "inch");
     }
 
     @Override
     public void onGetReceiveResultData(QNBleRulerData data, QNBleRulerDevice device) {
-        //Log.e(TAG, "onGetReceiveResultData");
+        //QNDemoLogger.e(TAG, "onGetReceiveResultData");
         lengthTv.setText("稳定数据: "+ data.getValue());
         unitTv.setText((data.getUnit() == QNBleRulerUnit.QNBleRulerUnitCM) ? "cm" : "inch");
     }
 
     @Override
     public void onRulerDisconnected(QNBleRulerDevice device) {
-        Log.e(TAG, "onRulerDisconnected");
+        QNDemoLogger.e(TAG, "onRulerDisconnected");
         nowConnected = false;
         scanBtn.setText(R.string.scan);
         macTv.setText("");
@@ -152,7 +153,7 @@ public class RulerActivity extends AppCompatActivity implements QNBleRulerListen
 
     @Override
     public void onRulerConnectFail(QNBleRulerDevice device) {
-        Log.e(TAG, "onRulerConnectFail");
+        QNDemoLogger.e(TAG, "onRulerConnectFail");
         nowConnected = false;
         scanBtn.setText(R.string.scan);
         macTv.setText("");

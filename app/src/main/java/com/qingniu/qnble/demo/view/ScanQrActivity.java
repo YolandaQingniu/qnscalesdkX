@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.qingniu.qnble.demo.R;
+import com.qingniu.qnble.demo.util.QNDemoLogger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,7 +52,7 @@ public class ScanQrActivity extends AppCompatActivity {
             vibrate();
             mZBarView.stopSpot(); // 停止识别
             setResult(200, getIntent().putExtra("code", result));
-            Log.e("二维码", "二维码：" + result);
+            QNDemoLogger.e("二维码", "二维码：" + result);
             finish();
         }
 

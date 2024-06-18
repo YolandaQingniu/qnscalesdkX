@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.qingniu.qnble.demo.R;
+import com.qingniu.qnble.demo.util.QNDemoLogger;
 import com.yl.pack.YLPacker;
 
 import org.json.JSONObject;
@@ -44,7 +45,7 @@ public class DebugSettingActivity extends AppCompatActivity {
 
     public static String getDebugHmac() {
         if (TextUtils.isEmpty(DEBUG_HMAC)) {
-            Log.e("八电极数据计算", "没有上次的测量hmac");
+            QNDemoLogger.e("八电极数据计算", "没有上次的测量hmac");
         } else {
             try {
                 JSONObject jsonObject = new JSONObject(YLPacker.unpack(DEBUG_HMAC));
@@ -62,20 +63,20 @@ public class DebugSettingActivity extends AppCompatActivity {
                 double lastResistanceRF100 = jsonObject.getDouble("res100_right_leg");
                 double lastResistanceLF100 = jsonObject.getDouble("res100_left_leg");
 
-                Log.e("八电极数据计算", "上次测量体重 lastWeight:" + lastWeight);
-                Log.e("八电极数据计算", "上次测量时间 measure_time:" + measure_time);
-                Log.e("八电极数据计算", "上次测量右上20 lastResistanceRH20:" + lastResistanceRH20);
-                Log.e("八电极数据计算", "上次测量左上20 lastResistanceLH20:" + lastResistanceLH20);
-                Log.e("八电极数据计算", "上次测量躯干20 lastResistanceT20:" + lastResistanceT20);
-                Log.e("八电极数据计算", "上次测量右下20 lastResistanceRF20:" + lastResistanceRF20);
-                Log.e("八电极数据计算", "上次测量左下20 lastResistanceLF20:" + lastResistanceLF20);
-                Log.e("八电极数据计算", "上次测量右上100 lastResistanceRH100:" + lastResistanceRH100);
-                Log.e("八电极数据计算", "上次测量左上100 lastResistanceLH100:" + lastResistanceLH100);
-                Log.e("八电极数据计算", "上次测量躯干100 lastResistanceT100:" + lastResistanceT100);
-                Log.e("八电极数据计算", "上次测量右下100 lastResistanceRF100:" + lastResistanceRF100);
-                Log.e("八电极数据计算", "上次测量左下100 lastResistanceLF100:" + lastResistanceLF100);
+                QNDemoLogger.e("八电极数据计算", "上次测量体重 lastWeight:" + lastWeight);
+                QNDemoLogger.e("八电极数据计算", "上次测量时间 measure_time:" + measure_time);
+                QNDemoLogger.e("八电极数据计算", "上次测量右上20 lastResistanceRH20:" + lastResistanceRH20);
+                QNDemoLogger.e("八电极数据计算", "上次测量左上20 lastResistanceLH20:" + lastResistanceLH20);
+                QNDemoLogger.e("八电极数据计算", "上次测量躯干20 lastResistanceT20:" + lastResistanceT20);
+                QNDemoLogger.e("八电极数据计算", "上次测量右下20 lastResistanceRF20:" + lastResistanceRF20);
+                QNDemoLogger.e("八电极数据计算", "上次测量左下20 lastResistanceLF20:" + lastResistanceLF20);
+                QNDemoLogger.e("八电极数据计算", "上次测量右上100 lastResistanceRH100:" + lastResistanceRH100);
+                QNDemoLogger.e("八电极数据计算", "上次测量左上100 lastResistanceLH100:" + lastResistanceLH100);
+                QNDemoLogger.e("八电极数据计算", "上次测量躯干100 lastResistanceT100:" + lastResistanceT100);
+                QNDemoLogger.e("八电极数据计算", "上次测量右下100 lastResistanceRF100:" + lastResistanceRF100);
+                QNDemoLogger.e("八电极数据计算", "上次测量左下100 lastResistanceLF100:" + lastResistanceLF100);
             } catch (Exception e) {
-                Log.e("八电极数据计算", "解析上次测量的hmac出错");
+                QNDemoLogger.e("八电极数据计算", "解析上次测量的hmac出错");
             }
         }
         return DEBUG_HMAC;
@@ -159,7 +160,7 @@ public class DebugSettingActivity extends AppCompatActivity {
 
                     String hmac = YLPacker.pack(jsonObject.toString());
                     DEBUG_HMAC = hmac;
-                    Log.e("八电极数据计算", "调试用hmac:\n" + DEBUG_HMAC);
+                    QNDemoLogger.e("八电极数据计算", "调试用hmac:\n" + DEBUG_HMAC);
                     finish();
                 } catch (Exception e) {
                     DEBUG_HMAC = "";

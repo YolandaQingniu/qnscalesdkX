@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.qingniu.qnble.demo.R;
+import com.qingniu.qnble.demo.util.QNDemoLogger;
 import com.qingniu.qnble.demo.util.UserConst;
 import com.qn.device.constant.QNScaleStatus;
 import com.qn.device.listener.QNBleConnectionChangeListener;
@@ -113,7 +114,7 @@ public class BleKitchenActivity extends AppCompatActivity implements View.OnClic
 
             @Override
             public void onBleKitchenError(QNBleKitchenDevice device, int errorCode) {
-                Log.d("ConnectActivity", "onConnectError:" + errorCode);
+                QNDemoLogger.d("ConnectActivity", "onConnectError:" + errorCode);
                 setBleStatus(QNScaleStatus.STATE_DISCONNECTED);
             }
         });
@@ -176,17 +177,17 @@ public class BleKitchenActivity extends AppCompatActivity implements View.OnClic
             case QNScaleStatus.STATE_WIFI_BLE_START_NETWORK:
                 stateString = getResources().getString(R.string.start_set_wifi);
                 btnString = getResources().getString(R.string.disconnected);
-                Log.d("ConnectActivity", "开始设置WiFi");
+                QNDemoLogger.d("ConnectActivity", "开始设置WiFi");
                 break;
             case QNScaleStatus.STATE_WIFI_BLE_NETWORK_FAIL:
                 stateString = getResources().getString(R.string.failed_to_set_wifi);
                 btnString = getResources().getString(R.string.disconnected);
-                Log.d("ConnectActivity", "设置WiFi失败");
+                QNDemoLogger.d("ConnectActivity", "设置WiFi失败");
                 break;
             case QNScaleStatus.STATE_WIFI_BLE_NETWORK_SUCCESS:
                 stateString = getResources().getString(R.string.success_to_set_wifi);
                 btnString = getResources().getString(R.string.disconnected);
-                Log.d("ConnectActivity", "设置WiFi成功");
+                QNDemoLogger.d("ConnectActivity", "设置WiFi成功");
                 break;
             default: {
                 stateString = getResources().getString(R.string.connection_disconnected);
@@ -205,7 +206,7 @@ public class BleKitchenActivity extends AppCompatActivity implements View.OnClic
         mQNBleApi.disconnectDevice(device.getMac(), new QNResultCallback() {
             @Override
             public void onResult(int code, String msg) {
-                Log.d(TAG, "断开连接");
+                QNDemoLogger.d(TAG, "断开连接");
             }
         });
     }
@@ -225,7 +226,7 @@ public class BleKitchenActivity extends AppCompatActivity implements View.OnClic
                 mQNBleApi.disconnectDevice(device.getMac(), new QNResultCallback() {
                     @Override
                     public void onResult(int code, String msg) {
-                        Log.d(TAG, "断开连接");
+                        QNDemoLogger.d(TAG, "断开连接");
                     }
                 });
                 break;

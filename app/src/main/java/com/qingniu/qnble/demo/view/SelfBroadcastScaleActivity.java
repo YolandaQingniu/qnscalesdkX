@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.qingniu.qnble.demo.R;
 import com.qingniu.qnble.demo.adapter.ListAdapter;
 import com.qingniu.qnble.demo.bean.User;
+import com.qingniu.qnble.demo.util.QNDemoLogger;
 import com.qingniu.qnble.demo.util.ToastMaker;
 import com.qingniu.qnble.demo.util.UserConst;
 import com.qn.device.constant.CheckStatus;
@@ -121,7 +122,7 @@ public class SelfBroadcastScaleActivity extends AppCompatActivity {
                 @Override
                 public void onResult(int code, String msg) {
 
-                    Log.e("buildBroadcastDevice", "结果--" + code + ",msg:---" + msg);
+                    QNDemoLogger.e("buildBroadcastDevice", "结果--" + code + ",msg:---" + msg);
 
                 }
             });
@@ -136,7 +137,7 @@ public class SelfBroadcastScaleActivity extends AppCompatActivity {
                             QNScaleData qnScaleData = broadcastDevice.generateScaleData(qnUser, new QNResultCallback() {
                                 @Override
                                 public void onResult(int code, String msg) {
-                                    Log.e("generateScaleData", "结果" + code + ",msg:" + msg);
+                                    QNDemoLogger.e("generateScaleData", "结果" + code + ",msg:" + msg);
                                 }
                             });
                             //此处用来去重
@@ -228,7 +229,7 @@ public class SelfBroadcastScaleActivity extends AppCompatActivity {
 
             @Override
             public void onResult(int code, String msg) {
-                Log.e("syncUnit", "结果" + code + ",msg:" + msg);
+                QNDemoLogger.e("syncUnit", "结果" + code + ",msg:" + msg);
                 ToastMaker.show(SelfBroadcastScaleActivity.this, code + ":" + msg);
             }
         });
@@ -308,7 +309,7 @@ public class SelfBroadcastScaleActivity extends AppCompatActivity {
                 userShape, userGoal, mUser.getClothesWeight(), new QNResultCallback() {
                     @Override
                     public void onResult(int code, String msg) {
-                        Log.d("createQNUser", "创建用户信息返回:" + msg);
+                        QNDemoLogger.d("createQNUser", "创建用户信息返回:" + msg);
                     }
                 });
     }

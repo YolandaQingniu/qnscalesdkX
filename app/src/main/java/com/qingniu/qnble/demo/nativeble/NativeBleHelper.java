@@ -9,6 +9,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.qingniu.qnble.demo.bean.User;
+import com.qingniu.qnble.demo.util.QNDemoLogger;
 import com.qingniu.qnble.demo.util.UserConst;
 import com.qn.device.constant.QNScaleStatus;
 import com.qn.device.listener.QNBleConnectionChangeListener;
@@ -200,7 +201,7 @@ public class NativeBleHelper {
             //出现了连接错误，错误码参考附表
             @Override
             public void onConnectError(QNBleDevice device, int errorCode) {
-                Log.d(TAG, "onConnectError:" + errorCode);
+                QNDemoLogger.d(TAG, "onConnectError:" + errorCode);
                 setBleStatus(QNScaleStatus.STATE_DISCONNECTED);
             }
 
@@ -245,19 +246,19 @@ public class NativeBleHelper {
                 break;
 
             case QNScaleStatus.STATE_WIFI_BLE_START_NETWORK:
-                Log.d(TAG, "开始设置WiFi");
+                QNDemoLogger.d(TAG, "开始设置WiFi");
                 break;
 
             case QNScaleStatus.STATE_WIFI_BLE_NETWORK_FAIL:
-                Log.d(TAG, "设置WiFi失败");
+                QNDemoLogger.d(TAG, "设置WiFi失败");
                 break;
 
             case QNScaleStatus.STATE_WIFI_BLE_NETWORK_SUCCESS:
-                Log.d(TAG, "设置WiFi成功");
+                QNDemoLogger.d(TAG, "设置WiFi成功");
                 break;
 
             case QNScaleStatus.STATE_HEIGH_SCALE_MEASURE_FAIL:
-                Log.d(TAG,"身高体重秤测量失败");
+                QNDemoLogger.d(TAG,"身高体重秤测量失败");
                 break;
 
             default:

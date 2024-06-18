@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.qingniu.qnble.demo.R;
 import com.qingniu.qnble.demo.adapter.ListAdapter;
 import com.qingniu.qnble.demo.bean.User;
+import com.qingniu.qnble.demo.util.QNDemoLogger;
 import com.qingniu.qnble.demo.util.ToastMaker;
 import com.qingniu.qnble.demo.util.UserConst;
 import com.qn.device.constant.UserGoal;
@@ -98,7 +99,7 @@ public class BroadcastScaleActivity extends AppCompatActivity {
         mQnConfig.save(new QNResultCallback() {
             @Override
             public void onResult(int i, String s) {
-                Log.d("ScanActivity", "initData:" + s);
+                QNDemoLogger.d("ScanActivity", "initData:" + s);
             }
         });
 
@@ -121,7 +122,7 @@ public class BroadcastScaleActivity extends AppCompatActivity {
             @Override
             public void onScanFail(int code) {
                 //扫描失败
-                Log.e("onScanFail", "反馈码" + code);
+                QNDemoLogger.e("onScanFail", "反馈码" + code);
             }
 
             //蓝牙广播秤专用数据
@@ -134,7 +135,7 @@ public class BroadcastScaleActivity extends AppCompatActivity {
                         QNScaleData qnScaleData = device.generateScaleData(qnUser, new QNResultCallback() {
                             @Override
                             public void onResult(int code, String msg) {
-                                Log.e("generateScaleData", "结果" + code + ",msg:" + msg);
+                                QNDemoLogger.e("generateScaleData", "结果" + code + ",msg:" + msg);
                             }
                         });
                         //此处用来去重
@@ -155,7 +156,7 @@ public class BroadcastScaleActivity extends AppCompatActivity {
             @Override
             public void onResult(int code, String msg) {
                 //开启扫描
-                Log.e("startBleDeviceDiscovery", "结果" + code + ",msg:" + msg);
+                QNDemoLogger.e("startBleDeviceDiscovery", "结果" + code + ",msg:" + msg);
             }
         });
     }
@@ -182,7 +183,7 @@ public class BroadcastScaleActivity extends AppCompatActivity {
 
             @Override
             public void onResult(int code, String msg) {
-                Log.e("syncUnit", "结果" + code + ",msg:" + msg);
+                QNDemoLogger.e("syncUnit", "结果" + code + ",msg:" + msg);
                 ToastMaker.show(BroadcastScaleActivity.this, code + ":" + msg);
             }
         });
@@ -267,7 +268,7 @@ public class BroadcastScaleActivity extends AppCompatActivity {
                 userShape, userGoal, mUser.getClothesWeight(), new QNResultCallback() {
                     @Override
                     public void onResult(int code, String msg) {
-                        Log.d("createQNUser", "创建用户信息返回:" + msg);
+                        QNDemoLogger.d("createQNUser", "创建用户信息返回:" + msg);
                     }
                 });
     }

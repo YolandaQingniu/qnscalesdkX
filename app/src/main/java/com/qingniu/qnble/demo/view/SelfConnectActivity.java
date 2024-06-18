@@ -27,6 +27,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.qingniu.qnble.demo.R;
 import com.qingniu.qnble.demo.adapter.ListAdapter;
 import com.qingniu.qnble.demo.bean.User;
+import com.qingniu.qnble.demo.util.QNDemoLogger;
 import com.qingniu.qnble.demo.util.UserConst;
 import com.qingniu.scale.config.DecoderAdapterManager;
 import com.qingniu.scale.config.DoubleDecoderAdapter;
@@ -131,7 +132,7 @@ public class SelfConnectActivity extends AppCompatActivity implements View.OnCli
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             super.onConnectionStateChange(gatt, status, newState);
 
-            Log.d(TAG, "onConnectionStateChange: " + newState);
+            QNDemoLogger.d(TAG, "onConnectionStateChange: " + newState);
 
             if (status != BluetoothGatt.GATT_SUCCESS) {
                 String err = "Cannot connect device with error status: " + status;
@@ -144,7 +145,7 @@ public class SelfConnectActivity extends AppCompatActivity implements View.OnCli
                 }
                 setBleStatus(QNScaleStatus.STATE_DISCONNECTED);
                 mIsConnected = false;
-                Log.e(TAG, err);
+                QNDemoLogger.e(TAG, err);
                 return;
             }
             if (newState == BluetoothProfile.STATE_CONNECTED) {
@@ -164,7 +165,7 @@ public class SelfConnectActivity extends AppCompatActivity implements View.OnCli
                     mBluetoothGatt.discoverServices();
                 }
 
-                Log.d(TAG, "onConnectionStateChange: " + "连接成功");
+                QNDemoLogger.d(TAG, "onConnectionStateChange: " + "连接成功");
 
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 mIsConnected = false;
@@ -198,7 +199,7 @@ public class SelfConnectActivity extends AppCompatActivity implements View.OnCli
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
             super.onServicesDiscovered(gatt, status);
-            Log.d(TAG, "onServicesDiscovered------: " + "发现服务----" + status);
+            QNDemoLogger.d(TAG, "onServicesDiscovered------: " + "发现服务----" + status);
 
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 //发现服务,并遍历服务,找到公司对于的设备服务
@@ -210,7 +211,7 @@ public class SelfConnectActivity extends AppCompatActivity implements View.OnCli
                         if (mProtocolhandler != null) {
                             //使能所有特征值
                             initCharacteristic(gatt, true);
-                            Log.d(TAG, "onServicesDiscovered------: " + "发现服务为第一套");
+                            QNDemoLogger.d(TAG, "onServicesDiscovered------: " + "发现服务为第一套");
                             mProtocolhandler.prepare(QNBleConst.UUID_IBT_SERVICES);
                         }
                         break;
@@ -219,7 +220,7 @@ public class SelfConnectActivity extends AppCompatActivity implements View.OnCli
                     if (service.getUuid().equals(UUID.fromString(QNBleConst.UUID_IBT_SERVICES_1))) {
                         if (mProtocolhandler != null) {
                             //使能所有特征值
-                            Log.d(TAG, "onServicesDiscovered------: " + "发现服务为第二套");
+                            QNDemoLogger.d(TAG, "onServicesDiscovered------: " + "发现服务为第二套");
                             initCharacteristic(gatt, false);
                             mProtocolhandler.prepare(QNBleConst.UUID_IBT_SERVICES_1);
                         }
@@ -229,7 +230,7 @@ public class SelfConnectActivity extends AppCompatActivity implements View.OnCli
                 }
 
             } else {
-                Log.d(TAG, "onServicesDiscovered---error: " + status);
+                QNDemoLogger.d(TAG, "onServicesDiscovered---error: " + status);
             }
         }
 
@@ -237,14 +238,14 @@ public class SelfConnectActivity extends AppCompatActivity implements View.OnCli
         @Override
         public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicRead(gatt, characteristic, status);
-            Log.d(TAG, "onCharacteristicRead---收到数据:  ");
+            QNDemoLogger.d(TAG, "onCharacteristicRead---收到数据:  ");
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 //获取到数据
                 if (mProtocolhandler != null) {
                     mProtocolhandler.onGetBleData(getService(), characteristic.getUuid().toString(), characteristic.getValue());
                 }
             } else {
-                Log.d(TAG, "onCharacteristicRead---error: " + status);
+                QNDemoLogger.d(TAG, "onCharacteristicRead---error: " + status);
             }
         }
 
@@ -252,7 +253,7 @@ public class SelfConnectActivity extends AppCompatActivity implements View.OnCli
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
             super.onCharacteristicChanged(gatt, characteristic);
 
-            Log.d(TAG, "onCharacteristicChanged---收到数据:  ");
+            QNDemoLogger.d(TAG, "onCharacteristicChanged---收到数据:  ");
             //获取到数据
             if (mProtocolhandler != null) {
                 mProtocolhandler.onGetBleData(getService(), characteristic.getUuid().toString(), characteristic.getValue());
@@ -325,7 +326,7 @@ public class SelfConnectActivity extends AppCompatActivity implements View.OnCli
         }, new QNResultCallback() {
             @Override
             public void onResult(int code, String msg) {
-                Log.d(TAG, "创建结果----" + code + " ------------- " + msg);
+                QNDemoLogger.d(TAG, "创建结果----" + code + " ------------- " + msg);
             }
         });
     }
@@ -430,7 +431,7 @@ public class SelfConnectActivity extends AppCompatActivity implements View.OnCli
         final BluetoothGattDescriptor descriptor = characteristic.getDescriptor(QNBleConst.CLIENT_CHARACTERISTIC_CONFIG_DESCRIPTOR_UUID);
         if (descriptor != null) {
             descriptor.setValue(BluetoothGattDescriptor.ENABLE_INDICATION_VALUE);
-            Log.d(TAG, "enableIndications----------" + characteristic.getUuid());
+            QNDemoLogger.d(TAG, "enableIndications----------" + characteristic.getUuid());
             return gatt.writeDescriptor(descriptor);
         }
         return false;
@@ -455,7 +456,7 @@ public class SelfConnectActivity extends AppCompatActivity implements View.OnCli
         BluetoothDevice mDevice = adapter.getRemoteDevice(device.getMac());
 
         if (mDevice != null) {
-            Log.d(TAG, "connectQnDevice------: " + mDevice.getAddress());
+            QNDemoLogger.d(TAG, "connectQnDevice------: " + mDevice.getAddress());
             mBluetoothGatt = mDevice.connectGatt(SelfConnectActivity.this, false, mGattCallback);
         }
 
@@ -465,7 +466,7 @@ public class SelfConnectActivity extends AppCompatActivity implements View.OnCli
                 @Override
                 public void run() {
                     DoubleDecoderAdapter doubleDecoderAdapter = DecoderAdapterManager.getInstance().getDoubleDecoderAdapter();
-                    Log.d(TAG, "connectQnDevice------: " + doubleDecoderAdapter);
+                    QNDemoLogger.d(TAG, "connectQnDevice------: " + doubleDecoderAdapter);
                     doubleDecoderAdapter.sendWIFIInfo(mQnWiFiConfig.getSsid(), mQnWiFiConfig.getPwd(), QNBleConst.WIFI_INFO_AUTHMODE, QNBleConst.WIFI_INFO_TYPE);
                     //设置完后需要初始化,避免重连设备时重复配网
                     mQnWiFiConfig = null;
@@ -530,7 +531,7 @@ public class SelfConnectActivity extends AppCompatActivity implements View.OnCli
                 userShape, userGoal, mUser.getClothesWeight(), new QNResultCallback() {
                     @Override
                     public void onResult(int code, String msg) {
-                        Log.d(TAG, "创建用户信息返回:" + msg);
+                        QNDemoLogger.d(TAG, "创建用户信息返回:" + msg);
                     }
                 });
     }
@@ -540,33 +541,33 @@ public class SelfConnectActivity extends AppCompatActivity implements View.OnCli
         mQNBleApi.setDataListener(new QNScaleDataListener() {
             @Override
             public void onGetUnsteadyWeight(QNBleDevice device, double weight) {
-                Log.d(TAG, "体重是:" + weight);
+                QNDemoLogger.d(TAG, "体重是:" + weight);
                 mWeightTv.setText(initWeight(weight));
             }
 
             @Override
             public void onGetScaleData(QNBleDevice device, QNScaleData data) {
-                Log.d(TAG, "收到测量数据");
+                QNDemoLogger.d(TAG, "收到测量数据");
                 onReceiveScaleData(data);
                 QNScaleItemData fatValue = data.getItem(QNIndicator.TYPE_SUBFAT);
                 if (fatValue != null) {
                     String value = fatValue.getValue() + "";
-                    Log.d(TAG, "收到皮下脂肪数据:" + value);
+                    QNDemoLogger.d(TAG, "收到皮下脂肪数据:" + value);
                 }
                 currentQNScaleData = data;
                 historyQNScaleData.add(data);
                 //测量结束,断开连接
                 doDisconnect();
-                Log.d(TAG, "加密hmac为:" + data.getHmac());
-//                Log.d(TAG, "收到体脂肪:"+data.getItem(QNIndicator.TYPE_BODYFAT).getValue());
+                QNDemoLogger.d(TAG, "加密hmac为:" + data.getHmac());
+//                QNDemoLogger.d(TAG, "收到体脂肪:"+data.getItem(QNIndicator.TYPE_BODYFAT).getValue());
             }
 
             @Override
             public void onGetStoredScale(QNBleDevice device, List<QNScaleStoreData> storedDataList) {
-                Log.d(TAG, "收到存储数据");
+                QNDemoLogger.d(TAG, "收到存储数据");
                 if (storedDataList != null && storedDataList.size() > 0) {
                     QNScaleStoreData data = storedDataList.get(0);
-                    Log.d(TAG, "收到存储数据:" + data.getWeight());
+                    QNDemoLogger.d(TAG, "收到存储数据:" + data.getWeight());
                     QNUser qnUser = createQNUser();
                     data.setUser(qnUser);
                     QNScaleData qnScaleData = data.generateScaleData();
@@ -579,7 +580,7 @@ public class SelfConnectActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onGetElectric(QNBleDevice device, int electric) {
                 String text = getResources().getString(R.string.percentage_of_battery_received) + electric;
-                Log.d(TAG, text);
+                QNDemoLogger.d(TAG, text);
                 if (electric == DecoderConst.NONE_BATTERY_VALUE) {//获取电池信息失败
                     return;
                 }
@@ -589,13 +590,13 @@ public class SelfConnectActivity extends AppCompatActivity implements View.OnCli
             //测量过程中的连接状态
             @Override
             public void onScaleStateChange(QNBleDevice device, int status) {
-                Log.d(TAG, "秤的连接状态是:" + status);
+                QNDemoLogger.d(TAG, "秤的连接状态是:" + status);
                 setBleStatus(status);
             }
 
             @Override
             public void onScaleEventChange(QNBleDevice device, int scaleEvent) {
-                Log.d("ConnectActivity", "秤返回的事件是:" + scaleEvent);
+                QNDemoLogger.d("ConnectActivity", "秤返回的事件是:" + scaleEvent);
             }
 
             @Override
@@ -701,17 +702,17 @@ public class SelfConnectActivity extends AppCompatActivity implements View.OnCli
             case QNScaleStatus.STATE_WIFI_BLE_START_NETWORK:
                 stateString = getResources().getString(R.string.start_set_wifi);
                 btnString = getResources().getString(R.string.disconnected);
-                Log.d(TAG, "开始设置WiFi");
+                QNDemoLogger.d(TAG, "开始设置WiFi");
                 break;
             case QNScaleStatus.STATE_WIFI_BLE_NETWORK_FAIL:
                 stateString = getResources().getString(R.string.failed_to_set_wifi);
                 btnString = getResources().getString(R.string.disconnected);
-                Log.d(TAG, "设置WiFi失败");
+                QNDemoLogger.d(TAG, "设置WiFi失败");
                 break;
             case QNScaleStatus.STATE_WIFI_BLE_NETWORK_SUCCESS:
                 stateString = getResources().getString(R.string.success_to_set_wifi);
                 btnString = getResources().getString(R.string.disconnected);
-                Log.d(TAG, "设置WiFi成功");
+                QNDemoLogger.d(TAG, "设置WiFi成功");
                 break;
             default: {
                 stateString = getResources().getString(R.string.connection_disconnected);

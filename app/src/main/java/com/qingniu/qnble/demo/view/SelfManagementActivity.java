@@ -28,6 +28,7 @@ import com.qingniu.qnble.demo.bean.Config;
 import com.qingniu.qnble.demo.bean.User;
 import com.qingniu.qnble.demo.picker.WIFISetDialog;
 import com.qingniu.qnble.demo.util.AndroidPermissionCenter;
+import com.qingniu.qnble.demo.util.QNDemoLogger;
 import com.qingniu.qnble.demo.util.ToastMaker;
 import com.qingniu.qnble.demo.util.UserConst;
 import com.qn.device.constant.CheckStatus;
@@ -156,7 +157,7 @@ public class SelfManagementActivity extends AppCompatActivity implements Adapter
         mQnConfig.save(new QNResultCallback() {
             @Override
             public void onResult(int i, String s) {
-                Log.d("ScanActivity", "initData:" + s);
+                QNDemoLogger.d("ScanActivity", "initData:" + s);
             }
         });
         wifiSetDialog = new WIFISetDialog(SelfManagementActivity.this);
@@ -193,13 +194,13 @@ public class SelfManagementActivity extends AppCompatActivity implements Adapter
                 @Override
                 public void onResult(int code, String msg) {
                     if (code != CheckStatus.OK.getCode()) {
-                        Log.e("LeScanCallback", msg);
+                        QNDemoLogger.e("LeScanCallback", msg);
                     }
                 }
             });
 
             if (qnBleDevice != null && !macList.contains(qnBleDevice.getMac())) {
-                Log.e("LeScanCallback", qnBleDevice.getMac());
+                QNDemoLogger.e("LeScanCallback", qnBleDevice.getMac());
                 macList.add(qnBleDevice.getMac());
                 devices.add(qnBleDevice);
                 listAdapter.notifyDataSetChanged();
@@ -256,7 +257,7 @@ public class SelfManagementActivity extends AppCompatActivity implements Adapter
                 wifiSetDialog.setDialogClickListener(new WIFISetDialog.DialogClickListener() {
                     @Override
                     public void confirmClick(String ssid, String pwd) {
-                        Log.e(TAG, "ssid：" + ssid);
+                        QNDemoLogger.e(TAG, "ssid：" + ssid);
                         startActivity(SelfConnectActivity.getCallIntent(SelfManagementActivity.this, mUser, device, new QNWiFiConfig(ssid, pwd)));
                         wifiSetDialog.dismiss();
                     }

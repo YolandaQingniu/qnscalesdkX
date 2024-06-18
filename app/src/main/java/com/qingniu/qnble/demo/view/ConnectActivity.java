@@ -24,6 +24,7 @@ import com.qingniu.qnble.demo.R;
 import com.qingniu.qnble.demo.adapter.ListAdapter;
 import com.qingniu.qnble.demo.bean.User;
 import com.qingniu.qnble.demo.util.AndroidPermissionCenter;
+import com.qingniu.qnble.demo.util.QNDemoLogger;
 import com.qingniu.qnble.demo.util.ToastMaker;
 import com.qingniu.qnble.demo.util.UserConst;
 import com.qingniu.scale.constant.DecoderConst;
@@ -197,7 +198,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
             //出现了连接错误，错误码参考附表
             @Override
             public void onConnectError(QNBleDevice device, int errorCode) {
-                Log.d("ConnectActivity", "onConnectError:" + errorCode);
+                QNDemoLogger.d("ConnectActivity", "onConnectError:" + errorCode);
                 setBleStatus(QNScaleStatus.STATE_DISCONNECTED);
             }
 
@@ -213,7 +214,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
             mQNBleApi.connectDeviceSetWiFi(device, createQNUser(), mQnWiFiConfig, new QNResultCallback() {
                 @Override
                 public void onResult(int code, String msg) {
-                    Log.e("ConnectActivity", "wifi 配置code:" + code + ",msg:" + msg);
+                    QNDemoLogger.e("ConnectActivity", "wifi 配置code:" + code + ",msg:" + msg);
                     // ToastMaker.show(ConnectActivity.this, code + ":" + msg);
                 }
             });
@@ -221,7 +222,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
             mQNBleApi.connectDevice(device, createQNUser(), new QNResultCallback() {
                 @Override
                 public void onResult(int code, String msg) {
-                    Log.d("ConnectActivity", "连接设备返回:" + msg);
+                    QNDemoLogger.d("ConnectActivity", "连接设备返回:" + msg);
                 }
             });
         }
@@ -283,7 +284,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
                 userShape, userGoal, mUser.getClothesWeight(), new QNResultCallback() {
                     @Override
                     public void onResult(int code, String msg) {
-                        Log.d("ConnectActivity", "创建用户信息返回:" + msg);
+                        QNDemoLogger.d("ConnectActivity", "创建用户信息返回:" + msg);
                     }
                 });
     }
@@ -293,13 +294,13 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
         mQNBleApi.setDataListener(new QNScaleDataListener() {
             @Override
             public void onGetUnsteadyWeight(QNBleDevice device, double weight) {
-                Log.d("ConnectActivity", "体重是:" + weight);
+                QNDemoLogger.d("ConnectActivity", "体重是:" + weight);
                 mWeightTv.setText(initWeight(weight));
             }
 
             @Override
             public void onGetScaleData(QNBleDevice device, QNScaleData data) {
-                Log.d("ConnectActivity", "收到测量数据");
+                QNDemoLogger.d("ConnectActivity", "收到测量数据");
                 boolean isEightData = data.getItemValue(QNIndicator.TYPE_LEFT_ARM_MUSCLE_WEIGHT_INDEX) > 0;
                 //增加八电极指标适配
                 listAdapter.setEight(isEightData);
@@ -313,12 +314,12 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
                 QNScaleItemData fatValue = data.getItem(QNIndicator.TYPE_SUBFAT);
                 if (fatValue != null) {
                     String value = fatValue.getValue() + "";
-                    Log.d("ConnectActivity", "收到皮下脂肪数据:" + value);
+                    QNDemoLogger.d("ConnectActivity", "收到皮下脂肪数据:" + value);
                 }
                 currentQNScaleData = data;
                 historyQNScaleData.add(data);
-                Log.d("ConnectActivity", "加密hmac为:" + data.getHmac());
-//                Log.d("ConnectActivity", "收到体脂肪:"+data.getItem(QNIndicator.TYPE_BODYFAT).getValue());
+                QNDemoLogger.d("ConnectActivity", "加密hmac为:" + data.getHmac());
+//                QNDemoLogger.d("ConnectActivity", "收到体脂肪:"+data.getItem(QNIndicator.TYPE_BODYFAT).getValue());
 //                doDisconnect();
 
 
@@ -327,11 +328,11 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
 
             @Override
             public void onGetStoredScale(QNBleDevice device, List<QNScaleStoreData> storedDataList) {
-                Log.d("ConnectActivity", "收到存储数据 " + storedDataList.size() + "条");
+                QNDemoLogger.d("ConnectActivity", "收到存储数据 " + storedDataList.size() + "条");
                 if (storedDataList != null && storedDataList.size() > 0) {
                     QNScaleStoreData data = storedDataList.get(0);
                     for (int i = 0; i < storedDataList.size(); i++) {
-                        Log.d("ConnectActivity", "收到存储数据:" + storedDataList.get(i).getWeight());
+                        QNDemoLogger.d("ConnectActivity", "收到存储数据:" + storedDataList.get(i).getWeight());
                     }
                     QNUser qnUser = createQNUser();
                     data.setUser(qnUser);
@@ -347,7 +348,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
                         eightHmacTestLayout.setVisibility(View.GONE);
                     }
 
-                    Log.d("ConnectActivity", "存储数据加密hmac为:" + data.getHmac());
+                    QNDemoLogger.d("ConnectActivity", "存储数据加密hmac为:" + data.getHmac());
 
                     onReceiveScaleData(qnScaleData);
                     currentQNScaleData = qnScaleData;
@@ -358,7 +359,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onGetElectric(QNBleDevice device, int electric) {
                 String text = "收到电池电量百分比:" + electric;
-                Log.d("ConnectActivity", text);
+                QNDemoLogger.d("ConnectActivity", text);
                 if (electric == DecoderConst.NONE_BATTERY_VALUE) {//获取电池信息失败
                     return;
                 }
@@ -368,18 +369,18 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
             //测量过程中的连接状态
             @Override
             public void onScaleStateChange(QNBleDevice device, int status) {
-                Log.d("ConnectActivity", "秤的连接状态是:" + status);
+                QNDemoLogger.d("ConnectActivity", "秤的连接状态是:" + status);
                 setBleStatus(status);
             }
 
             @Override
             public void onScaleEventChange(QNBleDevice device, int scaleEvent) {
-                Log.d("ConnectActivity", "秤返回的事件是:" + scaleEvent);
+                QNDemoLogger.d("ConnectActivity", "秤返回的事件是:" + scaleEvent);
                 if (scaleEvent == QNScaleEvent.EVENT_UPDATE_SCALE_CONFIG_SUCCESS) {
-                    Log.e("UserScaleActivity", "更新秤端设置成功");
+                    QNDemoLogger.e("UserScaleActivity", "更新秤端设置成功");
                     ToastMaker.show(ConnectActivity.this, "更新秤端设置成功");
                 } else if (scaleEvent == QNScaleEvent.EVENT_UPDATE_SCALE_CONFIG_FAIL) {
-                    Log.e("UserScaleActivity", "更新秤端设置失败");
+                    QNDemoLogger.e("UserScaleActivity", "更新秤端设置失败");
                     ToastMaker.show(ConnectActivity.this, "更新秤端设置失败");
                 }
             }
@@ -535,17 +536,17 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
             case QNScaleStatus.STATE_WIFI_BLE_START_NETWORK:
                 stateString = getResources().getString(R.string.start_set_wifi);
                 btnString = getResources().getString(R.string.disconnected);
-                Log.d("ConnectActivity", "开始设置WiFi");
+                QNDemoLogger.d("ConnectActivity", "开始设置WiFi");
                 break;
             case QNScaleStatus.STATE_WIFI_BLE_NETWORK_FAIL:
                 stateString = getResources().getString(R.string.failed_to_set_wifi);
                 btnString = getResources().getString(R.string.disconnected);
-                Log.d("ConnectActivity", "设置WiFi失败");
+                QNDemoLogger.d("ConnectActivity", "设置WiFi失败");
                 break;
             case QNScaleStatus.STATE_WIFI_BLE_NETWORK_SUCCESS:
                 stateString = getResources().getString(R.string.success_to_set_wifi);
                 btnString = getResources().getString(R.string.disconnected);
-                Log.d("ConnectActivity", "设置WiFi成功");
+                QNDemoLogger.d("ConnectActivity", "设置WiFi成功");
                 break;
             default: {
                 stateString = getResources().getString(R.string.connection_disconnected);
@@ -588,7 +589,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
             mQNBleApi.connectDeviceSetWiFi(mBleDevice, createQNUser(), mQnWiFiConfig, new QNResultCallback() {
                 @Override
                 public void onResult(int code, String msg) {
-                    Log.e("ConnectActivity", "wifi 配置code:" + code + ",msg:" + msg);
+                    QNDemoLogger.e("ConnectActivity", "wifi 配置code:" + code + ",msg:" + msg);
                     if (code == 0) {
                         mIsConnected = true;
                     }
@@ -599,7 +600,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
             mQNBleApi.connectDevice(mBleDevice, createQNUser(), new QNResultCallback() {
                 @Override
                 public void onResult(int code, String msg) {
-                    Log.d("ConnectActivity", "连接设备返回:" + msg);
+                    QNDemoLogger.d("ConnectActivity", "连接设备返回:" + msg);
                     if (code == 0) {
                         mIsConnected = true;
                     }
@@ -613,7 +614,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
         mQNBleApi.disconnectDevice(mBleDevice, new QNResultCallback() {
             @Override
             public void onResult(int code, String msg) {
-                Log.d("ConnectActivity", "断开连接设备返回:" + msg);
+                QNDemoLogger.d("ConnectActivity", "断开连接设备返回:" + msg);
             }
         });
     }
@@ -634,7 +635,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
                             new QNResultCallback() {
                                 @Override
                                 public void onResult(int code, String msg) {
-                                    Log.e("buildStoreData", "code=" + code + ",msg=" + msg);
+                                    QNDemoLogger.e("buildStoreData", "code=" + code + ",msg=" + msg);
                                 }
                             });
                     QNScaleData qnScaleData = qnScaleStoreData.generateScaleData();
@@ -658,7 +659,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
                             new QNResultCallback() {
                                 @Override
                                 public void onResult(int code, String msg) {
-                                    Log.e("setFatThreshold", "code=" + code + ",msg=" + msg);
+                                    QNDemoLogger.e("setFatThreshold", "code=" + code + ",msg=" + msg);
                                     if (code == CheckStatus.OK.getCode()) {
                                         //设置完后得到调整后数据并进行显示
                                         onReceiveScaleData(currentQNScaleData);
@@ -676,7 +677,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
                             new QNResultCallback() {
                                 @Override
                                 public void onResult(int code, String msg) {
-                                    Log.e("setFatThreshold", "code=" + code + ",msg=" + msg);
+                                    QNDemoLogger.e("setFatThreshold", "code=" + code + ",msg=" + msg);
                                     if (code == CheckStatus.OK.getCode()) {
                                         //设置完后得到调整后数据并进行显示
                                         onReceiveScaleData(currentQNScaleData);
@@ -757,7 +758,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
                                     new QNResultCallback() {
                                         @Override
                                         public void onResult(int code, String msg) {
-                                            Log.e("setEightFatThreshold", "code=" + code + ",msg=" + msg);
+                                            QNDemoLogger.e("setEightFatThreshold", "code=" + code + ",msg=" + msg);
                                             if (code == CheckStatus.OK.getCode()) {
                                                 //设置完后得到调整后数据并进行显示
                                                 onReceiveScaleData(currentQNScaleData);
@@ -797,7 +798,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
                                 new QNResultCallback() {
                                     @Override
                                     public void onResult(int code, String msg) {
-                                        Log.e("setEightFatThreshold", "code=" + code + ",msg=" + msg);
+                                        QNDemoLogger.e("setEightFatThreshold", "code=" + code + ",msg=" + msg);
                                         if (code == CheckStatus.OK.getCode()) {
                                             //设置完后得到调整后数据并进行显示
                                             onReceiveScaleData(currentQNScaleData);
@@ -822,7 +823,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
         if (requestCode == 100) {
             if (resultCode == 200) {
                 String qrCode = data.getStringExtra("code").trim();
-                Log.e("二维码：", qrCode);
+                QNDemoLogger.e("二维码：", qrCode);
                 if (!TextUtils.isEmpty(qrCode)) {
                     hmacTest.setText(qrCode);
                 } else {
