@@ -3,7 +3,6 @@ package com.qingniu.qnble.demo.view;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -24,7 +23,6 @@ import com.qn.device.constant.QNScaleStatus;
 import com.qn.device.constant.UserGoal;
 import com.qn.device.constant.UserShape;
 import com.qn.device.listener.QNBleConnectionChangeListener;
-import com.qn.device.listener.QNLogListener;
 import com.qn.device.listener.QNResultCallback;
 import com.qn.device.listener.QNScaleDataListener;
 import com.qn.device.out.QNBleApi;
@@ -34,15 +32,11 @@ import com.qn.device.out.QNScaleItemData;
 import com.qn.device.out.QNScaleStoreData;
 import com.qn.device.out.QNUser;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 
 /**
@@ -74,7 +68,7 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
     ListView mListView;
 
     private QNBleDevice mBleDevice;
-    private List<QNScaleItemData> mDatas = new ArrayList<>();
+    private final List<QNScaleItemData> mDatas = new ArrayList<>();
     private QNBleApi mQNBleApi;
 
     private User mUser;
@@ -211,7 +205,7 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
                 break;
         }
 
-        return mQNBleApi.buildUser(mUser.getUserId(),
+        QNUser result = mQNBleApi.buildUser(mUser.getUserId(),
                 mUser.getHeight(), mUser.getGender(), mUser.getBirthDay(), mUser.getAthleteType(),
                 userShape, userGoal, mUser.getClothesWeight(), new QNResultCallback() {
                     @Override
@@ -219,6 +213,7 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
                         QNDemoLogger.d("HeightScaleActivity", "创建用户信息返回:" + msg);
                     }
                 });
+        return result;
     }
 
 
@@ -232,11 +227,11 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onGetScaleData(QNBleDevice device, QNScaleData data) {
-                QNDemoLogger.d("HeightScaleActivity", "收到测量数据");
+                QNDemoLogger.d("HeightScaleActivity", "测量数据hmac:" + data.getHmac());
                 onReceiveScaleData(data);
                 QNScaleItemData fatValue = data.getItem(QNIndicator.TYPE_SUBFAT);
                 if (fatValue != null) {
-                    String value = fatValue.getValue() + "";
+                    String value = String.valueOf(fatValue.getValue());
                     QNDemoLogger.d("HeightScaleActivity", "收到皮下脂肪数据:" + value);
                 }
             }
@@ -247,7 +242,7 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
                 if (storedDataList != null && storedDataList.size() > 0) {
                     QNScaleStoreData data = storedDataList.get(0);
                     for (int i = 0; i < storedDataList.size(); i++) {
-                        QNDemoLogger.d("HeightScaleActivity", "收到存储数据:" + storedDataList.get(i).getWeight());
+                        QNDemoLogger.d("HeightScaleActivity", "存储数据hamc:" + storedDataList.get(i).getHmac());
                     }
                     QNUser qnUser = createQNUser();
                     data.setUser(qnUser);
@@ -403,7 +398,7 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
             case QNScaleStatus.STATE_HEIGH_SCALE_MEASURE_FAIL:
                 stateString = getResources().getString(R.string.measure_fail);
                 btnString = getResources().getString(R.string.disconnected);
-                QNDemoLogger.d("HeightScaleActivity","身高体重秤测量失败");
+                QNDemoLogger.d("HeightScaleActivity", "身高体重秤测量失败");
                 break;
             default: {
                 stateString = getResources().getString(R.string.connection_disconnected);
@@ -463,5 +458,4 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
             }
         });
     }
-
 }
