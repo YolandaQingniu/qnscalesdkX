@@ -21,11 +21,11 @@
    ```
 * 在你的module的根目录下的**build.gradle**添加依赖
 	```
-	<!--这里的版本号，2.18.1 可以指定为任意release版本-->
-	<!--如果希望一直使用最新版本可以替换 2.18.1 master-SNAPSHOT -->
+	<!--这里的版本号，2.19.0 可以指定为任意release版本-->
+	<!--如果希望一直使用最新版本可以替换 2.19.0 master-SNAPSHOT -->
 	dependencies {
 	        ...
-	        compile 'com.github.YolandaQingniu:qnscalesdkX:2.18.1'
+	        compile 'com.github.YolandaQingniu:qnscalesdkX:2.19.0'
 	}
 	```
 
