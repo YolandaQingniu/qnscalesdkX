@@ -389,6 +389,11 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
             public void readSnComplete(QNBleDevice device, String sn) {
                 snTextView.setText("SN码: "+sn);
             }
+
+            @Override
+            public void onGetBleVer(QNBleDevice device, int bleVer) {
+
+            }
         });
     }
 

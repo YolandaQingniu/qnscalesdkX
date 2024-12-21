@@ -603,6 +603,11 @@ public class SelfConnectActivity extends AppCompatActivity implements View.OnCli
             public void readSnComplete(QNBleDevice device, String sn) {
 
             }
+
+            @Override
+            public void onGetBleVer(QNBleDevice device, int bleVer) {
+
+            }
         });
     }
 

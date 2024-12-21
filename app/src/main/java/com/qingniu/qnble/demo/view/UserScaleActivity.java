@@ -1,12 +1,12 @@
-
-
 package com.qingniu.qnble.demo.view;
+
+import static com.qingniu.qnble.demo.view.FileUtile.fileToByteArray;
+import static com.qingniu.qnble.demo.view.FileUtile.getUfwFile;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -24,13 +24,14 @@ import com.qingniu.qnble.demo.util.QNDemoLogger;
 import com.qingniu.qnble.demo.util.ToastMaker;
 import com.qingniu.qnble.demo.util.UserConst;
 import com.qingniu.scale.constant.DecoderConst;
+import com.qingniu.scale.measure.ble.va.ScaleVAManagerService;
+import com.qingniu.scale.measure.ble.va.ota.base.listener.OtaListener;
 import com.qingniu.scale.model.BleScale;
 import com.qn.device.constant.QNIndicator;
 import com.qn.device.constant.QNInfoConst;
 import com.qn.device.constant.QNScaleStatus;
 import com.qn.device.listener.QNBleConnectionChangeListener;
 import com.qn.device.listener.QNBleOTAListener;
-import com.qn.device.listener.QNLogListener;
 import com.qn.device.listener.QNResultCallback;
 import com.qn.device.listener.QNUserScaleDataListener;
 import com.qn.device.out.QNBleApi;
@@ -68,6 +69,12 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
 
     @BindView(R.id.snTextView)
     TextView snTextView;
+
+    @BindView(R.id.bleVerTv)
+    TextView bleVerView;
+
+    @BindView(R.id.otaStatusTv)
+    TextView otaStatusView;
     private int bleStatus;
 
     public static Intent getCallIntent(Context context, QNBleDevice device, QNUserScaleConfig qnUserScaleConfig) {
@@ -82,6 +89,13 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
     Button otaBtn;
     @BindView(R.id.resetBtn)
     Button resetBtn;
+
+    @BindView(R.id.ota9Btn)
+    Button ota9Btn;
+
+    @BindView(R.id.ota10Btn)
+    Button ota10Btn;
+
     @BindView(R.id.registerUserIndex)
     TextView registerUserIndex;
     @BindView(R.id.statusTv)
@@ -97,7 +111,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
 
 
     private QNBleDevice mBleDevice;
-    private List<QNScaleItemData> mDatas = new ArrayList<>();
+    private final List<QNScaleItemData> mDatas = new ArrayList<>();
     private QNBleApi mQNBleApi;
 
     private QNUserScaleConfig mQnUserScaleConfig;
@@ -105,6 +119,32 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
     private boolean mIsConnected;
 
     private ListAdapter listAdapter;
+
+    private final OtaListener mOtaListener = new OtaListener() {
+        @Override
+        public void onOtaStart(BleScale bleScale) {
+            QNDemoLogger.d("UserScaleActivity", "onOtaStart");
+            otaStatusView.setText("onOtaStart");
+        }
+
+        @Override
+        public void onOtaProgress(BleScale bleScale, int progress, int type) {
+            QNDemoLogger.d("UserScaleActivity", "onOtaProgress " + progress);
+            otaStatusView.setText("onOtaProgress 阶段 " + type + "进度" + progress);
+        }
+
+        @Override
+        public void onOtaFail(BleScale bleScale, int errorCode) {
+            QNDemoLogger.d("UserScaleActivity", "onOtaFail");
+            otaStatusView.setText("onOtaFail "+errorCode);
+        }
+
+        @Override
+        public void onOtaEnd(BleScale bleScale) {
+            QNDemoLogger.d("UserScaleActivity", "onOtaEnd");
+            otaStatusView.setText("onOtaEnd");
+        }
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -201,7 +241,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                 onReceiveScaleData(data);
                 QNScaleItemData fatValue = data.getItem(QNIndicator.TYPE_SUBFAT);
                 if (fatValue != null) {
-                    String value = fatValue.getValue() + "";
+                    String value = String.valueOf(fatValue.getValue());
                     QNDemoLogger.d("UserScaleActivity", "收到皮下脂肪数据:" + value);
                 }
                 QNDemoLogger.d("UserScaleActivity", "加密hmac为:" + data.getHmac());
@@ -288,6 +328,10 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onScaleStateChange(QNBleDevice device, int status) {
                 QNDemoLogger.d("UserScaleActivity", "秤的连接状态是:" + status);
+                if (status == QNScaleStatus.EVENT_SCALE_NOW_NEED_OTA) {
+                    otaStatusView.setText("秤需要下发升级数据!");
+                    Toast.makeText(UserScaleActivity.this, "秤需要下发升级数据!",Toast.LENGTH_SHORT).show();
+                }
                 setBleStatus(status);
             }
 
@@ -304,6 +348,11 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void readSnComplete(QNBleDevice qnBleDevice, String s) {
 
+            }
+
+            @Override
+            public void onGetBleVer(QNBleDevice device, int bleVer) {
+                bleVerView.setText("当前固件版本 "+bleVer);
             }
         });
     }
@@ -325,6 +374,8 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
         mConnectBtn.setOnClickListener(this);
         resetBtn.setOnClickListener(this);
         otaBtn.setOnClickListener(this);
+        ota9Btn.setOnClickListener(this);
+        ota10Btn.setOnClickListener(this);
         mBackTv.setOnClickListener(this);
         listAdapter = new ListAdapter(mDatas, mQNBleApi, mQnUserScaleConfig.getCurUser(), mBleDevice);
         mListView.setAdapter(listAdapter);
@@ -421,6 +472,10 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                 //配网成功或失败后都立刻断开连接
                 doDisconnect();
                 break;
+            case QNScaleStatus.EVENT_SCALE_NOW_NEED_OTA:
+                stateString = mStatusTv.getText().toString();
+                btnString = mConnectBtn.getText().toString();
+                break;
             default: {
                 stateString = getResources().getString(R.string.connection_disconnected);
                 btnString = getResources().getString(R.string.connect);
@@ -450,43 +505,43 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.otaBtn:
 
-                    File filesDir = getExternalFilesDir(null);
-                    if (filesDir != null) {
-                        File[] files = filesDir.listFiles();
-                        String[] strings = new String[files.length];
+                File filesDir = getExternalFilesDir(null);
+                if (filesDir != null) {
+                    File[] files = filesDir.listFiles();
+                    String[] strings = new String[files.length];
 
-                        for (int i = 0; i < files.length; i++) {
-                            strings[i] = files[i].getName();
-                        }
+                    for (int i = 0; i < files.length; i++) {
+                        strings[i] = files[i].getName();
+                    }
 
-                        new AlertDialog.Builder(this)
-                                .setNegativeButton("取消", null)
-                                .setItems(strings, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        File file = files[which];
-                                        BleScale bleScale = new BleScale();
-                                        bleScale.setMac(mBleDevice.getMac());
+                    new AlertDialog.Builder(this)
+                            .setNegativeButton("取消", null)
+                            .setItems(strings, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    File file = files[which];
+                                    BleScale bleScale = new BleScale();
+                                    bleScale.setMac(mBleDevice.getMac());
 //                                        OTAServiceManager.getInstance(WspScaleActivity.this).startConnect(WspScaleActivity.this, bleScale, path);
 
-                                        QNBleOTAConfig otaConfig = new QNBleOTAConfig();
-                                        otaConfig.setOTAData(file2buf(file));
-                                        otaConfig.setOTAVer(which + 1);
+                                    QNBleOTAConfig otaConfig = new QNBleOTAConfig();
+                                    otaConfig.setOTAData(file2buf(file));
+                                    otaConfig.setOTAVer(which + 1);
 
-                                        mQnUserScaleConfig.setOtaConfig(otaConfig);
-                                        mQNBleApi.setQNBleOTAListener(UserScaleActivity.this);
-                                        mQNBleApi.connectUserScaleDevice(mBleDevice, mQnUserScaleConfig, new QNResultCallback() {
-                                            @Override
-                                            public void onResult(int code, String msg) {
-                                                QNDemoLogger.e("UserScaleActivity", "wifi 配置code:" + code + ",msg:" + msg);
-                                            }
-                                        });
+                                    mQnUserScaleConfig.setOtaConfig(otaConfig);
+                                    mQNBleApi.setQNBleOTAListener(UserScaleActivity.this);
+                                    mQNBleApi.connectUserScaleDevice(mBleDevice, mQnUserScaleConfig, new QNResultCallback() {
+                                        @Override
+                                        public void onResult(int code, String msg) {
+                                            QNDemoLogger.e("UserScaleActivity", "wifi 配置code:" + code + ",msg:" + msg);
+                                        }
+                                    });
 
-                                    }
-                                })
-                                .create()
-                                .show();
-                    }
+                                }
+                            })
+                            .create()
+                            .show();
+                }
 
                 break;
             case R.id.connectBtn:
@@ -494,6 +549,8 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                     //已经连接,断开连接
                     this.doDisconnect();
                 } else {
+                    this.bleVerView.setText("");
+                    this.otaStatusView.setText("");
                     //断开连接,就开始连接
                     mDatas.clear();
                     listAdapter.notifyDataSetChanged();
@@ -504,6 +561,14 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                 doDisconnect();
                 finish();
                 break;
+            case R.id.ota9Btn: {
+                ScaleVAManagerService.getInstance(UserScaleActivity.this).applyOta(fileToByteArray(getUfwFile(UserScaleActivity.this, "v09.ufw")), mOtaListener);
+                break;
+            }
+            case R.id.ota10Btn: {
+                ScaleVAManagerService.getInstance(UserScaleActivity.this).applyOta(fileToByteArray(getUfwFile(UserScaleActivity.this, "v10.ufw")), mOtaListener);
+                break;
+            }
         }
     }
 
@@ -543,21 +608,18 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
 
     @OnClick({R.id.stroteDataTest})
     public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.stroteDataTest:
-                /**
-                 *  用户获取到服务器的数据用此API进行测量数据的生成（The data acquired by the user to the server is generated using this API for measurement data）
-                 */
+        if (view.getId() == R.id.stroteDataTest) {/**
+         *  用户获取到服务器的数据用此API进行测量数据的生成（The data acquired by the user to the server is generated using this API for measurement data）
+         */
 
                /* hmac="3F828A0207EB762F0D12E1ED5345AF7D6907304A74A45990B254256AC08DAA76EEA778E4B50ACE92D47DA72DD7257F82734C33A56721D797FD932B3741E5C730F2901F7EFAA1755DD0683BABD0959BB1E82201C3B50B3E8A5360A3D57550CF446DC834B8FA2F0D16DA4C0797CC1C308E4253413D4AB90DC4093F8065199ABE8AB0C9D06E3172E511C54C7E5095BB92C753070DC0CEB5D64785C4577952B50465"
         // 解密后{"weight":25.35,"measure_time":"2019-05-06 14:02:51","mac":"F0:FE:6B:CB:75:6A","heart_rate":93,"resistance_50":1601,"resistance_500":65474,"model_id":"0005"}*/
-                String hmac = "3F828A0207EB762F0D12E1ED5345AF7D6907304A74A45990B254256AC08DAA76EEA778E4B50ACE92D47DA72DD7257F82734C33A56721D797FD932B3741E5C730F2901F7EFAA1755DD0683BABD0959BB1E82201C3B50B3E8A5360A3D57550CF446DC834B8FA2F0D16DA4C0797CC1C308E4253413D4AB90DC4093F8065199ABE8AB0C9D06E3172E511C54C7E5095BB92C753070DC0CEB5D64785C4577952B50465";
-                QNScaleData scaleData = mQNBleApi.generateScaleData(mQnUserScaleConfig.getCurUser(), "0005",
-                        25.35, 1601, 65474, 93, hmac, new Date(1557122571000L));
-                if (null != scaleData) {
-                    onReceiveScaleData(scaleData);
-                }
-                break;
+            String hmac = "3F828A0207EB762F0D12E1ED5345AF7D6907304A74A45990B254256AC08DAA76EEA778E4B50ACE92D47DA72DD7257F82734C33A56721D797FD932B3741E5C730F2901F7EFAA1755DD0683BABD0959BB1E82201C3B50B3E8A5360A3D57550CF446DC834B8FA2F0D16DA4C0797CC1C308E4253413D4AB90DC4093F8065199ABE8AB0C9D06E3172E511C54C7E5095BB92C753070DC0CEB5D64785C4577952B50465";
+            QNScaleData scaleData = mQNBleApi.generateScaleData(mQnUserScaleConfig.getCurUser(), "0005",
+                    25.35, 1601, 65474, 93, hmac, new Date(1557122571000L));
+            if (null != scaleData) {
+                onReceiveScaleData(scaleData);
+            }
         }
     }
 
@@ -583,7 +645,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
     }
 
     @Override
-    public void onOTAProgress(QNBleDevice device, int progress) {
+    public void onOTAProgress(QNBleDevice device, int progress, int type) {
         QNDemoLogger.d("UserScaleActivity", "onOTAProgress:" + progress);
     }
 }

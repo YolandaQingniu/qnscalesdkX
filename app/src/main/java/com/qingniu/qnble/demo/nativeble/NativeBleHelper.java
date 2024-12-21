@@ -321,6 +321,11 @@ public class NativeBleHelper {
             public void readSnComplete(QNBleDevice device, String sn) {
 
             }
+
+            @Override
+            public void onGetBleVer(QNBleDevice device, int bleVer) {
+
+            }
         });
     }
 }
