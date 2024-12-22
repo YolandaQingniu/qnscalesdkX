@@ -21,22 +21,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end" />
 
-        <Button
-            android:id="@+id/ota9Btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginStart="20dp"
-            android:text="升级版本9" />
-
-        <Button
-            android:id="@+id/ota10Btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginStart="20dp"
-            android:text="升级版本10" />
-
         <TextView
             android:id="@+id/statusTv"
             android:layout_width="0dp"
@@ -60,6 +44,30 @@
             android:layout_marginStart="10dp"
             android:padding="8dp"
             android:text="@string/back" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp">
+        <Button
+            android:id="@+id/ota9Btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="升级版本9" />
+
+        <Button
+            android:id="@+id/ota10Btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginStart="20dp"
+            android:text="升级版本10" />
 
     </LinearLayout>
 

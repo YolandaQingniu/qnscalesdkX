@@ -25,7 +25,8 @@ import com.qingniu.qnble.demo.util.ToastMaker;
 import com.qingniu.qnble.demo.util.UserConst;
 import com.qingniu.scale.constant.DecoderConst;
 import com.qingniu.scale.measure.ble.va.ScaleVAManagerService;
-import com.qingniu.scale.measure.ble.va.ota.base.listener.OtaListener;
+import com.qingniu.scale.ota.jieli.JieLiOtaStep;
+import com.qingniu.scale.ota.jieli.OtaListener;
 import com.qingniu.scale.model.BleScale;
 import com.qn.device.constant.QNIndicator;
 import com.qn.device.constant.QNInfoConst;
@@ -120,29 +121,35 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
 
     private ListAdapter listAdapter;
 
-    private final OtaListener mOtaListener = new OtaListener() {
+    private final QNBleOTAListener qnBleOTAListener = new QNBleOTAListener() {
         @Override
-        public void onOtaStart(BleScale bleScale) {
+        public void onOTAStart(QNBleDevice device) {
             QNDemoLogger.d("UserScaleActivity", "onOtaStart");
             otaStatusView.setText("onOtaStart");
         }
 
         @Override
-        public void onOtaProgress(BleScale bleScale, int progress, int type) {
-            QNDemoLogger.d("UserScaleActivity", "onOtaProgress " + progress);
-            otaStatusView.setText("onOtaProgress 阶段 " + type + "进度" + progress);
+        public void onOTAUpgrading(QNBleDevice device) {
+            QNDemoLogger.d("UserScaleActivity", "onOTAUpgrading");
+            otaStatusView.setText("onOTAUpgrading");
         }
 
         @Override
-        public void onOtaFail(BleScale bleScale, int errorCode) {
-            QNDemoLogger.d("UserScaleActivity", "onOtaFail");
-            otaStatusView.setText("onOtaFail "+errorCode);
+        public void onOTACompleted(QNBleDevice device) {
+            QNDemoLogger.d("UserScaleActivity", "onOTACompleted");
+            otaStatusView.setText("onOTACompleted");
         }
 
         @Override
-        public void onOtaEnd(BleScale bleScale) {
-            QNDemoLogger.d("UserScaleActivity", "onOtaEnd");
-            otaStatusView.setText("onOtaEnd");
+        public void onOTAFailed(QNBleDevice device, int errorCode) {
+            QNDemoLogger.d("UserScaleActivity", "onOTAFailed " + errorCode);
+            otaStatusView.setText("onOTAFailed " + errorCode);
+        }
+
+        @Override
+        public void onOTAProgress(QNBleDevice device, int progress, int otaStep) {
+            QNDemoLogger.d("UserScaleActivity", "onOTAProgress " + otaStep + "  " + progress);
+            otaStatusView.setText("onOTAProgress 阶段 " + otaStep + " 进度 " + progress);
         }
     };
 
@@ -155,6 +162,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
         initIntent();
         initView();
         initData();
+        QNBleApi.getInstance(this).setQNBleOTAListener(qnBleOTAListener);
     }
 
     private void initData() {
@@ -562,11 +570,23 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                 finish();
                 break;
             case R.id.ota9Btn: {
-                ScaleVAManagerService.getInstance(UserScaleActivity.this).applyOta(fileToByteArray(getUfwFile(UserScaleActivity.this, "v09.ufw")), mOtaListener);
+                QNBleApi.getInstance(UserScaleActivity.this).applyOta(fileToByteArray(getUfwFile(UserScaleActivity.this, "v09.ufw")), new QNResultCallback() {
+                    @Override
+                    public void onResult(int code, String msg) {
+                        QNDemoLogger.d("UserScaleActivity", "调用ota9Btn " + code + " " + msg);
+                        otaStatusView.setText("调用ota9Btn " + code + " " + msg);
+                    }
+                });
                 break;
             }
             case R.id.ota10Btn: {
-                ScaleVAManagerService.getInstance(UserScaleActivity.this).applyOta(fileToByteArray(getUfwFile(UserScaleActivity.this, "v10.ufw")), mOtaListener);
+                QNBleApi.getInstance(UserScaleActivity.this).applyOta(fileToByteArray(getUfwFile(UserScaleActivity.this, "v10.ufw")), new QNResultCallback() {
+                    @Override
+                    public void onResult(int code, String msg) {
+                        QNDemoLogger.d("UserScaleActivity", "调用ota10Btn " + code + " " + msg);
+                        otaStatusView.setText("调用ota10Btn " + code + " " + msg);
+                    }
+                });
                 break;
             }
         }
@@ -645,7 +665,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
     }
 
     @Override
-    public void onOTAProgress(QNBleDevice device, int progress, int type) {
+    public void onOTAProgress(QNBleDevice device, int progress, int otaStep) {
         QNDemoLogger.d("UserScaleActivity", "onOTAProgress:" + progress);
     }
 }
