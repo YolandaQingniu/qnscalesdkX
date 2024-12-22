@@ -26,3 +26,6 @@
 #-keepattributes Signature
 
 -keep class com.qingniu.scale.model.BleScaleData{*;}
+
+#杰理
+-keep class com.jieli.** {*;}
