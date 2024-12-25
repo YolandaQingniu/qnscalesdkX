@@ -233,6 +233,11 @@ public class SelfMultiDeviceConnectActivity extends AppCompatActivity implements
             public void onGetBleVer(QNBleDevice device, int bleVer) {
 
             }
+
+            @Override
+            public void onGetBatteryLevel(QNBleDevice device, int batteryLevel, boolean isLowLevel) {
+
+            }
         });
     }
 

@@ -298,6 +298,11 @@ public class SelfHeightScaleActivity extends AppCompatActivity implements View.O
         public void onGetBleVer(QNBleDevice device, int bleVer) {
 
         }
+
+        @Override
+        public void onGetBatteryLevel(QNBleDevice device, int batteryLevel, boolean isLowLevel) {
+
+        }
     };
 
     private void initCharacteristic(BluetoothGatt gatt) {

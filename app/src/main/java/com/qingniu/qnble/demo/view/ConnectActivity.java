@@ -394,6 +394,11 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
             public void onGetBleVer(QNBleDevice device, int bleVer) {
 
             }
+
+            @Override
+            public void onGetBatteryLevel(QNBleDevice device, int batteryLevel, boolean isLowLevel) {
+
+            }
         });
     }
 

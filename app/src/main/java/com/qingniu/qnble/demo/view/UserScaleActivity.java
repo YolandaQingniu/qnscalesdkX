@@ -28,6 +28,7 @@ import com.qingniu.scale.measure.ble.va.ScaleVAManagerService;
 import com.qingniu.scale.ota.jieli.JieLiOtaStep;
 import com.qingniu.scale.ota.jieli.OtaListener;
 import com.qingniu.scale.model.BleScale;
+import com.qingniu.utils.QNVaLogger;
 import com.qn.device.constant.QNIndicator;
 import com.qn.device.constant.QNInfoConst;
 import com.qn.device.constant.QNScaleStatus;
@@ -76,6 +77,9 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
 
     @BindView(R.id.otaStatusTv)
     TextView otaStatusView;
+
+    @BindView(R.id.batteryTv)
+    TextView batteryTv;
     private int bleStatus;
 
     public static Intent getCallIntent(Context context, QNBleDevice device, QNUserScaleConfig qnUserScaleConfig) {
@@ -361,6 +365,11 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onGetBleVer(QNBleDevice device, int bleVer) {
                 bleVerView.setText("当前固件版本 "+bleVer);
+            }
+
+            @Override
+            public void onGetBatteryLevel(QNBleDevice device, int batteryLevel, boolean isLowLevel) {
+                batteryTv.setText("当前电量 " + batteryLevel + " 是否低电 " + isLowLevel);
             }
         });
     }
