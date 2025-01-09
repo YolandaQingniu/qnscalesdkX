@@ -28,5 +28,6 @@ public class BaseApplication extends Application {
                 QNDemoLogger.d("BaseApplication", "初始化文件" + msg);
             }
         });
+        
     }
 }
