@@ -7,7 +7,7 @@ android {
         minSdkVersion 15//MIN_SDK_VERSION as int
         targetSdkVersion TARGET_SDK_VERSION as int
         versionCode 1
-        versionName "2.21.3"
+        versionName "2.21.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
