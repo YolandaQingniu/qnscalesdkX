@@ -1,3 +1,20 @@
+pluginManagement {
+    repositories {
+        maven { url 'https://jitpack.io' }
+        jcenter()
+        google()
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+    repositories {
+        maven { url 'https://jitpack.io' }
+        jcenter()
+        google()
+    }
+}
+
 include ':app'
 if (USE_BLE_TYPE as int == 0){
     include ':qnscalesdkX'
