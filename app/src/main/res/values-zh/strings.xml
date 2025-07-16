@@ -227,4 +227,7 @@
     <string name="set_eight_fat_threshold_success">八电极秤阻抗调整成功</string>
     <string name="passing_user_lists">传递用户列表</string>
     <string name="passing_user_lists_hint">请输入已存在用户的坑位(1~8)，空格分割</string>
+    <string name="area">地区</string>
+    <string name="area_default">非亚洲</string>
+    <string name="area_asia">亚洲</string>
 </resources>

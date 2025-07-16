@@ -279,7 +279,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
                 break;
         }
 
-        return mQNBleApi.buildUser(mUser.getUserId(),
+        QNUser qnUser = mQNBleApi.buildUser(mUser.getUserId(),
                 mUser.getHeight(), mUser.getGender(), mUser.getBirthDay(), mUser.getAthleteType(),
                 userShape, userGoal, mUser.getClothesWeight(), new QNResultCallback() {
                     @Override
@@ -287,6 +287,8 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
                         QNDemoLogger.d("ConnectActivity", "创建用户信息返回:" + msg);
                     }
                 });
+        qnUser.setQnAreaType(mUser.getAreaType());
+        return qnUser;
     }
 
 

@@ -3,6 +3,7 @@ package com.qingniu.qnble.demo.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.qn.device.constant.QNAreaType;
 import com.qn.device.out.QNIndicateConfig;
 
 import java.util.Date;
@@ -52,6 +53,8 @@ public class User implements Parcelable {
 
     private double clothesWeight;
 
+
+    private QNAreaType mAreaType = QNAreaType.AreaTypeDefault;
 
     /**
      * wsp 秤端显示指标控制对象
@@ -133,6 +136,14 @@ public class User implements Parcelable {
         this.qnIndicateConfig = qnIndicateConfig;
     }
 
+    public QNAreaType getAreaType() {
+        return mAreaType;
+    }
+
+    public void setAreaType(QNAreaType areaType) {
+        this.mAreaType = areaType;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -145,6 +156,7 @@ public class User implements Parcelable {
                 ", choseGoal=" + choseGoal +
                 ", clothesWeight=" + clothesWeight +
                 ", qnIndicateConfig=" + qnIndicateConfig +
+                ", areaType=" + mAreaType +
                 '}';
     }
 
@@ -164,6 +176,7 @@ public class User implements Parcelable {
         dest.writeInt(this.choseGoal);
         dest.writeDouble(this.clothesWeight);
         dest.writeParcelable(this.qnIndicateConfig, flags);
+        dest.writeInt(this.mAreaType == QNAreaType.AreaTypeDefault ? 0 : 1);
     }
 
     protected User(Parcel in) {
@@ -177,6 +190,8 @@ public class User implements Parcelable {
         this.choseGoal = in.readInt();
         this.clothesWeight = in.readDouble();
         this.qnIndicateConfig = in.readParcelable(QNIndicateConfig.class.getClassLoader());
+        int tmpMAreaType = in.readInt();
+        this.mAreaType = tmpMAreaType == 0 ? QNAreaType.AreaTypeDefault : QNAreaType.AreaTypeAsia;
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {

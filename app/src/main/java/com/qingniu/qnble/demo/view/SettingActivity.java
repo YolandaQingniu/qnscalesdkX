@@ -24,6 +24,7 @@ import com.qingniu.qnble.demo.picker.DatePickerDialog;
 import com.qingniu.qnble.demo.picker.HeightPickerDialog;
 import com.qingniu.qnble.demo.util.DateUtils;
 import com.qingniu.qnble.demo.util.ToastMaker;
+import com.qn.device.constant.QNAreaType;
 import com.qn.device.constant.QNHeightUnit;
 import com.qn.device.constant.QNInfoConst;
 import com.qn.device.constant.QNUnit;
@@ -87,6 +88,13 @@ public class SettingActivity extends AppCompatActivity implements RadioGroup.OnC
     @BindView(R.id.btn_sure)
     Button mSure;
 
+    @BindView(R.id.user_area_grp)
+    RadioGroup mUserAreaGrp;
+    @BindView(R.id.user_default_rb)
+    RadioButton mUserDefaultRb;
+    @BindView(R.id.user_asian_rb)
+    RadioButton mUserAsianRb;
+
     @BindView(R.id.scan_timeEt)
     EditText mScanEt;
     @BindView(R.id.scan_out_timeEt)
@@ -124,6 +132,8 @@ public class SettingActivity extends AppCompatActivity implements RadioGroup.OnC
     private int mHeight = 172; //用户身高
     private Date mBirthday = null; //用户生日
 
+    private QNAreaType mAreaType = QNAreaType.AreaTypeDefault; //用户地区
+
     private QNIndicateConfig qnIndicateConfig;
 
     private User mUser;
@@ -158,6 +168,7 @@ public class SettingActivity extends AppCompatActivity implements RadioGroup.OnC
     private void initListener() {
         mUserGenderGrp.setOnCheckedChangeListener(this);
         mUserCalcGrp.setOnCheckedChangeListener(this);
+        mUserAreaGrp.setOnCheckedChangeListener(this);
         mBleScanGrp.setOnCheckedChangeListener(this);
         mUserUnitGrp.setOnCheckedChangeListener(this);
         mHeightUnitGrp.setOnCheckedChangeListener(this);
@@ -369,6 +380,12 @@ public class SettingActivity extends AppCompatActivity implements RadioGroup.OnC
     @Override
     public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
         switch (checkedId) {
+            case R.id.user_default_rb:
+                mAreaType = QNAreaType.AreaTypeDefault;
+                break;
+            case R.id.user_asian_rb:
+                mAreaType = QNAreaType.AreaTypeAsia;
+                break;
             case R.id.user_male_rb:
                 mGender = QNInfoConst.GENDER_MAN;
                 break;
@@ -530,6 +547,8 @@ public class SettingActivity extends AppCompatActivity implements RadioGroup.OnC
         mUser.setBirthDay(mBirthday);
         mUser.setClothesWeight(clothesWeight);
         mUser.setQnIndicateConfig(qnIndicateConfig);
+
+        mUser.setAreaType(mAreaType);
 
         mBleConfig.setDuration(scanTime);
         mBleConfig.setScanOutTime(scanOutTime);

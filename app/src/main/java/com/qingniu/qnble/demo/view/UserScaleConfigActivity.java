@@ -216,7 +216,7 @@ public class UserScaleConfigActivity extends AppCompatActivity {
             }
         }
 
-        return mQNBleApi.buildUser(mUser.getUserId(),
+        QNUser qnUser = mQNBleApi.buildUser(mUser.getUserId(),
                 mUser.getHeight(), mUser.getGender(), mUser.getBirthDay(), mUser.getAthleteType(),
                 userShape, userGoal, mUser.getClothesWeight(), userIndex, userSercret, mUser.getQnIndicateConfig(),
 
@@ -226,6 +226,8 @@ public class UserScaleConfigActivity extends AppCompatActivity {
                         QNDemoLogger.d("ConnectActivity", "创建用户信息返回:" + msg);
                     }
                 });
+        qnUser.setQnAreaType(mUser.getAreaType());
+        return qnUser;
     }
 
     @OnClick(R.id.swpConfigBtn)

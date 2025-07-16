@@ -102,7 +102,7 @@
     <string name="user_shape">user shape</string>
     <string name="user_goal">User goals</string>
     <string name="user_id">user id</string>
-    <string name="grander">grander</string>
+    <string name="grander">gender</string>
     <string name="male">male</string>
     <string name="female">female</string>
     <string name="algorithm_model">Algorithm model</string>
@@ -234,4 +234,7 @@
     <string name="set_eight_fat_threshold_success">set_eight_fat_threshold_success</string>
     <string name="passing_user_lists">passing_user_lists</string>
     <string name="passing_user_lists_hint">Please input the users index(1~8) split by space</string>
+    <string name="area">area</string>
+    <string name="area_default">Non-Asia</string>
+    <string name="area_asia">Asia</string>
 </resources>
