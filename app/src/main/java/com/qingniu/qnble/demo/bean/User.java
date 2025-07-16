@@ -54,7 +54,7 @@ public class User implements Parcelable {
     private double clothesWeight;
 
 
-    private QNAreaType mAreaType = QNAreaType.AreaTypeDefault;
+    private QNAreaType mAreaType = QNAreaType.AreaTypeOther;
 
     /**
      * wsp 秤端显示指标控制对象
@@ -176,7 +176,7 @@ public class User implements Parcelable {
         dest.writeInt(this.choseGoal);
         dest.writeDouble(this.clothesWeight);
         dest.writeParcelable(this.qnIndicateConfig, flags);
-        dest.writeInt(this.mAreaType == QNAreaType.AreaTypeDefault ? 0 : 1);
+        dest.writeInt(this.mAreaType == QNAreaType.AreaTypeOther ? 0 : 1);
     }
 
     protected User(Parcel in) {
@@ -191,7 +191,7 @@ public class User implements Parcelable {
         this.clothesWeight = in.readDouble();
         this.qnIndicateConfig = in.readParcelable(QNIndicateConfig.class.getClassLoader());
         int tmpMAreaType = in.readInt();
-        this.mAreaType = tmpMAreaType == 0 ? QNAreaType.AreaTypeDefault : QNAreaType.AreaTypeAsia;
+        this.mAreaType = tmpMAreaType == 0 ? QNAreaType.AreaTypeOther : QNAreaType.AreaTypeAsia;
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {

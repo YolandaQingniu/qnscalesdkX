@@ -132,7 +132,7 @@ public class SettingActivity extends AppCompatActivity implements RadioGroup.OnC
     private int mHeight = 172; //用户身高
     private Date mBirthday = null; //用户生日
 
-    private QNAreaType mAreaType = QNAreaType.AreaTypeDefault; //用户地区
+    private QNAreaType mAreaType = QNAreaType.AreaTypeOther; //用户地区
 
     private QNIndicateConfig qnIndicateConfig;
 
@@ -381,7 +381,7 @@ public class SettingActivity extends AppCompatActivity implements RadioGroup.OnC
     public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
         switch (checkedId) {
             case R.id.user_default_rb:
-                mAreaType = QNAreaType.AreaTypeDefault;
+                mAreaType = QNAreaType.AreaTypeOther;
                 break;
             case R.id.user_asian_rb:
                 mAreaType = QNAreaType.AreaTypeAsia;

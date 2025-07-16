@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -14,7 +13,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import androidx.annotation.IdRes;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.qingniu.qnble.demo.R;
@@ -22,7 +20,6 @@ import com.qingniu.qnble.demo.bean.User;
 import com.qingniu.qnble.demo.util.QNDemoLogger;
 import com.qingniu.qnble.demo.util.ToastMaker;
 import com.qingniu.qnble.demo.util.UserConst;
-import com.qn.device.constant.QNInfoConst;
 import com.qn.device.constant.UserGoal;
 import com.qn.device.constant.UserShape;
 import com.qn.device.listener.QNResultCallback;
@@ -226,7 +223,7 @@ public class UserScaleConfigActivity extends AppCompatActivity {
                         QNDemoLogger.d("ConnectActivity", "创建用户信息返回:" + msg);
                     }
                 });
-        qnUser.setQnAreaType(mUser.getAreaType());
+        qnUser.setAreaType(mUser.getAreaType());
         return qnUser;
     }
 

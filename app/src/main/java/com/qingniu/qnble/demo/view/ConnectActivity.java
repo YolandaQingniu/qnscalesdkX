@@ -11,7 +11,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,7 +35,6 @@ import com.qn.device.constant.UserGoal;
 import com.qn.device.constant.UserShape;
 import com.qn.device.listener.QNBleConnectionChangeListener;
 import com.qn.device.listener.QNScaleDataListener;
-import com.qn.device.listener.QNLogListener;
 import com.qn.device.listener.QNResultCallback;
 import com.qn.device.out.QNBleApi;
 import com.qn.device.out.QNBleDevice;
@@ -287,7 +285,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
                         QNDemoLogger.d("ConnectActivity", "创建用户信息返回:" + msg);
                     }
                 });
-        qnUser.setQnAreaType(mUser.getAreaType());
+        qnUser.setAreaType(mUser.getAreaType());
         return qnUser;
     }
 
