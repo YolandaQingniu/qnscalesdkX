@@ -7,8 +7,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -81,6 +83,12 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
     @BindView(R.id.batteryTv)
     TextView batteryTv;
     private int bleStatus;
+
+    @BindView(R.id.hmacEt)
+    EditText hmacEt;
+    @BindView(R.id.hmacBtn)
+    Button hmacBtn;
+
 
     public static Intent getCallIntent(Context context, QNBleDevice device, QNUserScaleConfig qnUserScaleConfig) {
         return new Intent(context, UserScaleActivity.class)
@@ -250,6 +258,8 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                 boolean isEightData = data.getItemValue(QNIndicator.TYPE_LEFT_ARM_MUSCLE_WEIGHT_INDEX) > 0;
                 listAdapter.setEight(isEightData);
 
+                hmacEt.setText(data.getHmac());
+
                 onReceiveScaleData(data);
                 QNScaleItemData fatValue = data.getItem(QNIndicator.TYPE_SUBFAT);
                 if (fatValue != null) {
@@ -354,7 +364,12 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
 
             @Override
             public String getLastDataHmac(QNBleDevice qnBleDevice, QNUser qnUser) {
-                return null;
+                String hmac = hmacEt.getText().toString();
+                if (TextUtils.isEmpty(hmac)) {
+                    return null;
+                } else {
+                    return hmac;
+                }
             }
 
             @Override
@@ -388,6 +403,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void initView() {
+        hmacBtn.setOnClickListener(this);
         mConnectBtn.setOnClickListener(this);
         resetBtn.setOnClickListener(this);
         otaBtn.setOnClickListener(this);
@@ -560,6 +576,9 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                             .show();
                 }
 
+                break;
+            case R.id.hmacBtn:
+                hmacEt.setText("");
                 break;
             case R.id.connectBtn:
                 if (mIsConnected) {

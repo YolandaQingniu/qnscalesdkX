@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ScaleSDKXDemo-2.23.0</string>
+    <string name="app_name">ScaleSDKXDemo-2.24.0</string>
     <string name="scan">扫描</string>
     <string name="stop">停止</string>
     <string name="user_id_explain">设置用户的资料,计算体脂率时会需要</string>
@@ -230,4 +230,6 @@
     <string name="area">地区</string>
     <string name="area_default">非亚洲</string>
     <string name="area_asia">亚洲</string>
+    <string name="hmac_desc">输入框有Hmac时，下次测量将会进行拟合</string>
+    <string name="one_click_clear">一键清空</string>
 </resources>
