@@ -3,6 +3,9 @@ package com.qingniu.qnble.demo;
 import android.app.Application;
 import android.util.Log;
 
+import com.elvishew.xlog.LogLevel;
+import com.elvishew.xlog.XLog;
+import com.elvishew.xlog.printer.file.FilePrinter;
 import com.qingniu.qnble.demo.util.QNDemoLogger;
 import com.qn.device.listener.QNLogListener;
 import com.qn.device.listener.QNResultCallback;
@@ -15,10 +18,15 @@ public class BaseApplication extends Application {
         String encryptPath = "file:///android_asset/123456789.qn";
         QNBleApi mQNBleApi = QNBleApi.getInstance(this);
 
+        FilePrinter filePrinter = new FilePrinter.Builder(getFilesDir().getPath())
+                .build();
+        XLog.init(LogLevel.ALL, filePrinter);
+
         mQNBleApi.setLogListener(new QNLogListener() {
             @Override
             public void onLog(String log) {
                 Log.e("TTTTTT", log);
+                XLog.tag("demo").log(LogLevel.DEBUG, log);
             }
         });
 

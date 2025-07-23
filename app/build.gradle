@@ -65,6 +65,8 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
     implementation 'com.google.code.gson:gson:2.10.1'
 
+    implementation 'com.elvishew:xlog:1.11.1'
+
     if (USE_BLE_TYPE as int == 0) {
         implementation project(":qnscalesdkX")
     } else if (USE_BLE_TYPE as int == 1) {
