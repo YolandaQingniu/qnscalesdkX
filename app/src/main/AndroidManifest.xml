@@ -99,6 +99,9 @@
         <activity
             android:name=".view.HeightScaleActivity"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".view.HeightScaleConfigActivity" />
+
         <activity
             android:name=".view.SelfMultiDeviceConnectActivity"
             android:screenOrientation="portrait" />

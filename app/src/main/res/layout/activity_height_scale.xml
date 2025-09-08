@@ -45,6 +45,18 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/bar_code_tv"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:text="@string/switch_user"
+        android:id="@+id/switch_user_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <LinearLayout
         android:paddingEnd="10dp"
         android:paddingStart="10dp"
@@ -54,6 +66,7 @@
 
         <TextView
             android:text="收到的存储数据条数："
+            android:id="@+id/storage_tip_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

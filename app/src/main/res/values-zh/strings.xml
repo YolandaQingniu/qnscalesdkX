@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ScaleSDKXDemo-2.25.0</string>
+    <string name="app_name">ScaleSDKXDemo-2.26.0</string>
     <string name="scan">扫描</string>
     <string name="stop">停止</string>
     <string name="user_id_explain">设置用户的资料,计算体脂率时会需要</string>
@@ -72,6 +72,8 @@
     <string name="input_height">请输入身高</string>
     <string name="input_birthday">请输入出生日期</string>
     <string name="select_weight">请选择重量单位</string>
+    <string name="select_height">请选择身高单位</string>
+    <string name="select_language">请选择语言</string>
     <string name="scan_exception">扫描异常</string>
     <string name="scan_stopped">已经停止扫描</string>
     <string name="scanning">正在扫描</string>
@@ -232,4 +234,7 @@
     <string name="area_asia">亚洲</string>
     <string name="hmac_desc">输入框有Hmac时，下次测量将会进行拟合</string>
     <string name="one_click_clear">一键清空</string>
+    <string name="use_default_without_input">不输入就采取默认</string>
+    <string name="switch_user">切换用户信息</string>
+    <string name="language">语言</string>
 </resources>

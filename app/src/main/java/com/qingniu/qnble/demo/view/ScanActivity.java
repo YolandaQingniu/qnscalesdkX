@@ -32,8 +32,13 @@ import com.qingniu.qnble.demo.util.AndroidPermissionCenter;
 import com.qingniu.qnble.demo.util.QNDemoLogger;
 import com.qingniu.qnble.demo.util.ToastMaker;
 import com.qingniu.qnble.demo.util.UserConst;
+import com.qingniu.scale.config.ScaleConfigManager;
+import com.qingniu.scale.constant.BleConst;
+import com.qingniu.scale.model.BleScaleConfig;
+import com.qn.device.config.QNConfigManager;
 import com.qn.device.constant.CheckStatus;
 import com.qn.device.constant.QNDeviceType;
+import com.qn.device.constant.QNHeightUnit;
 import com.qn.device.constant.QNIndicator;
 import com.qn.device.constant.UserGoal;
 import com.qn.device.constant.UserShape;
@@ -330,7 +335,21 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
                 } else if (device.getDeviceType() == QNDeviceType.USER_SCALE) { // 支持wifi的用户秤，即wsp秤
                     startActivity(UserScaleConfigActivity.getIntent(ScanActivity.this, mUser, device));
                 } else if (device.getDeviceType() == QNDeviceType.HEIGHT_SCALE) { // 身高一体机
-                    startActivity(HeightScaleActivity.getCallIntent(this, mUser, device));
+
+                    QNConfig qnConfig = QNConfigManager.getInstance().getQNConfig();
+
+                    qnConfig.setUnit(mConfig.getUnit());
+                    qnConfig.setHeightUnit(mConfig.getHeightUnit());
+                    qnConfig.setLanguage(mConfig.getLanguage());
+                    QNConfigManager.getInstance().setQNConfig(qnConfig);
+
+                    QNDemoLogger.d("ScanActivity", "qnConfig: " + ScaleConfigManager.getInstance().getScaleConfig());
+
+                    if (device.isSupportWifi()) {
+                        startActivity(HeightScaleConfigActivity.getCallIntent(this, mUser, device));
+                    } else {
+                        startActivity(HeightScaleActivity.getCallIntent(this, mUser, device));
+                    }
                 }
             } else {
                 // SCALE_BROADCAST

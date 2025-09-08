@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ScaleSDKXDemo-2.25.0</string>
+    <string name="app_name">ScaleSDKXDemo-2.26.0</string>
     <string name="scan">scan</string>
     <string name="stop">stop</string>
     <string name="user_id_explain">Set the user profile when calculating body fat percentage</string>
@@ -73,6 +73,7 @@
     <string name="input_birthday">Please enter date of birth</string>
     <string name="select_weight">Please select the weight unit</string>
     <string name="select_height">Please select the height unit</string>
+    <string name="select_language">Please select the language</string>
     <string name="scan_exception">Scan abnormal</string>
     <string name="scan_stopped">Scan stopped</string>
     <string name="scanning">scanning</string>
@@ -239,4 +240,7 @@
     <string name="area_asia">Asia</string>
     <string name="hmac_desc">When the input box contains "Hmac", the next measurement will be fitted</string>
     <string name="one_click_clear">one click clear</string>
+    <string name="use_default_without_input">use default without input</string>
+    <string name="switch_user">switch user</string>
+    <string name="language">language</string>
 </resources>

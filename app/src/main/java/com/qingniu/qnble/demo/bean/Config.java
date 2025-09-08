@@ -8,6 +8,8 @@ public class Config implements Parcelable {
     private boolean allowDuplicates;
     private int duration;
 
+    private int language;
+
     private boolean enhanceBleBroadcast;
 
     public boolean isEnhanceBleBroadcast() {
@@ -81,6 +83,14 @@ public class Config implements Parcelable {
         this.connectOutTime = connectOutTime;
     }
 
+    public int getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(int language) {
+        this.language = language;
+    }
+
     private long connectOutTime=6000;
 
     public Config() {
@@ -100,6 +110,7 @@ public class Config implements Parcelable {
         dest.writeByte(this.enhanceBleBroadcast ? (byte) 1 : (byte) 0);
         dest.writeInt(this.unit);
         dest.writeInt(this.heightUnit);
+        dest.writeInt(this.language);
         dest.writeLong(this.scanOutTime);
         dest.writeLong(this.connectOutTime);
     }
@@ -111,6 +122,7 @@ public class Config implements Parcelable {
         this.enhanceBleBroadcast = in.readByte() != 0;
         this.unit = in.readInt();
         this.heightUnit = in.readInt();
+        this.language = in.readInt();
         this.scanOutTime = in.readLong();
         this.connectOutTime = in.readLong();
     }

@@ -292,6 +292,22 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
 
     private void initUserData() {
         mQNBleApi.setDataListener(new QNScaleDataListener() {
+
+            @Override
+            public void onGetBarCode(String devMac, String barCode) {
+
+            }
+
+            @Override
+            public void onGetBarCodeFail(String devMac) {
+
+            }
+
+            @Override
+            public void onGetBarCodeGunState(String devMac, boolean isConnected) {
+
+            }
+
             @Override
             public void onGetUnsteadyWeight(QNBleDevice device, double weight) {
                 QNDemoLogger.d("ConnectActivity", "体重是:" + weight);

@@ -12,12 +12,15 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.qingniu.heightscale.ble.HeightScaleBleService;
 import com.qingniu.qnble.demo.R;
 import com.qingniu.qnble.demo.adapter.ListAdapter;
 import com.qingniu.qnble.demo.bean.User;
+import com.qingniu.qnble.demo.util.DateUtils;
 import com.qingniu.qnble.demo.util.QNDemoLogger;
 import com.qingniu.qnble.demo.util.UserConst;
 import com.qingniu.scale.constant.DecoderConst;
+import com.qingniu.scale.model.BleUser;
 import com.qn.device.constant.QNIndicator;
 import com.qn.device.constant.QNScaleStatus;
 import com.qn.device.constant.UserGoal;
@@ -27,10 +30,12 @@ import com.qn.device.listener.QNResultCallback;
 import com.qn.device.listener.QNScaleDataListener;
 import com.qn.device.out.QNBleApi;
 import com.qn.device.out.QNBleDevice;
+import com.qn.device.out.QNHeightDeviceConfig;
 import com.qn.device.out.QNScaleData;
 import com.qn.device.out.QNScaleItemData;
 import com.qn.device.out.QNScaleStoreData;
 import com.qn.device.out.QNUser;
+import com.qn.device.out.QNWiFiConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +60,15 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
                 .putExtra(UserConst.DEVICE, device);
     }
 
+    public static Intent getCallIntent(Context context, User user, QNBleDevice device, QNWiFiConfig qnWiFiConfig) {
+        return new Intent(context, HeightScaleActivity.class)
+                .putExtra(UserConst.USER, user)
+                .putExtra(UserConst.WIFI_CONFIG, qnWiFiConfig)
+                .putExtra(UserConst.DEVICE, device);
+    }
 
+    @BindView(R.id.switch_user_btn)
+    Button switchUserBtn;
     @BindView(R.id.connectBtn)
     Button mConnectBtn;
     @BindView(R.id.statusTv)
@@ -67,11 +80,19 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
     @BindView(R.id.listView)
     ListView mListView;
 
+    @BindView(R.id.bar_code_tv)
+    TextView barCodeTv;
+
+    @BindView(R.id.storage_tip_tv)
+    TextView storageTipTv;
+
     private QNBleDevice mBleDevice;
     private final List<QNScaleItemData> mDatas = new ArrayList<>();
     private QNBleApi mQNBleApi;
 
     private User mUser;
+
+    private QNWiFiConfig qnWiFiConfig;
 
     private boolean mIsConnected;
 
@@ -95,7 +116,8 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
         if (mIsConnected) {
             doDisconnect();
         } else {
-            connectQnDevice(mBleDevice); //连接当前设备
+            //连接当前设备
+            doConnect();
         }
     }
 
@@ -142,16 +164,6 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
 
             }
         });
-    }
-
-    private void connectQnDevice(QNBleDevice device) {
-        mQNBleApi.connectDevice(device, createQNUser(), new QNResultCallback() {
-            @Override
-            public void onResult(int code, String msg) {
-                QNDemoLogger.d("HeightScaleActivity", "连接设备返回:" + msg);
-            }
-        });
-
     }
 
     private QNUser createQNUser() {
@@ -219,6 +231,31 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
 
     private void initUserData() {
         mQNBleApi.setDataListener(new QNScaleDataListener() {
+
+            @Override
+            public void onGetBarCode(String devMac, String barCode) {
+                String msg = "扫码枪获取扫描结果: " + barCode + "   mac: "+devMac;
+                QNDemoLogger.d("HeightScaleActivity onGetBarCode", msg);
+                Toast.makeText(HeightScaleActivity.this, msg, Toast.LENGTH_SHORT).show();
+
+                barCodeTv.setVisibility(View.VISIBLE);
+                barCodeTv.setText(barCode);
+            }
+
+            @Override
+            public void onGetBarCodeFail(String devMac) {
+                String msg = "扫码枪获取扫描结果失败: " + devMac;
+                QNDemoLogger.d("HeightScaleActivity onGetBarCodeFail", msg);
+                Toast.makeText(HeightScaleActivity.this, msg, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onGetBarCodeGunState(String devMac, boolean isConnected) {
+                String msg = "扫码枪连接状态变化: " + isConnected + "   mac: "+devMac;
+                QNDemoLogger.d("HeightScaleActivity onGetBarCodeGunState", msg);
+                Toast.makeText(HeightScaleActivity.this, msg, Toast.LENGTH_SHORT).show();
+            }
+
             @Override
             public void onGetUnsteadyWeight(QNBleDevice device, double weight) {
                 QNDemoLogger.d("HeightScaleActivity", "体重是:" + weight);
@@ -228,6 +265,7 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onGetScaleData(QNBleDevice device, QNScaleData data) {
                 QNDemoLogger.d("HeightScaleActivity", "测量数据hmac:" + data.getHmac());
+                storageTipTv.setText("测量数据barCode: " + data.getBarCode());
                 onReceiveScaleData(data);
                 QNScaleItemData fatValue = data.getItem(QNIndicator.TYPE_SUBFAT);
                 if (fatValue != null) {
@@ -238,7 +276,8 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onGetStoredScale(QNBleDevice device, List<QNScaleStoreData> storedDataList) {
-                QNDemoLogger.d("HeightScaleActivity", "收到存储数据 " + storedDataList.size() + "条");
+                String text = "收到存储数据条数：" + storedDataList.size();
+                QNDemoLogger.d("HeightScaleActivity", text);
                 if (storedDataList != null && storedDataList.size() > 0) {
                     QNScaleStoreData data = storedDataList.get(0);
                     for (int i = 0; i < storedDataList.size(); i++) {
@@ -247,8 +286,13 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
                     QNUser qnUser = createQNUser();
                     data.setUser(qnUser);
                     QNScaleData qnScaleData = data.generateScaleData();
+                    QNDemoLogger.d("HeightScaleActivity", "存储数据 barCode:" + qnScaleData.getBarCode());
+                    text = text + "\nbarCode: " + qnScaleData.getBarCode();
                     onReceiveScaleData(qnScaleData);
                 }
+
+                storageTipTv.setText(text);
+
             }
 
             @Override
@@ -295,6 +339,7 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
         if (intent != null) {
             mBleDevice = intent.getParcelableExtra(UserConst.DEVICE);
             mUser = intent.getParcelableExtra(UserConst.USER);
+            qnWiFiConfig = intent.getParcelableExtra(UserConst.WIFI_CONFIG);
         }
     }
 
@@ -305,6 +350,7 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
 
     private void initView() {
         mConnectBtn.setOnClickListener(this);
+        switchUserBtn.setOnClickListener(this);
         mBackTv.setOnClickListener(this);
         listAdapter = new ListAdapter(mDatas, mQNBleApi, createQNUser());
         mListView.setAdapter(listAdapter);
@@ -424,6 +470,13 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.switch_user_btn:
+                BleUser bleUser = new BleUser();
+                bleUser.setHeight(165);
+                bleUser.setBirthday(DateUtils.stringToDate("1993-01-01"));
+                bleUser.setGender(1);
+                HeightScaleBleService.switchHeightScaleUser(this, bleUser);
+                break;
             case R.id.connectBtn:
                 if (mIsConnected) {
                     //已经连接,断开连接
@@ -448,13 +501,17 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
             return;
         }
 
-        mQNBleApi.connectDevice(mBleDevice, createQNUser(), new QNResultCallback() {
-            @Override
-            public void onResult(int code, String msg) {
-                QNDemoLogger.d("HeightScaleActivity", "连接设备返回:" + msg);
-                if (code == 0) {
-                    mIsConnected = true;
-                }
+        QNHeightDeviceConfig deviceConfig = new QNHeightDeviceConfig();
+
+        deviceConfig.setUser(createQNUser());
+        if (qnWiFiConfig != null) {
+            deviceConfig.setWiFiConfig(qnWiFiConfig);
+        }
+
+        mQNBleApi.connectHeightScaleDevice(mBleDevice, deviceConfig, (code, msg) -> {
+            QNDemoLogger.d("HeightScaleActivity", "连接设备返回:" + msg);
+            if (code == 0) {
+                mIsConnected = true;
             }
         });
 

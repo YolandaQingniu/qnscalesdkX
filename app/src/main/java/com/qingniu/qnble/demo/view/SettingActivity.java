@@ -27,6 +27,7 @@ import com.qingniu.qnble.demo.util.ToastMaker;
 import com.qn.device.constant.QNAreaType;
 import com.qn.device.constant.QNHeightUnit;
 import com.qn.device.constant.QNInfoConst;
+import com.qn.device.constant.QNLanguage;
 import com.qn.device.constant.QNUnit;
 import com.qn.device.constant.UserGoal;
 import com.qn.device.constant.UserShape;
@@ -94,6 +95,13 @@ public class SettingActivity extends AppCompatActivity implements RadioGroup.OnC
     RadioButton mUserDefaultRb;
     @BindView(R.id.user_asian_rb)
     RadioButton mUserAsianRb;
+
+    @BindView(R.id.language_grp)
+    RadioGroup languageGrp;
+    @BindView(R.id.language_cn)
+    RadioButton languageCn;
+    @BindView(R.id.language_en)
+    RadioButton languageEn;
 
     @BindView(R.id.scan_timeEt)
     EditText mScanEt;
@@ -171,6 +179,7 @@ public class SettingActivity extends AppCompatActivity implements RadioGroup.OnC
         mUserAreaGrp.setOnCheckedChangeListener(this);
         mBleScanGrp.setOnCheckedChangeListener(this);
         mUserUnitGrp.setOnCheckedChangeListener(this);
+        languageGrp.setOnCheckedChangeListener(this);
         mHeightUnitGrp.setOnCheckedChangeListener(this);
         mUserHeightTv.setOnClickListener(this);
         mUserBirthdayTv.setOnClickListener(this);
@@ -427,6 +436,12 @@ public class SettingActivity extends AppCompatActivity implements RadioGroup.OnC
             case R.id.height_unit_ft_in:
                 mBleConfig.setHeightUnit(QNHeightUnit.FT_IN);
                 break;
+            case R.id.language_cn:
+                mBleConfig.setLanguage(QNLanguage.CN);
+                break;
+            case R.id.language_en:
+                mBleConfig.setLanguage(QNLanguage.EN);
+                break;
         }
 
     }
@@ -535,8 +550,10 @@ public class SettingActivity extends AppCompatActivity implements RadioGroup.OnC
         } else if (mUserUnitGrp.getCheckedRadioButtonId() == -1) {
             ToastMaker.show(this, getResources().getString(R.string.select_weight));
             return true;
-        }
-        else if (mHeightUnitGrp.getCheckedRadioButtonId() == -1) {
+        } else if (languageGrp.getCheckedRadioButtonId() == -1) {
+            ToastMaker.show(this, getResources().getString(R.string.select_weight));
+            return true;
+        } else if (mHeightUnitGrp.getCheckedRadioButtonId() == -1) {
             ToastMaker.show(this, getResources().getString(R.string.select_height));
             return true;
         }

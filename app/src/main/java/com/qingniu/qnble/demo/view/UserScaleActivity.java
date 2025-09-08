@@ -240,6 +240,22 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
 
     private void initUserData() {
         mQNBleApi.setDataListener(new QNUserScaleDataListener() {
+
+            @Override
+            public void onGetBarCode(String devMac, String barCode) {
+
+            }
+
+            @Override
+            public void onGetBarCodeFail(String devMac) {
+
+            }
+
+            @Override
+            public void onGetBarCodeGunState(String devMac, boolean isConnected) {
+
+            }
+
             @Override
             public void registerUserComplete(QNBleDevice device, QNUser user) {
                 QNDemoLogger.d("UserScaleActivity", "注册返回的用户索引：" + user.getIndex());
