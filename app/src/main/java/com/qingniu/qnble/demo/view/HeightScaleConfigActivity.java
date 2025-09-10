@@ -62,11 +62,11 @@ public class HeightScaleConfigActivity extends AppCompatActivity {
         initIntent();
 
         debugBtn.setOnClickListener(v -> {
-//            ssidEdit.setText("King");
-//            wifiPwdEd.setText("987654321");
-            ssidEdit.setText("yxb-mac");
-            wifiPwdEd.setText("yxb666666");
-            serverUrlEd.setText("http://wsp-lite.yolanda.hk/yolanda/wsp?code=");
+            ssidEdit.setText("King");
+            wifiPwdEd.setText("987654321");
+//            ssidEdit.setText("yxb-mac");
+//            wifiPwdEd.setText("yxb666666");
+            serverUrlEd.setText("http://wsp-lite.yolanda.hk/yolanda/aios?code=");
             secretKeyEd.setText("yolandakitnewhdr");
             OTAUrlEd.setText("https://ota.volanda.hk");
         });

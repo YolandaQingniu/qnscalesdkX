@@ -15,12 +15,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.qingniu.heightscale.ble.HeightScaleBleService;
 import com.qingniu.qnble.demo.R;
 import com.qingniu.qnble.demo.adapter.ListAdapter;
+import com.qingniu.qnble.demo.bean.Config;
 import com.qingniu.qnble.demo.bean.User;
 import com.qingniu.qnble.demo.util.DateUtils;
 import com.qingniu.qnble.demo.util.QNDemoLogger;
+import com.qingniu.qnble.demo.util.ToastMaker;
 import com.qingniu.qnble.demo.util.UserConst;
 import com.qingniu.scale.constant.DecoderConst;
+import com.qingniu.scale.model.BleScaleData;
 import com.qingniu.scale.model.BleUser;
+import com.qn.device.config.QNConfigManager;
 import com.qn.device.constant.QNIndicator;
 import com.qn.device.constant.QNScaleStatus;
 import com.qn.device.constant.UserGoal;
@@ -30,6 +34,7 @@ import com.qn.device.listener.QNResultCallback;
 import com.qn.device.listener.QNScaleDataListener;
 import com.qn.device.out.QNBleApi;
 import com.qn.device.out.QNBleDevice;
+import com.qn.device.out.QNConfig;
 import com.qn.device.out.QNHeightDeviceConfig;
 import com.qn.device.out.QNScaleData;
 import com.qn.device.out.QNScaleItemData;
@@ -52,7 +57,6 @@ import butterknife.ButterKnife;
  */
 
 public class HeightScaleActivity extends AppCompatActivity implements View.OnClickListener {
-
 
     public static Intent getCallIntent(Context context, User user, QNBleDevice device) {
         return new Intent(context, HeightScaleActivity.class)
@@ -129,12 +133,13 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
                 setBleStatus(QNScaleStatus.STATE_CONNECTING);
             }
 
-            //已连接
+            //已连接，注意此时还不能进行其他蓝牙操作
             @Override
             public void onConnected(QNBleDevice device) {
                 setBleStatus(QNScaleStatus.STATE_CONNECTED);
             }
 
+            //发现服务
             @Override
             public void onServiceSearchComplete(QNBleDevice device) {
 
@@ -159,6 +164,7 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
                 setBleStatus(QNScaleStatus.STATE_DISCONNECTED);
             }
 
+            //可以执行其他蓝牙操作API方法
             @Override
             public void onStartInteracting(QNBleDevice device) {
 
@@ -234,7 +240,7 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onGetBarCode(String devMac, String barCode) {
-                String msg = "扫码枪获取扫描结果: " + barCode + "   mac: "+devMac;
+                String msg = "扫码枪获取扫描结果: " + barCode + "   mac: " + devMac;
                 QNDemoLogger.d("HeightScaleActivity onGetBarCode", msg);
                 Toast.makeText(HeightScaleActivity.this, msg, Toast.LENGTH_SHORT).show();
 
@@ -251,7 +257,7 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onGetBarCodeGunState(String devMac, boolean isConnected) {
-                String msg = "扫码枪连接状态变化: " + isConnected + "   mac: "+devMac;
+                String msg = "扫码枪连接状态变化: " + isConnected + "   mac: " + devMac;
                 QNDemoLogger.d("HeightScaleActivity onGetBarCodeGunState", msg);
                 Toast.makeText(HeightScaleActivity.this, msg, Toast.LENGTH_SHORT).show();
             }
@@ -502,6 +508,11 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
         }
 
         QNHeightDeviceConfig deviceConfig = new QNHeightDeviceConfig();
+
+        QNConfig qnConfig = QNConfigManager.getInstance().getQNConfig();
+        deviceConfig.setWeightUnit(qnConfig.getUnit());
+        deviceConfig.setHeightUnit(qnConfig.getHeightUnit());
+        deviceConfig.setVoiceLanguage(qnConfig.getLanguage());
 
         deviceConfig.setUser(createQNUser());
         if (qnWiFiConfig != null) {

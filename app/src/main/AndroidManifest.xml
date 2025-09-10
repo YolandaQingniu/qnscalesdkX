@@ -2,37 +2,35 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.qingniu.qnble.demo">
-
     <!-- 网络权限 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-
-    <!-- Request legacy Bluetooth permissions on older devices. -->
-    <uses-permission android:name="android.permission.BLUETOOTH"
+    <uses-permission android:name="android.permission.VIBRATE" /> <!-- Request legacy Bluetooth permissions on older devices. -->
+    <uses-permission
+        android:name="android.permission.BLUETOOTH"
         android:maxSdkVersion="30" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_ADMIN"
         android:maxSdkVersion="30" />
-
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"
-        android:maxSdkVersion="30"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"
-        android:maxSdkVersion="30"/>
-
-    <uses-permission android:name="android.permission.BLUETOOTH_SCAN"
+    <uses-permission
+        android:name="android.permission.ACCESS_COARSE_LOCATION"
+        android:maxSdkVersion="30" />
+    <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION"
+        android:maxSdkVersion="30" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_SCAN"
+        android:usesPermissionFlags="neverForLocation"
+        tools:targetApi="s" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_CONNECT"
+        android:usesPermissionFlags="neverForLocation"
+        tools:targetApi="s" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_ADVERTISE"
         android:usesPermissionFlags="neverForLocation"
         tools:targetApi="s" />
 
-    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"
-        android:usesPermissionFlags="neverForLocation"
-        tools:targetApi="s" />
-
-    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE"
-        android:usesPermissionFlags="neverForLocation"
-        tools:targetApi="s" />
-
-
-    <!-- SDK中需要的权限 end -->
     <application
         android:name=".BaseApplication"
         android:allowBackup="true"
@@ -44,7 +42,7 @@
         <activity
             android:name=".view.SettingActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/timePickerActivity"></activity>
+            android:theme="@style/timePickerActivity" />
         <activity
             android:name=".view.ManageClassifyActivity"
             android:exported="true"
@@ -70,11 +68,9 @@
         <activity
             android:name=".view.ConnectActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".view.SelfConnectActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".view.BroadcastScaleActivity"
             android:screenOrientation="portrait" />
@@ -86,10 +82,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.kitchenScaleActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.SelfKitchenScaleActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.UserScaleConfigActivity"
             android:screenOrientation="portrait" />
@@ -99,21 +95,19 @@
         <activity
             android:name=".view.HeightScaleActivity"
             android:screenOrientation="portrait" />
-
         <activity android:name=".view.HeightScaleConfigActivity" />
-
         <activity
             android:name=".view.SelfMultiDeviceConnectActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".view.WebEightElectroActivity" />
-
-        <activity android:name=".view.SelfHeightScaleActivity"
+        <activity
+            android:name=".view.SelfHeightScaleActivity"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".view.RulerActivity"
+        <activity
+            android:name=".view.RulerActivity"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".view.DebugSettingActivity"
+        <activity
+            android:name=".view.DebugSettingActivity"
             android:screenOrientation="portrait" />
     </application>
 
