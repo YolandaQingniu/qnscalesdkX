@@ -174,7 +174,7 @@
                         android:text="@string/server_url"
                         android:layout_height="wrap_content" />
                     <EditText
-                        android:text="http://wsp-lite.yolanda.hk/yolanda/wsp?code="
+                        android:text="http://tmp-wsp-scale.qnclouds.com/yolanda/wsp?code="
                         android:id="@+id/serverUrlEd"
                         android:imeOptions="actionNext"
                         android:layout_width="match_parent"
@@ -190,7 +190,7 @@
                         android:layout_height="wrap_content" />
                     <EditText
                         android:id="@+id/OTAUrlEd"
-                        android:hint="不输入就采取默认"
+                        android:text="https://ota.yolanda.hk"
                         android:imeOptions="actionNext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
@@ -205,7 +205,7 @@
                         android:layout_height="wrap_content" />
                     <EditText
                         android:id="@+id/secretKeyEd"
-                        android:hint="不输入就采取默认"
+                        android:text="yolandakitnewhdr"
                         android:layout_width="match_parent"
                         android:imeOptions="actionDone"
                         android:layout_height="wrap_content" />
