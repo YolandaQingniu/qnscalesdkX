@@ -94,6 +94,9 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
     @BindView(R.id.pair_wifi_btn)
     Button pairWifiBtn;
 
+    @BindView(R.id.wifi_info_btn)
+    Button wifiInfoBtn;
+
     private QNBleDevice mBleDevice;
     private final List<QNScaleItemData> mDatas = new ArrayList<>();
     private QNBleApi mQNBleApi;
@@ -363,6 +366,7 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
         switchUserBtn.setOnClickListener(this);
         scanWifiBtn.setOnClickListener(this);
         pairWifiBtn.setOnClickListener(this);
+        wifiInfoBtn.setOnClickListener(this);
         mBackTv.setOnClickListener(this);
         listAdapter = new ListAdapter(mDatas, mQNBleApi, createQNUser());
         mListView.setAdapter(listAdapter);
@@ -482,11 +486,21 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.wifi_info_btn:
+
+                mQNBleApi.getHeightScaleWifiConfig((code, msg) -> {
+                    QNDemoLogger.d("HeightScaleActivity", "获取WIFI信息操作:" + msg);
+                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                });
+
+                break;
             case R.id.pair_wifi_btn:
 
                 QNWiFiConfig qnWiFiConfig = new QNWiFiConfig();
-                qnWiFiConfig.setSsid("King");
-                qnWiFiConfig.setPwd("987654321");
+//                qnWiFiConfig.setSsid("King");
+//                qnWiFiConfig.setPwd("987654321");
+                qnWiFiConfig.setSsid("yxb-mac-test-1234567891011121314");
+                qnWiFiConfig.setPwd("yxb666666");
                 qnWiFiConfig.setServeUrl("http://wsp-lite.yolanda.hk/yolanda/aios?code=");
                 qnWiFiConfig.setEncryptionKey("yolandakitnewhdr");
                 qnWiFiConfig.setFotaUrl("https://ota.volanda.hk");

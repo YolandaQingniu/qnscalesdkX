@@ -239,4 +239,5 @@
     <string name="language">语言</string>
     <string name="wifi">扫描WIFI</string>
     <string name="pair_wifi">配网</string>
+    <string name="wifi_info">wifi信息</string>
 </resources>
