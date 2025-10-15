@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.qingniu.heightscale.ble.HeightScaleBleService;
@@ -89,6 +90,9 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
 
     @BindView(R.id.scan_wifi_btn)
     Button scanWifiBtn;
+
+    @BindView(R.id.pair_wifi_btn)
+    Button pairWifiBtn;
 
     private QNBleDevice mBleDevice;
     private final List<QNScaleItemData> mDatas = new ArrayList<>();
@@ -358,6 +362,7 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
         mConnectBtn.setOnClickListener(this);
         switchUserBtn.setOnClickListener(this);
         scanWifiBtn.setOnClickListener(this);
+        pairWifiBtn.setOnClickListener(this);
         mBackTv.setOnClickListener(this);
         listAdapter = new ListAdapter(mDatas, mQNBleApi, createQNUser());
         mListView.setAdapter(listAdapter);
@@ -477,9 +482,33 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.pair_wifi_btn:
+
+                QNWiFiConfig qnWiFiConfig = new QNWiFiConfig();
+                qnWiFiConfig.setSsid("King");
+                qnWiFiConfig.setPwd("987654321");
+                qnWiFiConfig.setServeUrl("http://wsp-lite.yolanda.hk/yolanda/aios?code=");
+                qnWiFiConfig.setEncryptionKey("yolandakitnewhdr");
+                qnWiFiConfig.setFotaUrl("https://ota.volanda.hk");
+
+                new AlertDialog.Builder(this)
+                        .setTitle(getString(R.string.distribution_network_information))
+                        .setMessage("SSID:" + qnWiFiConfig.getSsid() + "\n" +"pwd:"+qnWiFiConfig.getPwd())
+                        .setNegativeButton(R.string.cancel, null)
+                        .setPositiveButton(R.string.confirm, (dialog, which) -> {
+                            mQNBleApi.startPairHeightScaleWifi(qnWiFiConfig, (code, msg) -> {
+                                QNDemoLogger.d("HeightScaleActivity", "配对WIFI操作:" + msg);
+                                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                            });
+                        })
+                        .create()
+                        .show();
+
+                break;
             case R.id.scan_wifi_btn:
                 mQNBleApi.scanHeightScaleWifiSsid((code, msg) -> {
                     QNDemoLogger.d("HeightScaleActivity", "扫描WIFI操作:" + msg);
+                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
                 });
                 break;
             case R.id.switch_user_btn:
