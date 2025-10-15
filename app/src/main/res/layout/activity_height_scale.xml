@@ -51,11 +51,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <Button
-        android:text="@string/switch_user"
-        android:id="@+id/switch_user_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:text="@string/switch_user"
+            android:id="@+id/switch_user_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:text="@string/wifi"
+            android:id="@+id/scan_wifi_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
 
     <LinearLayout
         android:paddingEnd="10dp"

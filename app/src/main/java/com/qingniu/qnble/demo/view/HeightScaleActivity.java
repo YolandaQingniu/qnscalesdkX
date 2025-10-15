@@ -15,14 +15,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.qingniu.heightscale.ble.HeightScaleBleService;
 import com.qingniu.qnble.demo.R;
 import com.qingniu.qnble.demo.adapter.ListAdapter;
-import com.qingniu.qnble.demo.bean.Config;
 import com.qingniu.qnble.demo.bean.User;
 import com.qingniu.qnble.demo.util.DateUtils;
 import com.qingniu.qnble.demo.util.QNDemoLogger;
-import com.qingniu.qnble.demo.util.ToastMaker;
 import com.qingniu.qnble.demo.util.UserConst;
 import com.qingniu.scale.constant.DecoderConst;
-import com.qingniu.scale.model.BleScaleData;
 import com.qingniu.scale.model.BleUser;
 import com.qn.device.config.QNConfigManager;
 import com.qn.device.constant.QNIndicator;
@@ -89,6 +86,9 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
 
     @BindView(R.id.storage_tip_tv)
     TextView storageTipTv;
+
+    @BindView(R.id.scan_wifi_btn)
+    Button scanWifiBtn;
 
     private QNBleDevice mBleDevice;
     private final List<QNScaleItemData> mDatas = new ArrayList<>();
@@ -357,6 +357,7 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
     private void initView() {
         mConnectBtn.setOnClickListener(this);
         switchUserBtn.setOnClickListener(this);
+        scanWifiBtn.setOnClickListener(this);
         mBackTv.setOnClickListener(this);
         listAdapter = new ListAdapter(mDatas, mQNBleApi, createQNUser());
         mListView.setAdapter(listAdapter);
@@ -476,6 +477,11 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.scan_wifi_btn:
+                mQNBleApi.scanHeightScaleWifiSsid((code, msg) -> {
+                    QNDemoLogger.d("HeightScaleActivity", "扫描WIFI操作:" + msg);
+                });
+                break;
             case R.id.switch_user_btn:
                 BleUser bleUser = new BleUser();
                 bleUser.setHeight(165);

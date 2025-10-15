@@ -243,4 +243,5 @@
     <string name="use_default_without_input">use default without input</string>
     <string name="switch_user">switch user</string>
     <string name="language">language</string>
+    <string name="wifi">Scan WIFI</string>
 </resources>
