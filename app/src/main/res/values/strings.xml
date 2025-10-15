@@ -246,4 +246,7 @@
     <string name="wifi">Scan WIFI</string>
     <string name="pair_wifi">wifi pair</string>
     <string name="wifi_info">wifi info</string>
+    <string name="wifi_clean">wifi clean</string>
+    <string name="device_info">device info</string>
+    <string name="reset">reset</string>
 </resources>

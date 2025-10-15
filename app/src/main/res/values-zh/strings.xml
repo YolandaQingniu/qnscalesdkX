@@ -240,4 +240,7 @@
     <string name="wifi">扫描WIFI</string>
     <string name="pair_wifi">配网</string>
     <string name="wifi_info">wifi信息</string>
+    <string name="wifi_clean">清除WiFi</string>
+    <string name="device_info">设备信息</string>
+    <string name="reset">恢复出厂设置</string>
 </resources>

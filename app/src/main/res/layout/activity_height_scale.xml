@@ -82,6 +82,31 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/wifi_clean_btn"
+            android:text="@string/wifi_clean"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:text="@string/device_info"
+            android:id="@+id/device_info_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:text="@string/reset"
+            android:id="@+id/reset_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
 
 
     <LinearLayout

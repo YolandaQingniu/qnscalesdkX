@@ -97,6 +97,15 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
     @BindView(R.id.wifi_info_btn)
     Button wifiInfoBtn;
 
+    @BindView(R.id.wifi_clean_btn)
+    Button wifiCleanBtn;
+
+    @BindView(R.id.device_info_btn)
+    Button deviceInfoBtn;
+
+    @BindView(R.id.reset_btn)
+    Button resetBtn;
+
     private QNBleDevice mBleDevice;
     private final List<QNScaleItemData> mDatas = new ArrayList<>();
     private QNBleApi mQNBleApi;
@@ -367,6 +376,9 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
         scanWifiBtn.setOnClickListener(this);
         pairWifiBtn.setOnClickListener(this);
         wifiInfoBtn.setOnClickListener(this);
+        wifiCleanBtn.setOnClickListener(this);
+        deviceInfoBtn.setOnClickListener(this);
+        resetBtn.setOnClickListener(this);
         mBackTv.setOnClickListener(this);
         listAdapter = new ListAdapter(mDatas, mQNBleApi, createQNUser());
         mListView.setAdapter(listAdapter);
@@ -486,6 +498,25 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+
+            case R.id.device_info_btn:
+                mQNBleApi.getHeightScaleConfig((code, msg) -> {
+                    QNDemoLogger.d("HeightScaleActivity", "获取身高体重秤信息操作:" + msg);
+                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                });
+                break;
+            case R.id.reset_btn:
+                mQNBleApi.resetHeightScale((code, msg) -> {
+                    QNDemoLogger.d("HeightScaleActivity", "重置操作:" + msg);
+                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                });
+                break;
+            case R.id.wifi_clean_btn:
+                mQNBleApi.clearHeightScaleWifiConfig((code, msg) -> {
+                    QNDemoLogger.d("HeightScaleActivity", "清除WIFI信息操作:" + msg);
+                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                });
+                break;
             case R.id.wifi_info_btn:
 
                 mQNBleApi.getHeightScaleWifiConfig((code, msg) -> {
