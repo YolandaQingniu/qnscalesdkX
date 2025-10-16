@@ -109,6 +109,7 @@
         <activity
             android:name=".view.DebugSettingActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".view.WifiInfoActivity" />
     </application>
 
 </manifest>

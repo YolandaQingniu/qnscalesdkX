@@ -243,4 +243,6 @@
     <string name="wifi_clean">清除WiFi</string>
     <string name="device_info">设备信息</string>
     <string name="reset">恢复出厂设置</string>
+    <string name="device_setting">秤端设置</string>
+    <string name="wifi_tip">完成一个WiFi信息选择后，可在上一个页面进行配网操作</string>
 </resources>

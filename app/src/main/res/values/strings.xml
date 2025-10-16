@@ -249,4 +249,6 @@
     <string name="wifi_clean">wifi clean</string>
     <string name="device_info">device info</string>
     <string name="reset">reset</string>
+    <string name="device_setting">setting</string>
+    <string name="wifi_tip">After completing the selection of a WiFi information, you can perform the network configuration operation on the previous page</string>
 </resources>

@@ -3,9 +3,11 @@ package com.qingniu.qnble.demo.view;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +19,7 @@ import com.qingniu.heightscale.ble.HeightScaleBleService;
 import com.qingniu.qnble.demo.R;
 import com.qingniu.qnble.demo.adapter.ListAdapter;
 import com.qingniu.qnble.demo.bean.User;
+import com.qingniu.qnble.demo.bean.WifiInfoModel;
 import com.qingniu.qnble.demo.util.DateUtils;
 import com.qingniu.qnble.demo.util.QNDemoLogger;
 import com.qingniu.qnble.demo.util.UserConst;
@@ -34,6 +37,7 @@ import com.qn.device.out.QNBleApi;
 import com.qn.device.out.QNBleDevice;
 import com.qn.device.out.QNConfig;
 import com.qn.device.out.QNHeightDeviceConfig;
+import com.qn.device.out.QNHeightDeviceFunction;
 import com.qn.device.out.QNScaleData;
 import com.qn.device.out.QNScaleItemData;
 import com.qn.device.out.QNScaleStoreData;
@@ -55,6 +59,9 @@ import butterknife.ButterKnife;
  */
 
 public class HeightScaleActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private static final int WIFI_INFO_REQUEST_CODE = 1000;
+    private QNWiFiConfig pairWifiConfig;
 
     public static Intent getCallIntent(Context context, User user, QNBleDevice device) {
         return new Intent(context, HeightScaleActivity.class)
@@ -106,6 +113,9 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
     @BindView(R.id.reset_btn)
     Button resetBtn;
 
+    @BindView(R.id.setting_btn)
+    Button settingBtn;
+
     private QNBleDevice mBleDevice;
     private final List<QNScaleItemData> mDatas = new ArrayList<>();
     private QNBleApi mQNBleApi;
@@ -117,6 +127,8 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
     private boolean mIsConnected;
 
     private ListAdapter listAdapter;
+
+    private ArrayList<WifiInfoModel> wifiInfoModels = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -255,6 +267,84 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
         mQNBleApi.setDataListener(new QNScaleDataListener() {
 
             @Override
+            public void onSetHeightScaleConfigState(QNBleDevice device, boolean isLanguageSuccess, boolean isWeightUnitSuccess,
+                                                    boolean isHeightUnitSuccess,
+                                                    boolean isVolumeSuccess) {
+                String msg = "isLanguageSuccess:" + isLanguageSuccess + "   isWeightUnitSuccess:" + isWeightUnitSuccess + "   isHeightUnitSuccess:" + isHeightUnitSuccess + "   isVolumeSuccess:" + isVolumeSuccess;
+                QNDemoLogger.d("HeightScaleActivity", msg);
+
+                if (isLanguageSuccess && isWeightUnitSuccess && isHeightUnitSuccess && isVolumeSuccess) {
+                    msg = "Success";
+                } else {
+                    msg = "Fail";
+                }
+                Toast.makeText(HeightScaleActivity.this, msg, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onGetHeightScaleConfig(QNBleDevice device, QNHeightDeviceFunction function) {
+
+                new AlertDialog.Builder(HeightScaleActivity.this)
+                        .setTitle("身高秤设置信息")
+                        .setMessage(function.toString())
+                        .setPositiveButton(R.string.confirm, null)
+                        .show();
+
+            }
+
+            @Override
+            public void onResetHeightScaleState(QNBleDevice device, boolean isSuccess) {
+                String msg = "onResetHeightScaleState:" + isSuccess;
+                QNDemoLogger.d("HeightScaleActivity", msg);
+                Toast.makeText(HeightScaleActivity.this, msg, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onClearHeightScaleWifiConfigState(QNBleDevice device, boolean isSuccess) {
+                String msg = "onClearHeightScaleWifiConfigState:" + isSuccess;
+                QNDemoLogger.d("HeightScaleActivity", msg);
+                Toast.makeText(HeightScaleActivity.this, msg, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onGetHeightScaleWifiConfig(QNBleDevice device, boolean isSuccess, String ssid) {
+                String msg = "onGetHeightScaleWifiConfig:" + isSuccess + "   ssid:" + ssid;
+                QNDemoLogger.d("HeightScaleActivity", msg);
+                new AlertDialog.Builder(HeightScaleActivity.this)
+                        .setTitle("身高秤wifi配置信息")
+                        .setMessage(msg)
+                        .setPositiveButton(R.string.confirm, null)
+                        .show();
+            }
+
+            @Override
+            public void onScanHeightScaleWifiSsidResult(QNBleDevice device, String ssid, int rssi) {
+
+                String msg = "onScanHeightScaleWifiSsidResult:" + ssid + "   rssi:" + rssi;
+                QNDemoLogger.d("HeightScaleActivity", msg);
+                Toast.makeText(HeightScaleActivity.this, "scanning", Toast.LENGTH_SHORT).show();
+
+                WifiInfoModel wifiInfoModel = new WifiInfoModel(ssid, rssi);
+                wifiInfoModels.add(wifiInfoModel);
+
+            }
+
+            @Override
+            public void onScanHeightScaleWifiSsidFinish(QNBleDevice device, int resultCode) {
+                String msg = "";
+                if (resultCode == 1) {
+                    msg = "onScanHeightScaleWifiSsidFinish:扫描结束";
+                    ArrayList<WifiInfoModel> models = new ArrayList<>(wifiInfoModels);
+                    wifiInfoModels.clear();
+                    startActivityForResult(WifiInfoActivity.getCallIntent(HeightScaleActivity.this, models), WIFI_INFO_REQUEST_CODE);
+                } else {
+                    msg = "onScanHeightScaleWifiSsidFinish:扫描失败";
+                }
+                QNDemoLogger.d("HeightScaleActivity", msg);
+
+            }
+
+            @Override
             public void onGetBarCode(String devMac, String barCode) {
                 String msg = "扫码枪获取扫描结果: " + barCode + "   mac: " + devMac;
                 QNDemoLogger.d("HeightScaleActivity onGetBarCode", msg);
@@ -379,6 +469,7 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
         wifiCleanBtn.setOnClickListener(this);
         deviceInfoBtn.setOnClickListener(this);
         resetBtn.setOnClickListener(this);
+        settingBtn.setOnClickListener(this);
         mBackTv.setOnClickListener(this);
         listAdapter = new ListAdapter(mDatas, mQNBleApi, createQNUser());
         mListView.setAdapter(listAdapter);
@@ -394,6 +485,17 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
         mQNBleApi.setDataListener(null);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == WIFI_INFO_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                getPairWifiConfig();
+                pairWifiConfig.setSsid(WifiInfoActivity.ssid);
+                pairWifiConfig.setPwd(WifiInfoActivity.pwd);
+            }
+        }
+    }
 
     private void onReceiveScaleData(QNScaleData md) {
         mDatas.clear();
@@ -498,7 +600,9 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
+            case R.id.setting_btn:
+                showSettingDialog();
+                break;
             case R.id.device_info_btn:
                 mQNBleApi.getHeightScaleConfig((code, msg) -> {
                     QNDemoLogger.d("HeightScaleActivity", "获取身高体重秤信息操作:" + msg);
@@ -527,21 +631,14 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
                 break;
             case R.id.pair_wifi_btn:
 
-                QNWiFiConfig qnWiFiConfig = new QNWiFiConfig();
-//                qnWiFiConfig.setSsid("King");
-//                qnWiFiConfig.setPwd("987654321");
-                qnWiFiConfig.setSsid("yxb-mac-test-1234567891011121314");
-                qnWiFiConfig.setPwd("yxb666666");
-                qnWiFiConfig.setServeUrl("http://wsp-lite.yolanda.hk/yolanda/aios?code=");
-                qnWiFiConfig.setEncryptionKey("yolandakitnewhdr");
-                qnWiFiConfig.setFotaUrl("https://ota.volanda.hk");
+                getPairWifiConfig();
 
                 new AlertDialog.Builder(this)
                         .setTitle(getString(R.string.distribution_network_information))
-                        .setMessage("SSID:" + qnWiFiConfig.getSsid() + "\n" +"pwd:"+qnWiFiConfig.getPwd())
+                        .setMessage("SSID:" + pairWifiConfig.getSsid() + "\n" + "pwd:" + pairWifiConfig.getPwd())
                         .setNegativeButton(R.string.cancel, null)
                         .setPositiveButton(R.string.confirm, (dialog, which) -> {
-                            mQNBleApi.startPairHeightScaleWifi(qnWiFiConfig, (code, msg) -> {
+                            mQNBleApi.startPairHeightScaleWifi(pairWifiConfig, (code, msg) -> {
                                 QNDemoLogger.d("HeightScaleActivity", "配对WIFI操作:" + msg);
                                 Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
                             });
@@ -581,6 +678,19 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
+    private void getPairWifiConfig() {
+        if (pairWifiConfig == null) {
+            pairWifiConfig = new QNWiFiConfig();
+//            qnWiFiConfig.setSsid("King");
+//            qnWiFiConfig.setPwd("987654321");
+            pairWifiConfig.setSsid("yxb-mac-test-1234567891011121314");
+            pairWifiConfig.setPwd("yxb666666");
+            pairWifiConfig.setServeUrl("http://wsp-lite.yolanda.hk/yolanda/aios?code=");
+            pairWifiConfig.setEncryptionKey("yolandakitnewhdr");
+            pairWifiConfig.setFotaUrl("https://ota.volanda.hk");
+        }
+    }
+
 
     private void doConnect() {
         if (mBleDevice == null || mUser == null) {
@@ -615,5 +725,89 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
                 QNDemoLogger.d("HeightScaleActivity", "断开连接设备返回:" + msg);
             }
         });
+    }
+
+    private void showSettingDialog() {
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_settings, null);
+
+        RadioGroup rgLanguage = view.findViewById(R.id.rgLanguage);
+        RadioGroup rgWeight = view.findViewById(R.id.rgWeight);
+        RadioGroup rgHeight = view.findViewById(R.id.rgHeight);
+        RadioGroup rgVolume = view.findViewById(R.id.rgVolume);
+
+        selectRadio(rgLanguage, KEY_LANGUAGE);
+        selectRadio(rgWeight, KEY_WEIGHT_UNIT);
+        selectRadio(rgHeight, KEY_HEIGHT_UNIT);
+        selectRadio(rgVolume, KEY_VOLUME);
+
+        new AlertDialog.Builder(this)
+                .setTitle("语音播报设置")
+                .setView(view)
+                .setPositiveButton("确认", (dialog, which) -> {
+                    int selectedLang = getSelectedValue(rgLanguage);
+                    int selectedWeight = getSelectedValue(rgWeight);
+                    int selectedHeight = getSelectedValue(rgHeight);
+                    int selectedVolume = getSelectedValue(rgVolume);
+
+                    QNHeightDeviceFunction function = saveSettings(selectedLang, selectedWeight, selectedHeight, selectedVolume);
+
+                    mQNBleApi.setHeightScaleConfig(function, (code, msg) -> {
+
+                    });
+
+                })
+                .setNegativeButton("取消", (dialog, which) -> dialog.dismiss())
+                .show();
+    }
+
+    /**
+     * 根据保存值选中Radio
+     */
+    private void selectRadio(RadioGroup group, int value) {
+        for (int i = 0; i < group.getChildCount(); i++) {
+            View v = group.getChildAt(i);
+            if (v.getTag() != null && Integer.parseInt(v.getTag().toString()) == value) {
+                ((android.widget.RadioButton) v).setChecked(true);
+                break;
+            }
+        }
+    }
+
+    /**
+     * 获取选中的值
+     */
+    private int getSelectedValue(RadioGroup group) {
+        int id = group.getCheckedRadioButtonId();
+        if (id != -1) {
+            View v = group.findViewById(id);
+            if (v.getTag() != null) {
+                return Integer.parseInt(v.getTag().toString());
+            }
+        }
+        return -1;
+    }
+
+    int KEY_LANGUAGE = -1;
+    int KEY_WEIGHT_UNIT = -1;
+    int KEY_HEIGHT_UNIT = -1;
+    int KEY_VOLUME = -1;
+
+    /**
+     * 保存设置
+     *
+     * @return
+     */
+    private QNHeightDeviceFunction saveSettings(int lang, int weight, int height, int volume) {
+        KEY_LANGUAGE = lang;
+        KEY_WEIGHT_UNIT = weight;
+        KEY_HEIGHT_UNIT = height;
+        KEY_VOLUME = volume;
+
+        QNHeightDeviceFunction function = new QNHeightDeviceFunction();
+        function.setLanguage(lang);
+        function.setWeightUnit(weight);
+        function.setHeightUnit(height);
+        function.setVolume(volume);
+        return function;
     }
 }
