@@ -25,4 +25,9 @@ else if (USE_BLE_TYPE as int == 2) {
     project(":QNScaleDecoder").projectDir = new File(rootProject.projectDir, '../QNScaleDecoder')
     project(":QNBleSdk").projectDir = new File(rootProject.projectDir, '../QNBleSdk')
     project(":QNTapeDecoder").projectDir = new File(rootProject.projectDir, '../QNTapeDecoder')
+
+    include ':bleCenter'
+    project(':bleCenter').projectDir = new File(rootProject.projectDir, '../BleLibPro/bleCenter')
+    include ':slimScale'
+    project(':slimScale').projectDir = new File(rootProject.projectDir, '../BleLibPro/slimScale')
 }
