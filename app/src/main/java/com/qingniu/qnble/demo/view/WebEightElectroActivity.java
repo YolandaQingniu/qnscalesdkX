@@ -64,8 +64,6 @@ public class WebEightElectroActivity extends AppCompatActivity {
         webSettings.setDomStorageEnabled(true);
         //开启 database storage API 功能
         webSettings.setDatabaseEnabled(true);
-        //开启 Application Caches 功能
-        webSettings.setAppCacheEnabled(true);
 
         webSettings.setAllowFileAccess(true); //设置可以访问文件
         webSettings.setLoadsImagesAutomatically(true); //支持自动加载图片
