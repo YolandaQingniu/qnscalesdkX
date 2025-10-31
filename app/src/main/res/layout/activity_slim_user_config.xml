@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- 减重天数计算规则 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="减重天数计算规则"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:paddingVertical="8dp" />
+
+        <RadioGroup
+            android:id="@+id/rg_day_calculation_rule"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/rb_auto_increment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="自动递增" />
+
+            <RadioButton
+                android:id="@+id/rb_measurement_increment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="按测量天数递增" />
+        </RadioGroup>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#DDDDDD"
+            android:layout_marginVertical="12dp" />
+
+        <!-- 减重进度天数 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="减重进度天数"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:paddingVertical="8dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <EditText
+                android:id="@+id/et_progress_days"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="number"
+                android:hint="请输入当前天数" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="天"
+                android:paddingStart="8dp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#DDDDDD"
+            android:layout_marginVertical="12dp" />
+
+        <!-- 体重曲线数据选择规则 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="体重曲线数据选择规则"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:paddingVertical="8dp" />
+
+        <RadioGroup
+            android:id="@+id/rg_weight_data_rule"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/rb_last_measurement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="当天最后测量值" />
+
+            <RadioButton
+                android:id="@+id/rb_min_measurement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="当天最小值" />
+        </RadioGroup>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#DDDDDD"
+            android:layout_marginVertical="12dp" />
+
+        <!-- 初始体重与目标体重 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="体重设置"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:paddingVertical="8dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="初始体重：" />
+
+            <EditText
+                android:id="@+id/et_start_weight"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="numberDecimal"
+                android:hint="kg" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="目标体重：" />
+
+            <EditText
+                android:id="@+id/et_target_weight"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="numberDecimal"
+                android:hint="kg" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="保存设置"
+            android:layout_marginTop="20dp" />
+    </LinearLayout>
+</ScrollView>

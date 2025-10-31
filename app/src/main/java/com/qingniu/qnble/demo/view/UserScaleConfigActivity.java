@@ -232,7 +232,7 @@ public class UserScaleConfigActivity extends AppCompatActivity {
 
     @OnClick(R.id.slimBtn)
     public void onSlimBtnClicked() {
-        startActivity(new Intent(this, SlimConfigActivity.class));
+        startActivity(new Intent(this, SlimDeviceConfigActivity.class));
     }
 
     @OnClick(R.id.swpConfigBtn)

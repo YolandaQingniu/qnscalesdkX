@@ -112,7 +112,13 @@
         <activity android:name=".view.WifiInfoActivity" />
 
         <activity
-            android:name=".view.SlimConfigActivity"
+            android:name=".view.SlimDeviceConfigActivity"
+            android:exported="true">
+
+        </activity>
+
+        <activity
+            android:name=".view.SlimUserConfigActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

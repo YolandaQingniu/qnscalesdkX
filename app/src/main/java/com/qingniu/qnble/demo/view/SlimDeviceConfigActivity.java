@@ -28,7 +28,7 @@ import java.util.List;
  * @description: 减重秤设备配置页面
  * @date: 2025/10/30
  */
-public class SlimConfigActivity extends AppCompatActivity {
+public class SlimDeviceConfigActivity extends AppCompatActivity {
 
     private static final String TAG = "AlarmSettingActivity";
 
@@ -51,7 +51,7 @@ public class SlimConfigActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_slim_config);
+        setContentView(R.layout.activity_slim_device_config);
 
         initViews();
         initSoundConfig(itemAlarmSound, "闹钟提醒提示音");
