@@ -392,10 +392,10 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onScaleEventChange(QNBleDevice device, int scaleEvent) {
                 QNDemoLogger.d("ConnectActivity", "秤返回的事件是:" + scaleEvent);
-                if (scaleEvent == QNScaleEvent.EVENT_UPDATE_SCALE_CONFIG_SUCCESS) {
+                if (scaleEvent == QNScaleEvent.EVENT_UPDATE_DEVICE_CONFIG_SUCCESS) {
                     QNDemoLogger.e("UserScaleActivity", "更新秤端设置成功");
                     ToastMaker.show(ConnectActivity.this, "更新秤端设置成功");
-                } else if (scaleEvent == QNScaleEvent.EVENT_UPDATE_SCALE_CONFIG_FAIL) {
+                } else if (scaleEvent == QNScaleEvent.EVENT_UPDATE_DEVICE_CONFIG_FAIL) {
                     QNDemoLogger.e("UserScaleActivity", "更新秤端设置失败");
                     ToastMaker.show(ConnectActivity.this, "更新秤端设置失败");
                 }

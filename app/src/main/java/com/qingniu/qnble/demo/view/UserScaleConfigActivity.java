@@ -86,6 +86,9 @@ public class UserScaleConfigActivity extends AppCompatActivity {
     @BindView(R.id.weightCheckBox)
     CheckBox weightCheckBox;
 
+    @BindView(R.id.slimBtn)
+    Button slimBtn;
+
     private User mUser;
 
     private QNBleDevice qnDevice;
@@ -225,6 +228,11 @@ public class UserScaleConfigActivity extends AppCompatActivity {
                 });
         qnUser.setAreaType(mUser.getAreaType());
         return qnUser;
+    }
+
+    @OnClick(R.id.slimBtn)
+    public void onSlimBtnClicked() {
+        startActivity(new Intent(this, SlimConfigActivity.class));
     }
 
     @OnClick(R.id.swpConfigBtn)

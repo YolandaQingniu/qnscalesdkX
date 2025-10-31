@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="?android:attr/windowBackground">
+
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:divider="?android:attr/dividerHorizontal"
+        android:showDividers="middle"
+        android:dividerPadding="8dp">
+
+        <!-- 1. 闹钟提醒操作类型 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="闹钟提醒操作类型"
+            android:textStyle="bold"
+            android:paddingTop="8dp"
+            android:textSize="16sp" />
+
+        <Spinner
+            android:id="@+id/spinner_alarm_action"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/alarm_action_types" />
+
+        <!-- 2. 闹钟提醒生效日集合 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="生效日（可多选）"
+            android:textStyle="bold"
+            android:paddingTop="8dp"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:id="@+id/layout_days"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:weightSum="7">
+
+            <!-- 周一到周日 -->
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/cb_mon" android:layout_weight="1" android:text="一"/>
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/cb_tue" android:layout_weight="1" android:text="二"/>
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/cb_wed" android:layout_weight="1" android:text="三"/>
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/cb_thu" android:layout_weight="1" android:text="四"/>
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/cb_fri" android:layout_weight="1" android:text="五"/>
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/cb_sat" android:layout_weight="1" android:text="六"/>
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/cb_sun" android:layout_weight="1" android:text="日"/>
+        </LinearLayout>
+
+        <!-- 3. 闹钟提醒时间 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="提醒时间"
+            android:textStyle="bold"
+            android:paddingTop="8dp"
+            android:textSize="16sp" />
+
+        <TimePicker
+            android:id="@+id/time_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:timePickerMode="spinner"
+             />
+
+        <!-- 4. 提示音音量（1-4） -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="提示音音量"
+            android:textStyle="bold"
+            android:paddingTop="8dp"
+            android:textSize="16sp" />
+
+        <Spinner
+            android:id="@+id/spinner_volume"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/volume_levels" />
+
+        <!-- 5. 各提示音配置 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="提示音配置"
+            android:textStyle="bold"
+            android:paddingTop="8dp"
+            android:textSize="16sp" />
+
+        <!-- 通用组件封装区域 -->
+        <include layout="@layout/item_sound_config"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/item_alarm_sound"
+            android:layout_marginTop="8dp"
+            android:tag="闹钟提醒提示音" />
+
+
+        <include layout="@layout/item_sound_config"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/item_weight_sound"
+            android:layout_marginTop="8dp"
+            android:tag="上秤测量提示音" />
+
+
+        <include layout="@layout/item_sound_config"
+            android:id="@+id/item_measure_done_sound"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:tag="测量完成提示音" />
+
+
+        <include layout="@layout/item_sound_config"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/item_goal_done_sound"
+            android:layout_marginTop="8dp"
+            android:tag="完成目标提示音" />
+
+        <TextView
+            android:text="体重曲线设置"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:hint="请输入体重曲线,英文逗号分隔，最多支持14个点"
+            android:id="@+id/curve_et"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <CheckBox
+            android:id="@+id/curve_cb"
+            android:text="是否今日数据标记"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+</ScrollView>

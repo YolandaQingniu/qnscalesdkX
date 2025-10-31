@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:layout_marginBottom="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_sound_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="提示音标题"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <Switch
+            android:id="@+id/switch_sound_enable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="启用" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="音源（0不修改）:"
+            android:textSize="14sp"
+            android:paddingEnd="8dp" />
+
+        <SeekBar
+            android:id="@+id/seekbar_volume"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:max="8"
+            android:progress="4" />
+
+        <TextView
+            android:id="@+id/tv_volume_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4/8"
+            android:paddingStart="8dp"
+            android:textSize="14sp" />
+    </LinearLayout>
+</LinearLayout>
