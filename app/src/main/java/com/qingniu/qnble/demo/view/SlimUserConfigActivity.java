@@ -9,6 +9,10 @@ import android.widget.RadioGroup;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.qingniu.qnble.demo.R;
+import com.qingniu.qnble.demo.util.SlimUtils;
+import com.qn.device.constant.QNSlimCurveWeightSelection;
+import com.qn.device.constant.QNSlimDayCountRule;
+import com.qn.device.out.QNSlimUserSlimConfig;
 
 /**
  * @author: yxb
@@ -38,25 +42,32 @@ public class SlimUserConfigActivity extends AppCompatActivity {
     }
 
     private void saveSettings() {
+
+        QNSlimUserSlimConfig userSlimConfig = new QNSlimUserSlimConfig();
+
         int dayRuleId = rgDayRule.getCheckedRadioButtonId();
-        String dayRule = (dayRuleId == R.id.rb_auto_increment)
-                ? "自动递增" : "按测量天数递增";
+        QNSlimDayCountRule slimDayCountRule = (dayRuleId == R.id.rb_auto_increment)
+                ? QNSlimDayCountRule.QNSlimDayCountRuleAutoIncrement : QNSlimDayCountRule.QNSlimDayCountRuleByMeasurement;
+        userSlimConfig.setSlimDayCountRule(slimDayCountRule);
 
         int weightRuleId = rgWeightRule.getCheckedRadioButtonId();
-        String weightRule = (weightRuleId == R.id.rb_last_measurement)
-                ? "当天最后测量值" : "当天最小值";
+        QNSlimCurveWeightSelection curveWeightSelection = (weightRuleId == R.id.rb_last_measurement)
+                ? QNSlimCurveWeightSelection.QNSlimCurveWeightSelectionLastOfDay : QNSlimCurveWeightSelection.QNSlimCurveWeightSelectionMinOfDay;
+        userSlimConfig.setCurveWeightSelection(curveWeightSelection);
 
         String progressDays = etProgressDays.getText().toString().trim();
         String startWeight = etStartWeight.getText().toString().trim();
         String targetWeight = etTargetWeight.getText().toString().trim();
 
-        String summary = "减重天数规则：" + dayRule +
-                "\n减重进度天数：" + progressDays +
-                "\n体重曲线规则：" + weightRule +
-                "\n初始体重：" + startWeight + " kg" +
-                "\n目标体重：" + targetWeight + " kg";
+        userSlimConfig.setSlimDays(Integer.parseInt(progressDays));
+        userSlimConfig.setInitialWeight(Double.parseDouble(startWeight));
+        userSlimConfig.setTargetWeight(Double.parseDouble(targetWeight));
 
-        Log.i(TAG, "结果: " + summary);
+        SlimUtils.qnSlimUserSlimConfig = userSlimConfig;
+
+        Log.i(TAG, "结果: " + userSlimConfig.toString());
+
+        finish();
 
     }
 }

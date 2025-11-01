@@ -1,6 +1,7 @@
 package com.qingniu.qnble.demo.view;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +20,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.qingniu.qnble.demo.R;
 import com.qingniu.qnble.demo.bean.SoundConfig;
+import com.qingniu.qnble.demo.util.SlimUtils;
+import com.qn.device.constant.QNSlimAlarmOperation;
+import com.qn.device.constant.QNSlimAlarmWeekDays;
+import com.qn.device.constant.QNSlimVoiceOperation;
+import com.qn.device.constant.QNSlimVoiceSource;
+import com.qn.device.constant.QNSlimVoiceVolume;
+import com.qn.device.out.QNSlimDeviceConfig;
+import com.qn.device.out.QNSlimUserCurveData;
+import com.qn.device.out.QNSlimVoiceConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,10 +64,10 @@ public class SlimDeviceConfigActivity extends AppCompatActivity {
         setContentView(R.layout.activity_slim_device_config);
 
         initViews();
-        initSoundConfig(itemAlarmSound, "闹钟提醒提示音");
-        initSoundConfig(itemWeightSound, "上秤测量提示音");
-        initSoundConfig(itemMeasureDoneSound, "测量完成提示音");
-        initSoundConfig(itemGoalDoneSound, "完成目标提示音");
+        initSoundConfig(itemAlarmSound, getString(R.string.voice_alarm_tip));
+        initSoundConfig(itemWeightSound, getString(R.string.voice_measure_start_tip));
+        initSoundConfig(itemMeasureDoneSound, getString(R.string.voice_measure_finish_tip));
+        initSoundConfig(itemGoalDoneSound, getString(R.string.voice_goal_tip));
 
         // 示例：保存按钮
         Button btnSave = new Button(this);
@@ -109,11 +119,18 @@ public class SlimDeviceConfigActivity extends AppCompatActivity {
 
         // SeekBar 更新数值显示
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 tvValue.setText(progress + "/8");
             }
-            @Override public void onStartTrackingTouch(SeekBar seekBar) {}
-            @Override public void onStopTrackingTouch(SeekBar seekBar) {}
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
         });
 
         // 开关控制可用状态
@@ -130,12 +147,19 @@ public class SlimDeviceConfigActivity extends AppCompatActivity {
             findConfigByName(title).enabled = isChecked;
         });
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override public void onProgressChanged(SeekBar sb, int progress, boolean fromUser) {
+            @Override
+            public void onProgressChanged(SeekBar sb, int progress, boolean fromUser) {
                 tvValue.setText(progress + "/8");
                 findConfigByName(title).volume = progress;
             }
-            @Override public void onStartTrackingTouch(SeekBar seekBar) {}
-            @Override public void onStopTrackingTouch(SeekBar seekBar) {}
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
         });
     }
 
@@ -147,6 +171,11 @@ public class SlimDeviceConfigActivity extends AppCompatActivity {
     }
 
     private void saveSettings() {
+
+        QNSlimDeviceConfig qnSlimDeviceConfig = new QNSlimDeviceConfig();
+        QNSlimUserCurveData qnSlimUserCurveData = new QNSlimUserCurveData();
+
+
         String actionType = (String) spinnerAction.getSelectedItem();
         String volumeLevel = (String) spinnerVolume.getSelectedItem();
 
@@ -159,16 +188,21 @@ public class SlimDeviceConfigActivity extends AppCompatActivity {
             if (dayChecks[i].isChecked()) activeDays.add(dayNames[i]);
         }
 
+        ArrayList<Double> curveList = new ArrayList<>();
         String etSplit = curveET.getText().toString();
-        String[] split = etSplit.split(",");
-        ArrayList<String> curveList = new ArrayList<>();
-        for (int i = 0; i < split.length; i++) {
-            if (i <= 13) {
-                curveList.add(split[i]);
+        if (!TextUtils.isEmpty(etSplit)) {
+            String[] split = etSplit.split(",");
+            for (int i = 0; i < split.length; i++) {
+                if (i <= 13) {
+                    curveList.add(Double.valueOf(split[i]));
+                }
             }
         }
 
         boolean curveFlag = curveCB.isChecked();
+
+        qnSlimUserCurveData.setTodayFlag(curveFlag);
+        qnSlimUserCurveData.setCurveWeightArr(curveList);
 
         Log.i(TAG, "操作类型: " + actionType);
         Log.i(TAG, "提醒时间: " + hour + ":" + minute);
@@ -181,6 +215,78 @@ public class SlimDeviceConfigActivity extends AppCompatActivity {
             Log.i(TAG, "提示音配置: " + config);
         }
 
+        QNSlimAlarmOperation alarmOperation = QNSlimAlarmOperation.QNSlimAlarmOperationCloseAll;
+        if ("打开".equals(actionType)) {
+            alarmOperation = QNSlimAlarmOperation.QNSlimAlarmOperationSetDays;
+        }
+        qnSlimDeviceConfig.setAlarmOperation(alarmOperation);
+
+        ArrayList<QNSlimAlarmWeekDays> qnSlimAlarmWeekDays = new ArrayList<>();
+        if (activeDays.contains("一")) {
+            qnSlimAlarmWeekDays.add(QNSlimAlarmWeekDays.QNSlimAlarmWeekDayMonday);
+        }
+        if (activeDays.contains("二")) {
+            qnSlimAlarmWeekDays.add(QNSlimAlarmWeekDays.QNSlimAlarmWeekDayTuesday);
+        }
+        if (activeDays.contains("三")) {
+            qnSlimAlarmWeekDays.add(QNSlimAlarmWeekDays.QNSlimAlarmWeekDayWednesday);
+        }
+        if (activeDays.contains("四")) {
+            qnSlimAlarmWeekDays.add(QNSlimAlarmWeekDays.QNSlimAlarmWeekDayThursday);
+        }
+        if (activeDays.contains("五")) {
+            qnSlimAlarmWeekDays.add(QNSlimAlarmWeekDays.QNSlimAlarmWeekDayFriday);
+        }
+        if (activeDays.contains("六")) {
+            qnSlimAlarmWeekDays.add(QNSlimAlarmWeekDays.QNSlimAlarmWeekDaySaturday);
+        }
+        if (activeDays.contains("日")) {
+            qnSlimAlarmWeekDays.add(QNSlimAlarmWeekDays.QNSlimAlarmWeekDaySunday);
+        }
+        qnSlimDeviceConfig.setAlarmWeekDays(qnSlimAlarmWeekDays);
+
+        qnSlimDeviceConfig.setAlarmHour(hour);
+        qnSlimDeviceConfig.setAlarmMinute(minute);
+
+        QNSlimVoiceVolume voiceVolume = QNSlimVoiceVolume.QNSlimVoiceVolumeNoModify;
+        if ("1级".equals(volumeLevel)) {
+            voiceVolume = QNSlimVoiceVolume.QNSlimVoiceVolumeLevel1;
+        }else if ("2级".equals(volumeLevel)) {
+            voiceVolume = QNSlimVoiceVolume.QNSlimVoiceVolumeLevel2;
+        }else if ("3级".equals(volumeLevel)) {
+            voiceVolume = QNSlimVoiceVolume.QNSlimVoiceVolumeLevel3;
+        }else if ("4级".equals(volumeLevel)) {
+            voiceVolume = QNSlimVoiceVolume.QNSlimVoiceVolumeLevel4;
+        }
+        qnSlimDeviceConfig.setVoiceVolume(voiceVolume);
+
+        qnSlimDeviceConfig.setAlarmVoice(fetchQNSlimVoiceConfig(getString(R.string.voice_alarm_tip)));
+        qnSlimDeviceConfig.setMeasureStartVoice(fetchQNSlimVoiceConfig(getString(R.string.voice_measure_start_tip)));
+        qnSlimDeviceConfig.setMeasureFinishVoice(fetchQNSlimVoiceConfig(getString(R.string.voice_measure_finish_tip)));
+        qnSlimDeviceConfig.setCompleteGoalVoice(fetchQNSlimVoiceConfig(getString(R.string.voice_goal_tip)));
+
+        SlimUtils.qnSlimDeviceConfig = qnSlimDeviceConfig;
+        SlimUtils.qnSlimUserCurveData = qnSlimUserCurveData;
+
+        Log.i(TAG, "qnSlimDeviceConfig: " + qnSlimDeviceConfig);
+        Log.i(TAG, "qnSlimUserCurveData: " + qnSlimUserCurveData);
+
+
         Toast.makeText(this, "设置已保存", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    private QNSlimVoiceConfig fetchQNSlimVoiceConfig(String title) {
+        SoundConfig soundConfig = findConfigByName(title);
+
+        QNSlimVoiceConfig voiceConfig = new QNSlimVoiceConfig();
+        if (soundConfig.enabled) {
+            voiceConfig.setVoiceOperation(QNSlimVoiceOperation.QNSlimVoiceOperationOpen);
+        } else {
+            voiceConfig.setVoiceOperation(QNSlimVoiceOperation.QNSlimVoiceOperationClose);
+        }
+        voiceConfig.setVoiceSource(QNSlimVoiceSource.getQNSlimVoiceSource(soundConfig.volume));
+
+        return voiceConfig;
     }
 }

@@ -86,10 +86,13 @@ public class UserScaleConfigActivity extends AppCompatActivity {
     @BindView(R.id.weightCheckBox)
     CheckBox weightCheckBox;
 
-    @BindView(R.id.slimBtn)
-    Button slimBtn;
+    @BindView(R.id.slim_device_btn)
+    Button slimDeviceBtn;
+    @BindView(R.id.slim_user_btn)
+    Button slimUserBtn;
 
     private User mUser;
+
 
     private QNBleDevice qnDevice;
     private QNUserScaleConfig qnUserScaleConfig;
@@ -145,6 +148,14 @@ public class UserScaleConfigActivity extends AppCompatActivity {
     private void initIntent() {
         mUser = getIntent().getParcelableExtra(UserConst.USER);
         qnDevice = getIntent().getParcelableExtra(UserConst.DEVICE);
+
+        if (qnDevice.isSlimScale()) {
+            slimDeviceBtn.setVisibility(View.VISIBLE);
+            slimUserBtn.setVisibility(View.VISIBLE);
+        } else {
+            slimDeviceBtn.setVisibility(View.GONE);
+            slimUserBtn.setVisibility(View.GONE);
+        }
     }
 
 
@@ -230,9 +241,14 @@ public class UserScaleConfigActivity extends AppCompatActivity {
         return qnUser;
     }
 
-    @OnClick(R.id.slimBtn)
-    public void onSlimBtnClicked() {
+    @OnClick(R.id.slim_device_btn)
+    public void onSlimDeviceBtnClick() {
         startActivity(new Intent(this, SlimDeviceConfigActivity.class));
+    }
+
+    @OnClick(R.id.slim_user_btn)
+    public void onSlimUserBtnClick() {
+        startActivity(new Intent(this, SlimUserConfigActivity.class));
     }
 
     @OnClick(R.id.swpConfigBtn)

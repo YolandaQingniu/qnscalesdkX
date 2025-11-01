@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,14 +24,12 @@ import com.qingniu.qnble.demo.R;
 import com.qingniu.qnble.demo.adapter.ListAdapter;
 import com.qingniu.qnble.demo.util.DateUtils;
 import com.qingniu.qnble.demo.util.QNDemoLogger;
+import com.qingniu.qnble.demo.util.SlimUtils;
 import com.qingniu.qnble.demo.util.ToastMaker;
 import com.qingniu.qnble.demo.util.UserConst;
 import com.qingniu.scale.constant.DecoderConst;
-import com.qingniu.scale.measure.ble.va.ScaleVAManagerService;
-import com.qingniu.scale.ota.jieli.JieLiOtaStep;
-import com.qingniu.scale.ota.jieli.OtaListener;
 import com.qingniu.scale.model.BleScale;
-import com.qingniu.utils.QNVaLogger;
+import com.qn.device.constant.CheckStatus;
 import com.qn.device.constant.QNIndicator;
 import com.qn.device.constant.QNInfoConst;
 import com.qn.device.constant.QNScaleStatus;
@@ -44,6 +43,8 @@ import com.qn.device.out.QNBleOTAConfig;
 import com.qn.device.out.QNScaleData;
 import com.qn.device.out.QNScaleItemData;
 import com.qn.device.out.QNScaleStoreData;
+import com.qn.device.out.QNSlimDeviceConfig;
+import com.qn.device.out.QNSlimUserSlimConfig;
 import com.qn.device.out.QNUser;
 import com.qn.device.out.QNUserScaleConfig;
 
@@ -88,6 +89,16 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
     EditText hmacEt;
     @BindView(R.id.hmacBtn)
     Button hmacBtn;
+
+
+    @BindView(R.id.slim_ll)
+    LinearLayout slimLl;
+    @BindView(R.id.update_slim_device_btn)
+    Button updateSlimDeviceBtn;
+    @BindView(R.id.update_slim_user_btn)
+    Button updateSlimUserBtn;
+    @BindView(R.id.reset_slim_btn)
+    Button resetSlimBtn;
 
 
     public static Intent getCallIntent(Context context, QNBleDevice device, QNUserScaleConfig qnUserScaleConfig) {
@@ -410,12 +421,63 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
         if (intent != null) {
             mBleDevice = intent.getParcelableExtra(UserConst.DEVICE);
             mQnUserScaleConfig = intent.getParcelableExtra(UserConst.WSPCONFIG);
+
+            if (mBleDevice != null && mBleDevice.isSlimScale()) {
+                slimLl.setVisibility(View.VISIBLE);
+            } else {
+                slimLl.setVisibility(View.GONE);
+            }
         }
     }
 
     private String initWeight(double weight) {
         int unit = mQNBleApi.getConfig().getUnit();
         return mQNBleApi.convertWeightWithTargetUnit(weight, unit);
+    }
+
+    @OnClick(R.id.update_slim_device_btn)
+    public void onUpdateSlimDeviceBtnClicked() {
+        QNSlimDeviceConfig qnSlimDeviceConfig = SlimUtils.qnSlimDeviceConfig;
+        if (qnSlimDeviceConfig != null) {
+            mQNBleApi.updateSlimDeviceConfig(qnSlimDeviceConfig, new QNResultCallback() {
+                @Override
+                public void onResult(int code, String msg) {
+                    if (code == CheckStatus.OK.getCode()) {
+                        Toast.makeText(UserScaleActivity.this, "设置方法调用成功", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(UserScaleActivity.this, "设置方法调用失败", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        } else {
+            Toast.makeText(UserScaleActivity.this, "请先设置参数", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @OnClick({R.id.update_slim_user_btn})
+    public void onUpdateSlimUserBtnClicked() {
+        QNSlimUserSlimConfig qnSlimUserSlimConfig = SlimUtils.qnSlimUserSlimConfig;
+        if (qnSlimUserSlimConfig != null) {
+            QNUser curUser = mQnUserScaleConfig.getCurUser();
+            mQNBleApi.updateUserSlimConfig(curUser.getIndex(), qnSlimUserSlimConfig, new QNResultCallback() {
+                @Override
+                public void onResult(int code, String msg) {
+                    Toast.makeText(UserScaleActivity.this, msg, Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            Toast.makeText(UserScaleActivity.this, "请先设置参数", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @OnClick(R.id.reset_slim_btn)
+    public void onResetSlimBtnClicked() {
+        mQNBleApi.restoreFactorySettings(new QNResultCallback() {
+            @Override
+            public void onResult(int code, String msg) {
+                Toast.makeText(UserScaleActivity.this, "恢复出厂设置成功", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void initView() {

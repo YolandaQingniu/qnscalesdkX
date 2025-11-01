@@ -267,4 +267,8 @@
     <string name="reset">reset</string>
     <string name="device_setting">setting</string>
     <string name="wifi_tip">After completing the selection of a WiFi information, you can perform the network configuration operation on the previous page</string>
+    <string name="voice_alarm_tip">闹钟提醒提示音</string>
+    <string name="voice_measure_start_tip">上秤测量提示音</string>
+    <string name="voice_measure_finish_tip">测量完成提示音</string>
+    <string name="voice_goal_tip">完成目标提示音</string>
 </resources>

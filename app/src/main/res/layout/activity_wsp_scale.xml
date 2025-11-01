@@ -154,6 +154,32 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/slim_ll"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:text="更新减重秤设备配置"
+            android:id="@+id/update_slim_device_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:text="更新减重秤用户配置"
+            android:id="@+id/update_slim_user_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:text="重置减重秤"
+            android:id="@+id/reset_slim_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

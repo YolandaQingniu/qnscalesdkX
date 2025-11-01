@@ -286,8 +286,15 @@
 
             <Button
                 android:layout_gravity="center_horizontal"
-                android:id="@+id/slimBtn"
-                android:text="减重秤配置"
+                android:id="@+id/slim_device_btn"
+                android:text="减重秤设备配置"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/slim_user_btn"
+                android:text="减重秤用户配置"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
