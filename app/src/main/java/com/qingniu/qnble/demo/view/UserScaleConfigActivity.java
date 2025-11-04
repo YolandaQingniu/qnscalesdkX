@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.qingniu.qnble.demo.R;
 import com.qingniu.qnble.demo.bean.User;
 import com.qingniu.qnble.demo.util.QNDemoLogger;
+import com.qingniu.qnble.demo.util.SlimUtils;
 import com.qingniu.qnble.demo.util.ToastMaker;
 import com.qingniu.qnble.demo.util.UserConst;
 import com.qn.device.constant.UserGoal;
@@ -395,6 +396,10 @@ public class UserScaleConfigActivity extends AppCompatActivity {
         qnUserScaleConfig.setVisitor(visitorCheckBox.isChecked());
         //访客模式连接WSP秤
 //        qnWspConfig.setVisitor(true);
+
+        if (SlimUtils.qnSlimDeviceConfig != null) {
+            qnUserScaleConfig.setSlimDeviceConfig(SlimUtils.qnSlimDeviceConfig);
+        }
         startActivity(UserScaleActivity.getCallIntent(this, qnDevice, qnUserScaleConfig));
     }
 

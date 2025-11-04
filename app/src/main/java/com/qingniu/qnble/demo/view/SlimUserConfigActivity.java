@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -66,8 +67,7 @@ public class SlimUserConfigActivity extends AppCompatActivity {
         SlimUtils.qnSlimUserSlimConfig = userSlimConfig;
 
         Log.i(TAG, "结果: " + userSlimConfig.toString());
-
-        finish();
+        Toast.makeText(this, "设置已保存，可返回上级页面", Toast.LENGTH_SHORT).show();
 
     }
 }

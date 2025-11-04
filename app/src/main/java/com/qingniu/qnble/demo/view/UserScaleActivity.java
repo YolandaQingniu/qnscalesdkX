@@ -44,6 +44,7 @@ import com.qn.device.out.QNScaleData;
 import com.qn.device.out.QNScaleItemData;
 import com.qn.device.out.QNScaleStoreData;
 import com.qn.device.out.QNSlimDeviceConfig;
+import com.qn.device.out.QNSlimUserCurveData;
 import com.qn.device.out.QNSlimUserSlimConfig;
 import com.qn.device.out.QNUser;
 import com.qn.device.out.QNUserScaleConfig;
@@ -56,9 +57,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -349,6 +353,18 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onGetStoredScale(QNBleDevice device, List<QNScaleStoreData> storedDataList) {
                 QNDemoLogger.d("UserScaleActivity", "收到存储数据 " + storedDataList.size() + "条");
+
+                QNSlimUserCurveData curveData = SlimUtils.qnSlimUserCurveData;
+                if (curveData != null) {
+                    QNUser curUser = mQnUserScaleConfig.getCurUser();
+                    mQNBleApi.updateUserCurveData(curUser.getIndex(), curveData, new QNResultCallback() {
+                        @Override
+                        public void onResult(int code, String msg) {
+                            QNDemoLogger.d("UserScaleActivity", "updateUserCurveData: " + msg);
+                        }
+                    });
+                }
+
                 if (storedDataList != null && storedDataList.size() > 0) {
                     QNScaleStoreData data = storedDataList.get(0);
                     for (int i = 0; i < storedDataList.size(); i++) {
@@ -439,11 +455,17 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
     public void onUpdateSlimDeviceBtnClicked() {
         QNSlimDeviceConfig qnSlimDeviceConfig = SlimUtils.qnSlimDeviceConfig;
         if (qnSlimDeviceConfig != null) {
+
+            //把提醒时间设置为两分钟后
+            String[] time = getTwoMinutesLaterTime();
+            qnSlimDeviceConfig.setAlarmHour(Integer.parseInt(time[0]));
+            qnSlimDeviceConfig.setAlarmMinute(Integer.parseInt(time[1]));
+
             mQNBleApi.updateSlimDeviceConfig(qnSlimDeviceConfig, new QNResultCallback() {
                 @Override
                 public void onResult(int code, String msg) {
                     if (code == CheckStatus.OK.getCode()) {
-                        Toast.makeText(UserScaleActivity.this, "设置方法调用成功", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UserScaleActivity.this, "设置方法调用成功, 请等待两分钟后查看闹钟提醒", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(UserScaleActivity.this, "设置方法调用失败", Toast.LENGTH_SHORT).show();
                     }
@@ -452,6 +474,25 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
         } else {
             Toast.makeText(UserScaleActivity.this, "请先设置参数", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public static String[] getTwoMinutesLaterTime() {
+        // 1. 获取当前时间
+        Calendar calendar = Calendar.getInstance();
+        Date currentTime = calendar.getTime();
+
+        // 2. 将时间增加两分钟
+        calendar.add(Calendar.MINUTE, 2);
+        Date twoMinutesLater = calendar.getTime();
+
+        // 3. 格式化以获取小时和分钟
+        SimpleDateFormat hourFormat = new SimpleDateFormat("HH", Locale.getDefault());
+        SimpleDateFormat minuteFormat = new SimpleDateFormat("mm", Locale.getDefault());
+
+        String hour = hourFormat.format(twoMinutesLater);
+        String minute = minuteFormat.format(twoMinutesLater);
+
+        return new String[]{hour, minute};
     }
 
     @OnClick({R.id.update_slim_user_btn})

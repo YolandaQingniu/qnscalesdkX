@@ -197,6 +197,14 @@ public class SlimDeviceConfigActivity extends AppCompatActivity {
                     curveList.add(Double.valueOf(split[i]));
                 }
             }
+            int size = curveList.size();
+            if (size != 14) {
+                for (int i = size; i < 14; i++) {
+                    if (curveList.size() < 14) {
+                        curveList.add(0.0);
+                    }
+                }
+            }
         }
 
         boolean curveFlag = curveCB.isChecked();
@@ -272,8 +280,7 @@ public class SlimDeviceConfigActivity extends AppCompatActivity {
         Log.i(TAG, "qnSlimUserCurveData: " + qnSlimUserCurveData);
 
 
-        Toast.makeText(this, "设置已保存", Toast.LENGTH_SHORT).show();
-        finish();
+        Toast.makeText(this, "设置已保存，可返回上级页面", Toast.LENGTH_SHORT).show();
     }
 
     private QNSlimVoiceConfig fetchQNSlimVoiceConfig(String title) {

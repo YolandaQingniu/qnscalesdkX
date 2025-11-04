@@ -69,6 +69,7 @@ dependencies {
 
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
 
+    implementation "androidx.localbroadcastmanager:localbroadcastmanager:1.1.0"
 
 
     if (USE_BLE_TYPE as int == 0) {
