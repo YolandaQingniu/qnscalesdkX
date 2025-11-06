@@ -22,6 +22,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.qingniu.qnble.demo.R;
 import com.qingniu.qnble.demo.adapter.ListAdapter;
+import com.qingniu.qnble.demo.picker.MultiSelectGridDialog;
+import com.qingniu.qnble.demo.picker.UserOperationDialog;
 import com.qingniu.qnble.demo.util.DateUtils;
 import com.qingniu.qnble.demo.util.QNDemoLogger;
 import com.qingniu.qnble.demo.util.SlimUtils;
@@ -395,7 +397,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                 QNDemoLogger.d("UserScaleActivity", "秤的连接状态是:" + status);
                 if (status == QNScaleStatus.EVENT_SCALE_NOW_NEED_OTA) {
                     otaStatusView.setText("秤需要下发升级数据!");
-                    Toast.makeText(UserScaleActivity.this, "秤需要下发升级数据!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserScaleActivity.this, "秤需要下发升级数据!", Toast.LENGTH_SHORT).show();
                 }
                 setBleStatus(status);
             }
@@ -422,7 +424,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
 
             @Override
             public void onGetBleVer(QNBleDevice device, int bleVer) {
-                bleVerView.setText("当前固件版本 "+bleVer);
+                bleVerView.setText("当前固件版本 " + bleVer);
             }
 
             @Override
@@ -449,6 +451,83 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
     private String initWeight(double weight) {
         int unit = mQNBleApi.getConfig().getUnit();
         return mQNBleApi.convertWeightWithTargetUnit(weight, unit);
+    }
+
+    @OnClick(R.id.update_weight_btn)
+    public void onUpdateWeightBtnClicked() {
+        double weight = 60.0;
+        mQNBleApi.updateUserScaleIdentifyWeight(weight, new QNResultCallback() {
+            @Override
+            public void onResult(int code, String msg) {
+                Toast.makeText(UserScaleActivity.this, "更新体重为: " + weight + " " + msg, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @OnClick(R.id.delete_user_btn)
+    public void onDeleteUserBtnClicked() {
+        new MultiSelectGridDialog(this, new MultiSelectGridDialog.OnMultiSelectListener() {
+            @Override
+            public void onSelected(List<Integer> selectedItems) {
+                // 处理选中结果
+                Toast.makeText(UserScaleActivity.this, "选中的索引: " + selectedItems, Toast.LENGTH_SHORT).show();
+                mQNBleApi.deleteScaleUsers(selectedItems, new QNResultCallback() {
+                    @Override
+                    public void onResult(int code, String msg) {
+                        Toast.makeText(UserScaleActivity.this, "删除用户: " + msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }).show();
+    }
+
+    @OnClick(R.id.switch_user_btn)
+    public void onSwitchUserBtnClicked() {
+
+        QNUser curUser = mQnUserScaleConfig.getCurUser();
+
+        // 显示对话框
+        new UserOperationDialog(this, new UserOperationDialog.OnOperationSelectedListener() {
+            @Override
+            public void onOperationSelected(boolean isRegister, Integer index, int secret) {
+
+                QNUser user = null;
+
+                if (isRegister) {
+                    // 执行注册操作
+                    Toast.makeText(UserScaleActivity.this, "执行新注册用户", Toast.LENGTH_SHORT).show();
+                    // 这里添加注册逻辑
+                    user = mQNBleApi.buildUser(curUser.getUserId(), curUser.getHeight(), curUser.getGender(), curUser.getBirthDay(),
+                            curUser.getAthleteType(), curUser.getUserShape(), curUser.getUserGoal(), curUser.getClothesWeight(), 0, 0,
+                            new QNResultCallback() {
+                                @Override
+                                public void onResult(int code, String msg) {
+
+                                }
+                            });
+                } else {
+                    // 执行切换操作，index 为 1-8
+                    Toast.makeText(UserScaleActivity.this, "执行覆盖用户，index: " + index, Toast.LENGTH_SHORT).show();
+                    // 这里添加切换逻辑
+                    user = mQNBleApi.buildUser(curUser.getUserId(), curUser.getHeight(), curUser.getGender(), curUser.getBirthDay(),
+                            curUser.getAthleteType(), curUser.getUserShape(), curUser.getUserGoal(), curUser.getClothesWeight(), index, secret,
+                            new QNResultCallback() {
+                                @Override
+                                public void onResult(int code, String msg) {
+
+                                }
+                            });
+                }
+
+                mQNBleApi.switchUserScaleUser(user, new QNResultCallback() {
+                    @Override
+                    public void onResult(int code, String msg) {
+                        Toast.makeText(UserScaleActivity.this, "执行switchUserScaleUser", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }).show();
+
     }
 
     @OnClick(R.id.update_slim_device_btn)
