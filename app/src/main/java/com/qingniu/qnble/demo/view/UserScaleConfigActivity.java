@@ -307,6 +307,8 @@ public class UserScaleConfigActivity extends AppCompatActivity {
 
                 }
                 qnUserScaleConfig.setDeleteUsers(deletList);
+            } else {
+                qnUserScaleConfig.setDeleteUsers(null);
             }
 
         }

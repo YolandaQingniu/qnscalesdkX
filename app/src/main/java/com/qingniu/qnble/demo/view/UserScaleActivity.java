@@ -30,10 +30,13 @@ import com.qingniu.qnble.demo.util.SlimUtils;
 import com.qingniu.qnble.demo.util.ToastMaker;
 import com.qingniu.qnble.demo.util.UserConst;
 import com.qingniu.scale.constant.DecoderConst;
+import com.qingniu.scale.kalman.KalmanHistory;
+import com.qingniu.scale.measure.ble.va.ScaleVAManagerService;
 import com.qingniu.scale.model.BleScale;
 import com.qn.device.constant.CheckStatus;
 import com.qn.device.constant.QNIndicator;
 import com.qn.device.constant.QNInfoConst;
+import com.qn.device.constant.QNScaleEvent;
 import com.qn.device.constant.QNScaleStatus;
 import com.qn.device.listener.QNBleConnectionChangeListener;
 import com.qn.device.listener.QNBleOTAListener;
@@ -105,6 +108,11 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
     Button updateSlimUserBtn;
     @BindView(R.id.reset_slim_btn)
     Button resetSlimBtn;
+
+    @BindView(R.id.chasingZeroBtn)
+    Button chasingZeroBtn;
+    @BindView(R.id.kalmanBtn)
+    Button kalmanBtn;
 
 
     public static Intent getCallIntent(Context context, QNBleDevice device, QNUserScaleConfig qnUserScaleConfig) {
@@ -405,6 +413,10 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onScaleEventChange(QNBleDevice device, int scaleEvent) {
                 QNDemoLogger.d("UserScaleActivity", "秤的事件是:" + scaleEvent);
+
+                if (scaleEvent == QNScaleEvent.EVENT_VISIT_USER_SUCCESS) {
+                    onKalmanBtnClicked();
+                }
             }
 
             @Override
@@ -451,6 +463,23 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
     private String initWeight(double weight) {
         int unit = mQNBleApi.getConfig().getUnit();
         return mQNBleApi.convertWeightWithTargetUnit(weight, unit);
+    }
+
+    @OnClick(R.id.chasingZeroBtn)
+    public void onChasingZeroBtnClicked() {
+        ScaleVAManagerService.getInstance(this).sendZeroCommand();
+    }
+
+    @OnClick(R.id.kalmanBtn)
+    public void onKalmanBtnClicked() {
+        KalmanHistory history = new KalmanHistory(
+                1,
+                363.6,314.2,365.8,316.0,233.6,205.2,240.9,212.0,30.6,25.8,
+                363.6,1.0,365.8,1.0,30.6,1.0,233.6,1.0,240.9,1.0,
+                314.2,1.0,316.0,1.0,25.84,1.0,205.2,1.0,212.0,1.0,
+                22.12
+        );
+        ScaleVAManagerService.getInstance(this).sendHistoryResistanceAndKalmanFilterState(history);
     }
 
     @OnClick(R.id.update_weight_btn)
@@ -796,7 +825,8 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                 finish();
                 break;
             case R.id.ota9Btn: {
-                QNBleApi.getInstance(UserScaleActivity.this).applyOta(fileToByteArray(getUfwFile(UserScaleActivity.this, "v09.ufw")), new QNResultCallback() {
+                QNBleApi.getInstance(UserScaleActivity.this).applyOta(fileToByteArray(getUfwFile(UserScaleActivity.this, "v08.ufw")),
+                        new QNResultCallback() {
                     @Override
                     public void onResult(int code, String msg) {
                         QNDemoLogger.d("UserScaleActivity", "调用ota9Btn " + code + " " + msg);
@@ -806,7 +836,8 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                 break;
             }
             case R.id.ota10Btn: {
-                QNBleApi.getInstance(UserScaleActivity.this).applyOta(fileToByteArray(getUfwFile(UserScaleActivity.this, "v10.ufw")), new QNResultCallback() {
+                QNBleApi.getInstance(UserScaleActivity.this).applyOta(fileToByteArray(getUfwFile(UserScaleActivity.this, "v20.ufw")),
+                        new QNResultCallback() {
                     @Override
                     public void onResult(int code, String msg) {
                         QNDemoLogger.d("UserScaleActivity", "调用ota10Btn " + code + " " + msg);
