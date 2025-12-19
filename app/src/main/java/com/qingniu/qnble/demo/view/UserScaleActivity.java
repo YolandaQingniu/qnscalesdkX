@@ -113,6 +113,8 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
     Button chasingZeroBtn;
     @BindView(R.id.kalmanBtn)
     Button kalmanBtn;
+    @BindView(R.id.kalmanStrTv)
+    TextView kalmanStrTv;
 
 
     public static Intent getCallIntent(Context context, QNBleDevice device, QNUserScaleConfig qnUserScaleConfig) {
@@ -300,6 +302,10 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                 listAdapter.setEight(isEightData);
 
                 hmacEt.setText(data.getHmac());
+
+                if (!TextUtils.isEmpty(data.kalmanStr)) {
+                    kalmanStrTv.setText(data.kalmanStr);
+                }
 
                 onReceiveScaleData(data);
                 QNScaleItemData fatValue = data.getItem(QNIndicator.TYPE_SUBFAT);
