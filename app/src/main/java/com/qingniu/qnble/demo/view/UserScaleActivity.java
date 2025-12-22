@@ -478,12 +478,11 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
 
     @OnClick(R.id.kalmanBtn)
     public void onKalmanBtnClicked() {
+
+        String kalmanStr = "363.6,1.0,365.8,1.0,30.6,1.0,233.6,1.0,240.9,1.0,314.2,1.0,316.0,1.0,25.84,1.0,205.2,1.0,212.0,1.0,22.12";
         KalmanHistory history = new KalmanHistory(
-                1,
                 363.6,314.2,365.8,316.0,233.6,205.2,240.9,212.0,30.6,25.8,
-                363.6,1.0,365.8,1.0,30.6,1.0,233.6,1.0,240.9,1.0,
-                314.2,1.0,316.0,1.0,25.84,1.0,205.2,1.0,212.0,1.0,
-                22.12
+                kalmanStr
         );
         ScaleVAManagerService.getInstance(this).sendHistoryResistanceAndKalmanFilterState(history);
     }
