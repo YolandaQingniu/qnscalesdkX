@@ -52,6 +52,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -428,17 +429,17 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
             int eightFlag  = jsonObject.optInt("eight_flag");
 
             if (eightFlag == 1){
-                String lastResistanceRH20 = String.format("%.2f",jsonObject.getDouble("res20_right_arm"));
-                String lastResistanceLH20 = String.format("%.2f",jsonObject.getDouble("res20_left_arm"));
-                String lastResistanceT20 = String.format("%.2f",jsonObject.getDouble("res20_trunk"));
-                String lastResistanceRF20 = String.format("%.2f",jsonObject.getDouble("res20_right_leg"));
-                String lastResistanceLF20 = String.format("%.2f",jsonObject.getDouble("res20_left_leg"));
+                String lastResistanceRH20 = String.format(Locale.US, "%.2f",jsonObject.getDouble("res20_right_arm"));
+                String lastResistanceLH20 = String.format(Locale.US, "%.2f",jsonObject.getDouble("res20_left_arm"));
+                String lastResistanceT20 = String.format(Locale.US, "%.2f",jsonObject.getDouble("res20_trunk"));
+                String lastResistanceRF20 = String.format(Locale.US, "%.2f",jsonObject.getDouble("res20_right_leg"));
+                String lastResistanceLF20 = String.format(Locale.US, "%.2f",jsonObject.getDouble("res20_left_leg"));
 
-                String lastResistanceRH100 = String.format("%.2f",jsonObject.getDouble("res100_right_arm"));
-                String lastResistanceLH100 = String.format("%.2f",jsonObject.getDouble("res100_left_arm"));
-                String lastResistanceT100 = String.format("%.2f",jsonObject.getDouble("res100_trunk"));
-                String lastResistanceRF100 = String.format("%.2f",jsonObject.getDouble("res100_right_leg"));
-                String lastResistanceLF100 = String.format("%.2f",jsonObject.getDouble("res100_left_leg"));
+                String lastResistanceRH100 = String.format(Locale.US, "%.2f",jsonObject.getDouble("res100_right_arm"));
+                String lastResistanceLH100 = String.format(Locale.US, "%.2f",jsonObject.getDouble("res100_left_arm"));
+                String lastResistanceT100 = String.format(Locale.US, "%.2f",jsonObject.getDouble("res100_trunk"));
+                String lastResistanceRF100 = String.format(Locale.US, "%.2f",jsonObject.getDouble("res100_right_leg"));
+                String lastResistanceLF100 = String.format(Locale.US, "%.2f",jsonObject.getDouble("res100_left_leg"));
 
                 String cur20kString = lastResistanceRH20+" "+lastResistanceLH20+" "+lastResistanceT20+" "+lastResistanceRF20+" "+lastResistanceLF20;
                 String cur100kString = lastResistanceRH100+" "+lastResistanceLH100+" "+lastResistanceT100+" "+lastResistanceRF100+" "+lastResistanceLF100;
