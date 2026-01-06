@@ -64,7 +64,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -84,7 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginStart="20dp"
-            android:text="升级版本10" />
+            android:text="升级版本20" />
 
     </LinearLayout>
 

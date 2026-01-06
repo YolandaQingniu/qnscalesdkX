@@ -589,7 +589,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                 break;
             }
             case R.id.ota10Btn: {
-                QNBleApi.getInstance(UserScaleActivity.this).applyOta(fileToByteArray(getUfwFile(UserScaleActivity.this, "v10.ufw")), new QNResultCallback() {
+                QNBleApi.getInstance(UserScaleActivity.this).applyOta(fileToByteArray(getUfwFile(UserScaleActivity.this, "v20.ufw")), new QNResultCallback() {
                     @Override
                     public void onResult(int code, String msg) {
                         QNDemoLogger.d("UserScaleActivity", "调用ota10Btn " + code + " " + msg);
