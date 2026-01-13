@@ -68,7 +68,7 @@ dependencies {
     if (USE_BLE_TYPE as int == 0) {
         implementation project(":qnscalesdkX")
     } else if (USE_BLE_TYPE as int == 1) {
-        implementation("com.github.YolandaQingniu:qnscalesdkX:2.22.1")
+        implementation("com.github.YolandaQingniu:qnscalesdkX:r-2.22.1-temp-SNAPSHOT")
     } else if (USE_BLE_TYPE as int == 2) {
         implementation project(':qnble')
         implementation project(':QNScaleDecoder')
