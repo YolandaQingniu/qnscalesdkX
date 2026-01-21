@@ -8,9 +8,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -22,17 +22,21 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.qingniu.qnble.demo.R;
 import com.qingniu.qnble.demo.adapter.ListAdapter;
+import com.qingniu.qnble.demo.dialog.InputDialog;
 import com.qingniu.qnble.demo.picker.MultiSelectGridDialog;
 import com.qingniu.qnble.demo.picker.UserOperationDialog;
 import com.qingniu.qnble.demo.util.DateUtils;
+import com.qingniu.qnble.demo.util.QNDataUtils;
 import com.qingniu.qnble.demo.util.QNDemoLogger;
 import com.qingniu.qnble.demo.util.SlimUtils;
 import com.qingniu.qnble.demo.util.ToastMaker;
 import com.qingniu.qnble.demo.util.UserConst;
+import com.qingniu.qnble.demo.util.Utils;
 import com.qingniu.scale.constant.DecoderConst;
 import com.qingniu.scale.kalman.KalmanHistory;
 import com.qingniu.scale.measure.ble.va.ScaleVAManagerService;
 import com.qingniu.scale.model.BleScale;
+import com.qn.device.bean.HmacData;
 import com.qn.device.constant.CheckStatus;
 import com.qn.device.constant.QNIndicator;
 import com.qn.device.constant.QNInfoConst;
@@ -53,6 +57,8 @@ import com.qn.device.out.QNSlimUserCurveData;
 import com.qn.device.out.QNSlimUserSlimConfig;
 import com.qn.device.out.QNUser;
 import com.qn.device.out.QNUserScaleConfig;
+import com.qn.device.utils.QNHmacUtils;
+import com.qn.device.utils.QNSDKLogger;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -94,11 +100,6 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
     TextView batteryTv;
     private int bleStatus;
 
-    @BindView(R.id.hmacEt)
-    EditText hmacEt;
-    @BindView(R.id.hmacBtn)
-    Button hmacBtn;
-
 
     @BindView(R.id.slim_ll)
     LinearLayout slimLl;
@@ -113,8 +114,12 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
     Button chasingZeroBtn;
     @BindView(R.id.kalmanBtn)
     Button kalmanBtn;
-    @BindView(R.id.kalmanStrTv)
-    TextView kalmanStrTv;
+
+    @BindView(R.id.storageBtn)
+    Button storageBtn;
+
+    @BindView(R.id.measureHmacBtn)
+    Button measureHmacBtn;
 
 
     public static Intent getCallIntent(Context context, QNBleDevice device, QNUserScaleConfig qnUserScaleConfig) {
@@ -149,6 +154,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
     @BindView(R.id.stroteDataTest)
     Button stroteDataTest;
 
+    private String measureHmac;
 
     private QNBleDevice mBleDevice;
     private final List<QNScaleItemData> mDatas = new ArrayList<>();
@@ -256,6 +262,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void connectQnWspDevice(QNBleDevice device) {
+        storageBtn.setVisibility(View.GONE);
         mQNBleApi.connectUserScaleDevice(device, mQnUserScaleConfig, new QNResultCallback() {
             @Override
             public void onResult(int code, String msg) {
@@ -301,11 +308,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                 boolean isEightData = data.getItemValue(QNIndicator.TYPE_LEFT_ARM_MUSCLE_WEIGHT_INDEX) > 0;
                 listAdapter.setEight(isEightData);
 
-                hmacEt.setText(data.getHmac());
-
-                if (!TextUtils.isEmpty(data.kalmanStr)) {
-                    kalmanStrTv.setText(data.kalmanStr);
-                }
+                measureHmac = data.getHmac();
 
                 onReceiveScaleData(data);
                 QNScaleItemData fatValue = data.getItem(QNIndicator.TYPE_SUBFAT);
@@ -382,17 +385,22 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                 }
 
                 if (storedDataList != null && storedDataList.size() > 0) {
-                    QNScaleStoreData data = storedDataList.get(0);
-                    for (int i = 0; i < storedDataList.size(); i++) {
-                        QNDemoLogger.d("UserScaleActivity", "收到存储数据:" + storedDataList.get(i).getWeight());
-                    }
-                    data.setUser(mQnUserScaleConfig.getCurUser());
-                    QNScaleData qnScaleData = data.generateScaleData();
-                    onReceiveScaleData(qnScaleData);
-
-
-                    QNDemoLogger.d("UserScaleActivity", "存储数据 加密hmac为:" + data.getHmac());
+                    storageBtn.setVisibility(View.VISIBLE);
+                    ArrayList<QNScaleStoreData> arrayList = new ArrayList<>();
+                    arrayList.addAll(storedDataList);
+                    QNDataUtils.qnScaleStoreDataList = arrayList;
+                } else {
+                    storageBtn.setVisibility(View.GONE);
+                    QNDataUtils.qnScaleStoreDataList = null;
                 }
+
+//                QNScaleStoreData data = storedDataList.get(0);
+//                for (int i = 0; i < storedDataList.size(); i++) {
+//                    QNDemoLogger.d("UserScaleActivity", "收到存储数据:" + storedDataList.get(i).getWeight());
+//                }
+//                data.setUser(mQnUserScaleConfig.getCurUser());
+//                QNScaleData qnScaleData = data.generateScaleData();
+//                onReceiveScaleData(qnScaleData);
             }
 
             @Override
@@ -421,18 +429,13 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                 QNDemoLogger.d("UserScaleActivity", "秤的事件是:" + scaleEvent);
 
                 if (scaleEvent == QNScaleEvent.EVENT_VISIT_USER_SUCCESS) {
-                    onKalmanBtnClicked();
+                    onKalmanReverse();
                 }
             }
 
             @Override
             public String getLastDataHmac(QNBleDevice qnBleDevice, QNUser qnUser) {
-                String hmac = hmacEt.getText().toString();
-                if (TextUtils.isEmpty(hmac)) {
-                    return null;
-                } else {
-                    return hmac;
-                }
+                return null;
             }
 
             @Override
@@ -458,6 +461,9 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
             mBleDevice = intent.getParcelableExtra(UserConst.DEVICE);
             mQnUserScaleConfig = intent.getParcelableExtra(UserConst.WSPCONFIG);
 
+            QNDataUtils.mQnUserScaleConfig = mQnUserScaleConfig;
+            QNDataUtils.mBleDevice = mBleDevice;
+
             if (mBleDevice != null && mBleDevice.isSlimScale()) {
                 slimLl.setVisibility(View.VISIBLE);
             } else {
@@ -476,17 +482,107 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
         ScaleVAManagerService.getInstance(this).sendZeroCommand();
     }
 
+    /**
+     * kalman拟合反写
+     */
     @OnClick(R.id.kalmanBtn)
     public void onKalmanBtnClicked() {
-
-        String kalmanStr = "363.6,1.0,365.8,1.0,30.6,1.0,233.6,1.0,240.9,1.0,314.2,1.0,316.0,1.0,25.84,1.0,205.2,1.0,212.0,1.0,22.12";
-        KalmanHistory history = new KalmanHistory(
-                65.3,
-                363.6,314.2,365.8,316.0,233.6,205.2,240.9,212.0,30.6,25.8,
-                kalmanStr
-        );
-        ScaleVAManagerService.getInstance(this).sendHistoryResistanceAndKalmanFilterState(history);
+        showSimpleInputDialog();
     }
+
+    public void onKalmanReverse() {
+
+        if (TextUtils.isEmpty(lastInputHmacWithKalman)) {
+            QNSDKLogger.d("onKalmanReverse", "lastInputHmacWithKalman为空");
+            return;
+        }
+
+        try {
+            HmacData hmacData = QNHmacUtils.getHmacData(lastInputHmacWithKalman);
+
+            String kalmanStr = hmacData.getKalman();
+            if (TextUtils.isEmpty(kalmanStr)) {
+                QNSDKLogger.d("onKalmanReverse", "kalmanStr为空");
+                return;
+            }
+
+            KalmanHistory history = new KalmanHistory(
+                    hmacData.getWeight(),
+                    hmacData.getRes20LeftArm(),
+                    hmacData.getRes100LeftArm(),
+                    hmacData.getRes20RightArm(),
+                    hmacData.getRes100RightArm(),
+                    hmacData.getRes20LeftLeg(),
+                    hmacData.getRes100LeftLeg(),
+                    hmacData.getRes20RightLeg(),
+                    hmacData.getRes100RightLeg(),
+                    hmacData.getRes20Trunk(),
+                    hmacData.getRes100Trunk(),
+                    kalmanStr
+            );
+            ScaleVAManagerService.getInstance(this).sendHistoryResistanceAndKalmanFilterState(history);
+            Toast.makeText(this, "kalman反写, 其中体重:" + hmacData.getWeight(), Toast.LENGTH_SHORT).show();
+
+        } catch (JSONException e) {
+            QNSDKLogger.d("onKalmanReverse", "onKalmanReverse出错: " + e);
+        }
+
+    }
+
+    private String lastInputHmacWithKalman;
+
+    // 示例 1：基础用法
+    private void showSimpleInputDialog() {
+
+        lastInputHmacWithKalman = null;
+
+        InputDialog dialog = new InputDialog(this);
+        dialog.setOnInputListener(new InputDialog.OnInputListener() {
+            @Override
+            public void onConfirm(String inputText) {
+                // 处理输入内容
+                if (!TextUtils.isEmpty(inputText)) {
+
+                    try {
+                        HmacData hmacData = QNHmacUtils.getHmacData(inputText);
+                        if (TextUtils.isEmpty(hmacData.getKalman())) {
+                            Toast.makeText(UserScaleActivity.this,
+                                    "输入内容不合法", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        Toast.makeText(UserScaleActivity.this,
+                                "已设置" + inputText, Toast.LENGTH_SHORT).show();
+
+                        // 这里可以处理输入的内容
+                        // 例如：更新UI、保存到数据库、发送网络请求等
+                        handleInputText(inputText);
+
+                    } catch (JSONException e) {
+                        QNSDKLogger.d("InputDialog", "用户输入出错: " + e);
+                    }
+
+                } else {
+                    Toast.makeText(UserScaleActivity.this,
+                            "输入内容为空", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancel() {
+                Toast.makeText(UserScaleActivity.this, "已取消", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void handleInputText(String text) {
+        // 处理输入文本的逻辑
+        Log.d("InputDialog", "用户输入: " + text);
+        lastInputHmacWithKalman = text;
+    }
+
 
     @OnClick(R.id.update_weight_btn)
     public void onUpdateWeightBtnClicked() {
@@ -636,7 +732,6 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void initView() {
-        hmacBtn.setOnClickListener(this);
         mConnectBtn.setOnClickListener(this);
         resetBtn.setOnClickListener(this);
         otaBtn.setOnClickListener(this);
@@ -796,6 +891,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
 
                                     mQnUserScaleConfig.setOtaConfig(otaConfig);
                                     mQNBleApi.setQNBleOTAListener(UserScaleActivity.this);
+                                    storageBtn.setVisibility(View.GONE);
                                     mQNBleApi.connectUserScaleDevice(mBleDevice, mQnUserScaleConfig, new QNResultCallback() {
                                         @Override
                                         public void onResult(int code, String msg) {
@@ -809,9 +905,6 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                             .show();
                 }
 
-                break;
-            case R.id.hmacBtn:
-                hmacEt.setText("");
                 break;
             case R.id.connectBtn:
                 if (mIsConnected) {
@@ -833,23 +926,23 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
             case R.id.ota9Btn: {
                 QNBleApi.getInstance(UserScaleActivity.this).applyOta(fileToByteArray(getUfwFile(UserScaleActivity.this, "v08.ufw")),
                         new QNResultCallback() {
-                    @Override
-                    public void onResult(int code, String msg) {
-                        QNDemoLogger.d("UserScaleActivity", "调用ota9Btn " + code + " " + msg);
-                        otaStatusView.setText("调用ota9Btn " + code + " " + msg);
-                    }
-                });
+                            @Override
+                            public void onResult(int code, String msg) {
+                                QNDemoLogger.d("UserScaleActivity", "调用ota9Btn " + code + " " + msg);
+                                otaStatusView.setText("调用ota9Btn " + code + " " + msg);
+                            }
+                        });
                 break;
             }
             case R.id.ota10Btn: {
                 QNBleApi.getInstance(UserScaleActivity.this).applyOta(fileToByteArray(getUfwFile(UserScaleActivity.this, "v20.ufw")),
                         new QNResultCallback() {
-                    @Override
-                    public void onResult(int code, String msg) {
-                        QNDemoLogger.d("UserScaleActivity", "调用ota10Btn " + code + " " + msg);
-                        otaStatusView.setText("调用ota10Btn " + code + " " + msg);
-                    }
-                });
+                            @Override
+                            public void onResult(int code, String msg) {
+                                QNDemoLogger.d("UserScaleActivity", "调用ota10Btn " + code + " " + msg);
+                                otaStatusView.setText("调用ota10Btn " + code + " " + msg);
+                            }
+                        });
                 break;
             }
         }
@@ -903,6 +996,19 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
             if (null != scaleData) {
                 onReceiveScaleData(scaleData);
             }
+        }
+    }
+
+    @OnClick({R.id.storageBtn})
+    public void onStorageBtnClicked(View view) {
+        startActivity(StorageDataActivity.getCallIntent(this));
+    }
+
+    @OnClick({R.id.measureHmacBtn})
+    public void onMeasureHmacBtnClicked(View view) {
+        if (!TextUtils.isEmpty(measureHmac)) {
+            Utils.copyToClipboard(this, measureHmac);
+            ToastMaker.show(this, "复制成功");
         }
     }
 

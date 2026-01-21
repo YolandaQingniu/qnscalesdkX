@@ -9,7 +9,7 @@ android {
         targetSdkVersion TARGET_SDK_VERSION as int
         applicationId "com.qingniu.health.scaleX.demo"
         versionCode 1
-        versionName "2.28.2"
+        versionName "2.29.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
@@ -68,6 +68,7 @@ dependencies {
     implementation 'com.elvishew:xlog:1.11.1'
 
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation 'androidx.cardview:cardview:1.0.0'
 
     implementation "androidx.localbroadcastmanager:localbroadcastmanager:1.1.0"
 
@@ -75,7 +76,7 @@ dependencies {
     if (USE_BLE_TYPE as int == 0) {
         implementation project(":qnscalesdkX")
     } else if (USE_BLE_TYPE as int == 1) {
-        implementation("com.github.YolandaQingniu:qnscalesdkX:2.28.2")
+        implementation("com.github.YolandaQingniu:qnscalesdkX:2.29.0")
     } else if (USE_BLE_TYPE as int == 2) {
         implementation project(':qnble')
         implementation project(':QNScaleDecoder')

@@ -111,6 +111,9 @@
             android:screenOrientation="portrait" />
         <activity android:name=".view.WifiInfoActivity" />
 
+        <activity android:name=".view.StorageDataActivity" />
+        <activity android:name=".view.StorageDataDetailActivity" />
+
         <activity
             android:name=".view.SlimDeviceConfigActivity"
             android:exported="true">

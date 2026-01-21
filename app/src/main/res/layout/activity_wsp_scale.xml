@@ -63,10 +63,6 @@
             android:layout_marginLeft="10dp"
              />
 
-        <TextView
-            android:id="@+id/kalmanStrTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <LinearLayout
@@ -236,29 +232,23 @@
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/hmacBtn"
-            android:text="@string/one_click_clear"
+            android:id="@+id/storageBtn"
+            android:visibility="gone"
+            android:text="查看存储数据"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <TextView
-            android:text="@string/hmac_desc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:id="@+id/hmacEt"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/measureHmacBtn"
+            android:text="复制测量Hmac"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
-
-
 
     <TextView
         android:id="@+id/snTextView"

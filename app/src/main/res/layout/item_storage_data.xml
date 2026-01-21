@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp"
+    app:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- 体重显示 -->
+        <TextView
+            android:id="@+id/tv_weight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="65.5 kg"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true" />
+
+        <!-- 体脂显示 -->
+        <TextView
+            android:id="@+id/tv_fat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text=""
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:layout_toRightOf="@+id/tv_weight"
+            android:layout_alignParentTop="true" />
+
+        <!-- 测量时间 -->
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2024-01-20 14:30:00"
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray"
+            android:layout_below="@id/tv_weight"
+            android:layout_alignStart="@id/tv_weight"
+            android:layout_marginTop="8dp" />
+
+        <!-- 是否已知数据 -->
+        <TextView
+            android:id="@+id/tv_data_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已知存储"
+            android:textSize="12sp"
+            android:layout_below="@id/tv_time"
+            android:layout_alignStart="@id/tv_time"
+            android:layout_marginTop="4dp" />
+
+        <!-- 复制按钮 -->
+        <Button
+            android:id="@+id/btn_copy"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:text="复制hmac"
+            android:paddingHorizontal="16dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:backgroundTint="@color/blue"
+            android:textColor="@color/white"
+            />
+
+        <!-- 分割线 -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_below="@id/tv_data_status"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp" />
+
+        <!-- 备注信息（可选显示） -->
+        <TextView
+            android:id="@+id/tv_note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_data_status"
+            android:layout_marginTop="12dp"
+            android:text="待定内容"
+            android:textSize="12sp"
+            />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
