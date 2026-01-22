@@ -11,7 +11,14 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:text=""
+            android:text="复制当前数据Hmac"
+            android:id="@+id/copyHmacBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:text="存储数据重算"
+            android:id="@+id/reCalcBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

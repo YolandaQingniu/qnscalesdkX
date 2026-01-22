@@ -77,7 +77,7 @@
             android:layout_height="wrap_content" />
 
         <Button
-            android:text="kalman拟合"
+            android:text="秤端用户拟合，游客反写计算"
             android:id="@+id/kalmanBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -245,6 +245,12 @@
         <Button
             android:id="@+id/measureHmacBtn"
             android:text="复制测量Hmac"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/reCalcBtn"
+            android:text="重新计算"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

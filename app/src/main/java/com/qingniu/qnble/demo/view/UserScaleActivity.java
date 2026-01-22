@@ -33,14 +33,12 @@ import com.qingniu.qnble.demo.util.ToastMaker;
 import com.qingniu.qnble.demo.util.UserConst;
 import com.qingniu.qnble.demo.util.Utils;
 import com.qingniu.scale.constant.DecoderConst;
-import com.qingniu.scale.kalman.KalmanHistory;
 import com.qingniu.scale.measure.ble.va.ScaleVAManagerService;
 import com.qingniu.scale.model.BleScale;
 import com.qn.device.bean.HmacData;
 import com.qn.device.constant.CheckStatus;
 import com.qn.device.constant.QNIndicator;
 import com.qn.device.constant.QNInfoConst;
-import com.qn.device.constant.QNScaleEvent;
 import com.qn.device.constant.QNScaleStatus;
 import com.qn.device.listener.QNBleConnectionChangeListener;
 import com.qn.device.listener.QNBleOTAListener;
@@ -153,6 +151,9 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
     ListView mListView;
     @BindView(R.id.stroteDataTest)
     Button stroteDataTest;
+
+    @BindView(R.id.reCalcBtn)
+    Button reCalcBtn;
 
     private String measureHmac;
 
@@ -427,15 +428,17 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onScaleEventChange(QNBleDevice device, int scaleEvent) {
                 QNDemoLogger.d("UserScaleActivity", "秤的事件是:" + scaleEvent);
-
-                if (scaleEvent == QNScaleEvent.EVENT_VISIT_USER_SUCCESS) {
-                    onKalmanReverse();
-                }
             }
 
             @Override
             public String getLastDataHmac(QNBleDevice qnBleDevice, QNUser qnUser) {
-                return null;
+
+                if (TextUtils.isEmpty(lastInputHmac)) {
+                    QNSDKLogger.d("onKalmanReverse", "lastInputHmacWithKalman为空");
+                    return null;
+                }
+
+                return lastInputHmac;
             }
 
             @Override
@@ -490,51 +493,12 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
         showSimpleInputDialog();
     }
 
-    public void onKalmanReverse() {
-
-        if (TextUtils.isEmpty(lastInputHmacWithKalman)) {
-            QNSDKLogger.d("onKalmanReverse", "lastInputHmacWithKalman为空");
-            return;
-        }
-
-        try {
-            HmacData hmacData = QNHmacUtils.getHmacData(lastInputHmacWithKalman);
-
-            String kalmanStr = hmacData.getKalman();
-            if (TextUtils.isEmpty(kalmanStr)) {
-                QNSDKLogger.d("onKalmanReverse", "kalmanStr为空");
-                return;
-            }
-
-            KalmanHistory history = new KalmanHistory(
-                    hmacData.getWeight(),
-                    hmacData.getRes20LeftArm(),
-                    hmacData.getRes100LeftArm(),
-                    hmacData.getRes20RightArm(),
-                    hmacData.getRes100RightArm(),
-                    hmacData.getRes20LeftLeg(),
-                    hmacData.getRes100LeftLeg(),
-                    hmacData.getRes20RightLeg(),
-                    hmacData.getRes100RightLeg(),
-                    hmacData.getRes20Trunk(),
-                    hmacData.getRes100Trunk(),
-                    kalmanStr
-            );
-            ScaleVAManagerService.getInstance(this).sendHistoryResistanceAndKalmanFilterState(history);
-            Toast.makeText(this, "kalman反写, 其中体重:" + hmacData.getWeight(), Toast.LENGTH_SHORT).show();
-
-        } catch (JSONException e) {
-            QNSDKLogger.d("onKalmanReverse", "onKalmanReverse出错: " + e);
-        }
-
-    }
-
-    private String lastInputHmacWithKalman;
+    private String lastInputHmac;
 
     // 示例 1：基础用法
     private void showSimpleInputDialog() {
 
-        lastInputHmacWithKalman = null;
+        lastInputHmac = null;
 
         InputDialog dialog = new InputDialog(this);
         dialog.setOnInputListener(new InputDialog.OnInputListener() {
@@ -545,7 +509,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
 
                     try {
                         HmacData hmacData = QNHmacUtils.getHmacData(inputText);
-                        if (TextUtils.isEmpty(hmacData.getKalman())) {
+                        if (hmacData == null) {
                             Toast.makeText(UserScaleActivity.this,
                                     "输入内容不合法", Toast.LENGTH_SHORT).show();
                             return;
@@ -580,7 +544,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
     private void handleInputText(String text) {
         // 处理输入文本的逻辑
         Log.d("InputDialog", "用户输入: " + text);
-        lastInputHmacWithKalman = text;
+        lastInputHmac = text;
     }
 
 
@@ -1010,6 +974,51 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
             Utils.copyToClipboard(this, measureHmac);
             ToastMaker.show(this, "复制成功");
         }
+    }
+
+    @OnClick({R.id.reCalcBtn})
+    public void onReCalcBtnClicked(View view) {
+        InputDialog dialog = new InputDialog(this);
+        dialog.setTitle("请输入上一条Hmac，点击确认后，当前数据将重算");
+        dialog.setOnInputListener(new InputDialog.OnInputListener() {
+            @Override
+            public void onConfirm(String inputText) {
+                // 处理输入内容
+                if (!TextUtils.isEmpty(inputText)) {
+
+                    try {
+                        HmacData hmacData = QNHmacUtils.getHmacData(inputText);
+                        if (TextUtils.isEmpty(hmacData.getKalman())) {
+                            Toast.makeText(UserScaleActivity.this,
+                                    "输入内容不合法", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        Toast.makeText(UserScaleActivity.this,
+                                "已设置" + inputText, Toast.LENGTH_SHORT).show();
+
+                        QNScaleData qnScaleData = mQNBleApi.calculateScaleDataByHmac(mQnUserScaleConfig.getCurUser(), measureHmac, inputText);
+                        if (null != qnScaleData) {
+                            onReceiveScaleData(qnScaleData);
+                        }
+
+                    } catch (JSONException e) {
+                        QNSDKLogger.d("InputDialog", "用户输入出错: " + e);
+                    }
+
+                } else {
+                    Toast.makeText(UserScaleActivity.this,
+                            "输入内容为空", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancel() {
+                Toast.makeText(UserScaleActivity.this, "已取消", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        dialog.show();
     }
 
 
