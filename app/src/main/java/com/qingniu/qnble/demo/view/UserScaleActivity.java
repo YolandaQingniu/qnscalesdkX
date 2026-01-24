@@ -55,8 +55,6 @@ import com.qn.device.out.QNSlimUserCurveData;
 import com.qn.device.out.QNSlimUserSlimConfig;
 import com.qn.device.out.QNUser;
 import com.qn.device.out.QNUserScaleConfig;
-import com.qn.device.utils.QNHmacUtils;
-import com.qn.device.utils.QNSDKLogger;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -309,8 +307,6 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                 boolean isEightData = data.getItemValue(QNIndicator.TYPE_LEFT_ARM_MUSCLE_WEIGHT_INDEX) > 0;
                 listAdapter.setEight(isEightData);
 
-                measureHmac = data.getHmac();
-
                 onReceiveScaleData(data);
                 QNScaleItemData fatValue = data.getItem(QNIndicator.TYPE_SUBFAT);
                 if (fatValue != null) {
@@ -434,7 +430,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
             public String getLastDataHmac(QNBleDevice qnBleDevice, QNUser qnUser) {
 
                 if (TextUtils.isEmpty(lastInputHmac)) {
-                    QNSDKLogger.d("onKalmanReverse", "lastInputHmacWithKalman为空");
+                    QNDemoLogger.d("onKalmanReverse", "lastInputHmacWithKalman为空");
                     return null;
                 }
 
@@ -508,7 +504,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                 if (!TextUtils.isEmpty(inputText)) {
 
                     try {
-                        HmacData hmacData = QNHmacUtils.getHmacData(inputText);
+                        HmacData hmacData = mQNBleApi.data(inputText);
                         if (hmacData == null) {
                             Toast.makeText(UserScaleActivity.this,
                                     "输入内容不合法", Toast.LENGTH_SHORT).show();
@@ -522,8 +518,8 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                         // 例如：更新UI、保存到数据库、发送网络请求等
                         handleInputText(inputText);
 
-                    } catch (JSONException e) {
-                        QNSDKLogger.d("InputDialog", "用户输入出错: " + e);
+                    } catch (Exception e) {
+                        QNDemoLogger.d("InputDialog", "用户输入出错: " + e);
                     }
 
                 } else {
@@ -718,6 +714,9 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
 
 
     private void onReceiveScaleData(QNScaleData md) {
+
+        measureHmac = md.getHmac();
+
         mDatas.clear();
         mDatas.addAll(md.getAllItem());
         listAdapter.notifyDataSetChanged();
@@ -987,7 +986,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                 if (!TextUtils.isEmpty(inputText)) {
 
                     try {
-                        HmacData hmacData = QNHmacUtils.getHmacData(inputText);
+                        HmacData hmacData = mQNBleApi.data(inputText);
                         if (TextUtils.isEmpty(hmacData.getKalman())) {
                             Toast.makeText(UserScaleActivity.this,
                                     "输入内容不合法", Toast.LENGTH_SHORT).show();
@@ -1002,8 +1001,64 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                             onReceiveScaleData(qnScaleData);
                         }
 
-                    } catch (JSONException e) {
-                        QNSDKLogger.d("InputDialog", "用户输入出错: " + e);
+                    } catch (Exception e) {
+                        QNDemoLogger.d("InputDialog", "用户输入出错: " + e);
+                    }
+
+                } else {
+                    Toast.makeText(UserScaleActivity.this,
+                            "输入内容为空", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancel() {
+                Toast.makeText(UserScaleActivity.this, "已取消", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        dialog.show();
+    }
+
+
+    @BindView(R.id.generateBtn)
+    Button generateBtn;
+
+    @OnClick({R.id.generateBtn})
+    public void onGenerateBtnClicked(View view) {
+        InputDialog dialog = new InputDialog(this);
+        dialog.setTitle("根据Hmac生成数据");
+        dialog.setOnInputListener(new InputDialog.OnInputListener() {
+            @Override
+            public void onConfirm(String inputText) {
+                // 处理输入内容
+                if (!TextUtils.isEmpty(inputText)) {
+
+                    try {
+                        HmacData hmacData = mQNBleApi.data(inputText);
+
+                        if (hmacData == null) {
+                            Toast.makeText(UserScaleActivity.this,
+                                    "输入内容不合法", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        QNScaleStoreData qnScaleStoreData = new QNScaleStoreData();
+                        qnScaleStoreData.setUser(mQnUserScaleConfig.getCurUser());
+                        qnScaleStoreData.buildStoreData(hmacData.getWeight(), new Date(hmacData.getMeasureTime() * 1000L),
+                                hmacData.getMac(), inputText, new QNResultCallback() {
+                                    @Override
+                                    public void onResult(int code, String msg) {
+                                        QNDemoLogger.d("onGenerateBtnClicked", "存储数据返回: " + code + " " + msg);
+                                    }
+                                });
+                        QNScaleData qnScaleData = qnScaleStoreData.generateScaleData();
+                        if (null != qnScaleData) {
+                            onReceiveScaleData(qnScaleData);
+                        }
+
+                    } catch (Exception e) {
+                        QNDemoLogger.d("InputDialog", "用户输入出错: " + e);
                     }
 
                 } else {
