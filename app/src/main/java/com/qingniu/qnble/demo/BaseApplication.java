@@ -15,10 +15,8 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-//        String encryptPath = "file:///android_asset/123456789.qn";
-//        String appId = "123456789";
-        String encryptPath = "file:///android_asset/calheal.qn";
-        String appId = "calheal202603191412";
+        String encryptPath = "file:///android_asset/123456789.qn";
+        String appId = "123456789";
         QNBleApi mQNBleApi = QNBleApi.getInstance(this);
 
         FilePrinter filePrinter = new FilePrinter.Builder(getFilesDir().getPath())
