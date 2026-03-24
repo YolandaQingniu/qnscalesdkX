@@ -15,7 +15,10 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        String encryptPath = "file:///android_asset/123456789.qn";
+//        String encryptPath = "file:///android_asset/123456789.qn";
+//        String appId = "123456789";
+        String encryptPath = "file:///android_asset/calheal.qn";
+        String appId = "calheal202603191412";
         QNBleApi mQNBleApi = QNBleApi.getInstance(this);
 
         FilePrinter filePrinter = new FilePrinter.Builder(getFilesDir().getPath())
@@ -30,7 +33,7 @@ public class BaseApplication extends Application {
             }
         });
 
-        mQNBleApi.initSdk("123456789", encryptPath, new QNResultCallback() {
+        mQNBleApi.initSdk(appId, encryptPath, new QNResultCallback() {
             @Override
             public void onResult(int code, String msg) {
                 QNDemoLogger.d("BaseApplication", "初始化文件" + msg);
