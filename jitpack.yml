@@ -1,0 +1,3 @@
+# jitpack.yml (放在项目根目录)
+jdk:
+  - openjdk11 # 根据你的项目需要选择 jdk11
