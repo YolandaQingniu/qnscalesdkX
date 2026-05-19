@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -22,6 +23,7 @@ public class ManageClassifyActivity extends AppCompatActivity implements View.On
     private TextView mSdkManage;
     private TextView mSelfManage;
     private TextView mDebugSetting;
+    private Button xkBtn;
 
     public static Intent getCallIntent(Context context) {
         return new Intent(context, ManageClassifyActivity.class);
@@ -36,6 +38,7 @@ public class ManageClassifyActivity extends AppCompatActivity implements View.On
         mSdkManage = (TextView) findViewById(R.id.sdk_manage);
         mSelfManage = (TextView) findViewById(R.id.self_manage);
         mDebugSetting = (TextView) findViewById(R.id.debugSetting);
+        xkBtn = (Button) findViewById(R.id.xkBtn);
         getExternalFilesDir(null);
         initData();
     }
@@ -44,6 +47,7 @@ public class ManageClassifyActivity extends AppCompatActivity implements View.On
         mSelfManage.setOnClickListener(this);
         mSdkManage.setOnClickListener(this);
         mDebugSetting.setOnClickListener(this);
+        xkBtn.setOnClickListener(this);
     }
 
     @Override
@@ -57,6 +61,9 @@ public class ManageClassifyActivity extends AppCompatActivity implements View.On
                 break;
             case R.id.debugSetting:
                 startActivity(DebugSettingActivity.getCallIntent(this));
+                break;
+            case R.id.xkBtn:
+                startActivity(XKDataActivity.getCallIntent(this));
                 break;
         }
     }

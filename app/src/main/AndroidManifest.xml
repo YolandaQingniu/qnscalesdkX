@@ -114,6 +114,8 @@
         <activity android:name=".view.StorageDataActivity" />
         <activity android:name=".view.StorageDataDetailActivity" />
 
+        <activity android:name=".view.XKDataActivity" />
+
         <activity
             android:name=".view.SlimDeviceConfigActivity"
             android:exported="true">
