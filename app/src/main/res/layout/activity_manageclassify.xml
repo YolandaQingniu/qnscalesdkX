@@ -44,7 +44,7 @@
         android:textSize="18dp"/>
 
     <Button
-        android:visibility="visible"
+        android:visibility="gone"
         android:id="@+id/xkBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
