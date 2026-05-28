@@ -687,7 +687,7 @@ public class HeightScaleActivity extends AppCompatActivity implements View.OnCli
             pairWifiConfig.setPwd("yxb666666");
             pairWifiConfig.setServeUrl("http://wsp-lite.yolanda.hk/yolanda/aios?code=");
             pairWifiConfig.setEncryptionKey("yolandakitnewhdr");
-            pairWifiConfig.setFotaUrl("https://ota.volanda.hk");
+            pairWifiConfig.setFotaUrl("https://ota.yolanda.hk");
         }
     }
 

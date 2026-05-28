@@ -4,14 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.qingniu.heightscale.model.HeightScaleWiFIInfo;
 import com.qingniu.qnble.demo.R;
 import com.qingniu.qnble.demo.bean.User;
 import com.qingniu.qnble.demo.util.ToastMaker;
@@ -68,7 +65,7 @@ public class HeightScaleConfigActivity extends AppCompatActivity {
 //            wifiPwdEd.setText("yxb666666");
             serverUrlEd.setText("http://wsp-lite.yolanda.hk/yolanda/aios?code=");
             secretKeyEd.setText("yolandakitnewhdr");
-            OTAUrlEd.setText("https://ota.volanda.hk");
+            OTAUrlEd.setText("https://ota.yolanda.hk");
         });
 
         okBtn.setOnClickListener(v -> {
