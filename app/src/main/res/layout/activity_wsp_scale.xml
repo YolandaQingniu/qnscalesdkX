@@ -253,6 +253,19 @@
             android:layout_height="wrap_content" />
 
         <Button
+            android:id="@+id/userHmacBtn"
+            android:text="设置连接Hmac"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
             android:id="@+id/reCalcBtn"
             android:text="重新计算"
             android:layout_width="wrap_content"
