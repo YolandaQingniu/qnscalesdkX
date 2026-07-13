@@ -1039,7 +1039,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                 LinearLayout.LayoutParams.WRAP_CONTENT));
 
         EditText lastHmacInput = new EditText(this);
-        lastHmacInput.setHint("上一条八电极Hmac（必填）");
+        lastHmacInput.setHint("上一条八电极Hmac（可空）");
         lastHmacInput.setMinLines(3);
         lastHmacInput.setMaxLines(5);
         lastHmacInput.setGravity(android.view.Gravity.TOP);
@@ -1066,18 +1066,8 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                 Toast.makeText(UserScaleActivity.this, "准备重算的Hmac为空", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (TextUtils.isEmpty(lastHmac)) {
-                Toast.makeText(UserScaleActivity.this, "上一条八电极Hmac为空", Toast.LENGTH_SHORT).show();
-                return;
-            }
 
             try {
-                HmacData lastHmacData = mQNBleApi.data(lastHmac);
-                if (lastHmacData == null || TextUtils.isEmpty(lastHmacData.getKalman())) {
-                    Toast.makeText(UserScaleActivity.this, "上一条八电极Hmac不合法", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
                 QNScaleData qnScaleData = mQNBleApi.calculateScaleDataByHmac(mQnUserScaleConfig.getCurUser(), recalcHmac, lastHmac);
                 if (null != qnScaleData) {
                     onReceiveScaleData(qnScaleData);
