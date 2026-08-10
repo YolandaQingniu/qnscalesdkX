@@ -7,7 +7,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -117,6 +119,12 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
 
     @BindView(R.id.measureHmacBtn)
     Button measureHmacBtn;
+
+    @BindView(R.id.userHmacInput)
+    EditText userHmacInput;
+
+    @BindView(R.id.userHmacStateTv)
+    TextView userHmacStateTv;
 
 
     public static Intent getCallIntent(Context context, QNBleDevice device, QNUserScaleConfig qnUserScaleConfig) {
@@ -428,17 +436,6 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
             }
 
             @Override
-            public String getLastDataHmac(QNBleDevice qnBleDevice, QNUser qnUser) {
-
-                if (TextUtils.isEmpty(lastInputHmac)) {
-                    QNDemoLogger.d("onKalmanReverse", "lastInputHmacWithKalman为空");
-                    return null;
-                }
-
-                return lastInputHmac;
-            }
-
-            @Override
             public void readSnComplete(QNBleDevice qnBleDevice, String s) {
 
             }
@@ -699,6 +696,24 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
         ota9Btn.setOnClickListener(this);
         ota10Btn.setOnClickListener(this);
         mBackTv.setOnClickListener(this);
+        QNUser curUser = mQnUserScaleConfig.getCurUser();
+        userHmacInput.setText(curUser.getHmac());
+        userHmacInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                curUser.setHmac(s.toString());
+                updateUserHmacState(curUser);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+        updateUserHmacState(curUser);
         listAdapter = new ListAdapter(mDatas, mQNBleApi, mQnUserScaleConfig.getCurUser(), mBleDevice);
         mListView.setAdapter(listAdapter);
         listAdapter.notifyDataSetChanged();
@@ -721,6 +736,32 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
         mDatas.clear();
         mDatas.addAll(md.getAllItem());
         listAdapter.notifyDataSetChanged();
+    }
+
+    private void updateUserHmacState(QNUser user) {
+        if (user == null) {
+            userHmacStateTv.setText("当前用户 Hmac：当前用户为空");
+            return;
+        }
+
+        String hmac = user.getHmac();
+        String inputHmac = userHmacInput == null ? "" : userHmacInput.getText().toString();
+        boolean inputMatchesUser = hmac == null ? inputHmac.isEmpty() : hmac.equals(inputHmac);
+        String state;
+        if (hmac == null) {
+            state = "null";
+        } else if (hmac.isEmpty()) {
+            state = "空串 (\"\")";
+        } else {
+            state = "非空";
+        }
+
+        StringBuilder text = new StringBuilder("当前用户 Hmac：").append(state);
+        if (!inputMatchesUser) {
+            text.append("；输入框待设置：");
+            text.append(inputHmac.isEmpty() ? "空串 (\"\")" : "非空");
+        }
+        userHmacStateTv.setText(text.toString());
     }
 
     private void setBleStatus(int bleStatus) {
@@ -976,50 +1017,19 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
-    @OnClick({R.id.userHmacBtn})
-    public void onUserHmacBtnClicked(View view) {
-        InputDialog dialog = new InputDialog(this);
-        dialog.setTitle("请输入连接参数Hmac，空内容将清除");
-        dialog.setOnInputListener(new InputDialog.OnInputListener() {
-            @Override
-            public void onConfirm(String inputText) {
-                QNUser curUser = mQnUserScaleConfig == null ? null : mQnUserScaleConfig.getCurUser();
-                if (curUser == null) {
-                    Toast.makeText(UserScaleActivity.this, "当前用户为空", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+    @OnClick(R.id.setEmptyHmacBtn)
+    public void onSetEmptyHmacBtnClicked() {
+        QNUser curUser = mQnUserScaleConfig == null ? null : mQnUserScaleConfig.getCurUser();
+        if (curUser == null) {
+            Toast.makeText(this, "当前用户为空", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-                if (TextUtils.isEmpty(inputText)) {
-                    curUser.setHmac(null);
-                    Toast.makeText(UserScaleActivity.this, "已清除连接参数Hmac", Toast.LENGTH_SHORT).show();
-                    QNDemoLogger.d("UserScaleActivity", "清除QNUser.hmac");
-                    return;
-                }
-
-                try {
-                    HmacData hmacData = mQNBleApi.data(inputText);
-                    if (hmacData == null) {
-                        Toast.makeText(UserScaleActivity.this, "输入内容不合法", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    curUser.setHmac(inputText);
-                    Toast.makeText(UserScaleActivity.this, "已设置连接参数Hmac", Toast.LENGTH_SHORT).show();
-                    QNDemoLogger.d("UserScaleActivity", "设置QNUser.hmac, eightFlag: "
-                            + hmacData.getEightFlag() + ", bodyFatRate: " + hmacData.getBodyFatRate());
-                } catch (Exception e) {
-                    QNDemoLogger.d("InputDialog", "用户输入出错: " + e);
-                    Toast.makeText(UserScaleActivity.this, "输入内容不合法", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onCancel() {
-                Toast.makeText(UserScaleActivity.this, "已取消", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        dialog.show();
+        userHmacInput.setText("");
+        curUser.setHmac("");
+        updateUserHmacState(curUser);
+        Toast.makeText(this, "已设置连接参数为空串", Toast.LENGTH_SHORT).show();
+        QNDemoLogger.d(TAG, "设置QNUser.hmac为空串");
     }
 
     @OnClick({R.id.reCalcBtn})
