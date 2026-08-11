@@ -120,11 +120,11 @@ public class StorageDataDetailActivity extends AppCompatActivity {
     private void generateScaleData(QNScaleStoreData storeData, String lastHmac) {
         if (storeData.isDataComplete()) {
             reCalcBtn.setVisibility(View.GONE);
-            onReceiveScaleData(storeData.generateScaleData(lastHmac));
+            onReceiveScaleData(storeData.generateScaleData());
         } else {
             //未知存储数据，需要确认用户信息
             storeData.setUser(QNDataUtils.mQnUserScaleConfig.getCurUser());
-            onReceiveScaleData(storeData.generateScaleData(lastHmac));
+            onReceiveScaleData(storeData.generateScaleData());
         }
     }
 

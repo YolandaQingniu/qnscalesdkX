@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -1017,6 +1018,85 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
+    @OnClick(R.id.updateUserScaleDatumDataBtn)
+    public void onUpdateUserScaleDatumDataBtnClicked() {
+        LinearLayout contentView = new LinearLayout(this);
+        contentView.setOrientation(LinearLayout.VERTICAL);
+        int padding = (int) (16 * getResources().getDisplayMetrics().density);
+        contentView.setPadding(padding, padding / 2, padding, 0);
+
+        EditText userIndexInput = new EditText(this);
+        userIndexInput.setHint("用户索引（1-8，必填）");
+        userIndexInput.setInputType(InputType.TYPE_CLASS_NUMBER);
+        contentView.addView(userIndexInput, new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+
+        EditText weightInput = new EditText(this);
+        weightInput.setHint("体重 kg（必填）");
+        weightInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        contentView.addView(weightInput, new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+
+        EditText hmacInput = new EditText(this);
+        hmacInput.setHint("Hmac（必填，可输入非法值进行调试）");
+        hmacInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+        hmacInput.setMinLines(3);
+        hmacInput.setMaxLines(5);
+        hmacInput.setGravity(android.view.Gravity.TOP);
+        contentView.addView(hmacInput, new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("更新用户基准数据")
+                .setView(contentView)
+                .setNegativeButton("取消", null)
+                .setPositiveButton("确定", null)
+                .create();
+        dialog.setOnShowListener(dialogInterface -> dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
+            String userIndexText = userIndexInput.getText().toString().trim();
+            String weightText = weightInput.getText().toString().trim();
+            String hmac = hmacInput.getText().toString().trim();
+            if (TextUtils.isEmpty(userIndexText) || TextUtils.isEmpty(weightText) || TextUtils.isEmpty(hmac)) {
+                Toast.makeText(UserScaleActivity.this, "用户索引、体重和 Hmac 均为必填项", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            final int userIndex;
+            final double weight;
+            try {
+                userIndex = Integer.parseInt(userIndexText);
+                weight = Double.parseDouble(weightText);
+            } catch (NumberFormatException e) {
+                Toast.makeText(UserScaleActivity.this, "用户索引或体重格式不正确", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (userIndex < 1 || userIndex > 8) {
+                Toast.makeText(UserScaleActivity.this, "用户索引范围为 1-8", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (weight <= 0 || Double.isNaN(weight) || Double.isInfinite(weight)) {
+                Toast.makeText(UserScaleActivity.this, "体重必须为有效正数", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Toast.makeText(UserScaleActivity.this, "已调用 updateUserScaleDatumData", Toast.LENGTH_SHORT).show();
+            QNDemoLogger.d(TAG, "调用 updateUserScaleDatumData, userIndex=" + userIndex + ", weight=" + weight);
+            mQNBleApi.updateUserScaleDatumData(userIndex, weight, hmac, new QNResultCallback() {
+                @Override
+                public void onResult(int code, String msg) {
+                    QNDemoLogger.d(TAG, "updateUserScaleDatumData 返回: code=" + code + ", msg=" + msg);
+                    Toast.makeText(UserScaleActivity.this,
+                            "updateUserScaleDatumData: " + code + " " + msg, Toast.LENGTH_SHORT).show();
+                }
+            });
+            dialog.dismiss();
+        }));
+        dialog.show();
+    }
+
     @OnClick(R.id.setEmptyHmacBtn)
     public void onSetEmptyHmacBtnClicked() {
         QNUser curUser = mQnUserScaleConfig == null ? null : mQnUserScaleConfig.getCurUser();
@@ -1078,13 +1158,18 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
             }
 
             try {
-                QNScaleData qnScaleData = mQNBleApi.calculateScaleDataByHmac(mQnUserScaleConfig.getCurUser(), recalcHmac, lastHmac);
+                //先备份一下
+                String oldHmac = mQnUserScaleConfig.getCurUser().getHmac();
+                mQnUserScaleConfig.getCurUser().setHmac(lastHmac);
+                QNScaleData qnScaleData = mQNBleApi.calculateScaleDataByHmac(mQnUserScaleConfig.getCurUser(), recalcHmac);
                 if (null != qnScaleData) {
                     onReceiveScaleData(qnScaleData);
                     dialog.dismiss();
                 } else {
                     Toast.makeText(UserScaleActivity.this, "重算失败", Toast.LENGTH_SHORT).show();
                 }
+                //设置回来
+                mQnUserScaleConfig.getCurUser().setHmac(oldHmac);
             } catch (Exception e) {
                 QNDemoLogger.d("InputDialog", "用户输入出错: " + e);
                 Toast.makeText(UserScaleActivity.this, "输入内容不合法", Toast.LENGTH_SHORT).show();
@@ -1145,6 +1230,10 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                     return;
                 }
 
+                //先备份一下
+                String oldHmac = mQnUserScaleConfig.getCurUser().getHmac();
+                mQnUserScaleConfig.getCurUser().setHmac(lastEightHmac);
+
                 QNScaleStoreData qnScaleStoreData = new QNScaleStoreData();
                 qnScaleStoreData.setUser(mQnUserScaleConfig.getCurUser());
                 qnScaleStoreData.buildStoreData(hmacData.getWeight(), new Date(hmacData.getMeasureTime() * 1000L),
@@ -1154,10 +1243,11 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
                                 QNDemoLogger.d("onGenerateBtnClicked", "存储数据返回: " + code + " " + msg);
                             }
                         });
+                QNScaleData qnScaleData = qnScaleStoreData.generateScaleData();
 
-                QNScaleData qnScaleData = TextUtils.isEmpty(lastEightHmac)
-                        ? qnScaleStoreData.generateScaleData()
-                        : qnScaleStoreData.generateScaleData(lastEightHmac);
+                //设置回来
+                mQnUserScaleConfig.getCurUser().setHmac(oldHmac);
+
                 if (null != qnScaleData) {
                     onReceiveScaleData(qnScaleData);
                     dialog.dismiss();

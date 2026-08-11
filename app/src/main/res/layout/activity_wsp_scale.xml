@@ -294,6 +294,19 @@
         android:layout_height="wrap_content">
 
         <Button
+            android:id="@+id/updateUserScaleDatumDataBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="更新用户基准数据" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
             android:id="@+id/reCalcBtn"
             android:text="重新计算"
             android:layout_width="wrap_content"
