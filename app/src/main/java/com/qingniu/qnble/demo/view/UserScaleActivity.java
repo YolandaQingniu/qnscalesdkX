@@ -127,6 +127,12 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
     @BindView(R.id.userHmacStateTv)
     TextView userHmacStateTv;
 
+    @BindView(R.id.measureNumInput)
+    EditText measureNumInput;
+
+    @BindView(R.id.measureNumStateTv)
+    TextView measureNumStateTv;
+
 
     public static Intent getCallIntent(Context context, QNBleDevice device, QNUserScaleConfig qnUserScaleConfig) {
         return new Intent(context, UserScaleActivity.class)
@@ -164,6 +170,8 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
     Button reCalcBtn;
 
     private String measureHmac;
+
+    private boolean refreshingMeasureNum;
 
     private QNBleDevice mBleDevice;
     private final List<QNScaleItemData> mDatas = new ArrayList<>();
@@ -236,6 +244,7 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onConnected(QNBleDevice device) {
                 setBleStatus(QNScaleStatus.STATE_CONNECTED);
+                refreshMeasureNumUi();
             }
 
             @Override
@@ -715,11 +724,35 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
             }
         });
         updateUserHmacState(curUser);
+        refreshMeasureNumUi();
+        measureNumInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (refreshingMeasureNum) {
+                    return;
+                }
+                updateCurrentUserMeasureNum(s == null ? "" : s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
         listAdapter = new ListAdapter(mDatas, mQNBleApi, mQnUserScaleConfig.getCurUser(), mBleDevice);
         mListView.setAdapter(listAdapter);
         listAdapter.notifyDataSetChanged();
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshMeasureNumUi();
+    }
 
     @Override
     protected void onDestroy() {
@@ -763,6 +796,52 @@ public class UserScaleActivity extends AppCompatActivity implements View.OnClick
             text.append(inputHmac.isEmpty() ? "空串 (\"\")" : "非空");
         }
         userHmacStateTv.setText(text.toString());
+    }
+
+    private void refreshMeasureNumUi() {
+        if (measureNumInput == null || measureNumStateTv == null) {
+            return;
+        }
+
+        QNUser curUser = mQnUserScaleConfig == null ? null : mQnUserScaleConfig.getCurUser();
+        refreshingMeasureNum = true;
+        if (curUser == null) {
+            measureNumInput.setText("");
+            measureNumStateTv.setText("当前用户 measureNum：当前用户为空");
+        } else {
+            String measureNum = String.valueOf(curUser.getMeasureNum());
+            measureNumInput.setText(measureNum);
+            measureNumInput.setSelection(measureNum.length());
+            updateMeasureNumState(curUser);
+        }
+        refreshingMeasureNum = false;
+    }
+
+    private void updateCurrentUserMeasureNum(String input) {
+        QNUser curUser = mQnUserScaleConfig == null ? null : mQnUserScaleConfig.getCurUser();
+        if (curUser == null) {
+            measureNumStateTv.setText("当前用户 measureNum：当前用户为空");
+            return;
+        }
+
+        String value = input.trim();
+        if (value.isEmpty()) {
+            return;
+        }
+
+        try {
+            long measureNum = Long.parseLong(value);
+            if (measureNum < 0 || measureNum > Integer.MAX_VALUE) {
+                return;
+            }
+            curUser.setMeasureNum((int) measureNum);
+            updateMeasureNumState(curUser);
+        } catch (NumberFormatException ignored) {
+        }
+    }
+
+    private void updateMeasureNumState(QNUser user) {
+        measureNumStateTv.setText("当前用户 measureNum：" + user.getMeasureNum());
     }
 
     private void setBleStatus(int bleStatus) {

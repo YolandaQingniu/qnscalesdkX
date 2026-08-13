@@ -269,6 +269,34 @@
         android:text="当前用户 Hmac 状态" />
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp">
+
+        <EditText
+            android:id="@+id/measureNumInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="连接用户 measureNum"
+            android:inputType="number"
+            android:maxLength="10"
+            android:maxLines="1" />
+
+        <TextView
+            android:id="@+id/measureNumStateTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:text="当前用户 measureNum" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
