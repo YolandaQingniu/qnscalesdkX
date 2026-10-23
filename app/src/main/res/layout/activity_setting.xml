@@ -674,6 +674,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/broadcast_ble_intensify" />
 
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/appearDeviceFromInterface"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/appear_device_from_interface" />
+
             <EditText
                 android:id="@+id/connect_out_timeEt"
                 android:layout_width="match_parent"

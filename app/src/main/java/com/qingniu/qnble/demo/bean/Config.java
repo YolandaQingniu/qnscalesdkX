@@ -12,6 +12,16 @@ public class Config implements Parcelable {
 
     private boolean enhanceBleBroadcast;
 
+    private boolean appearDeviceFromInterface;
+
+    public boolean isAppearDeviceFromInterface() {
+        return appearDeviceFromInterface;
+    }
+
+    public void setAppearDeviceFromInterface(boolean appearDeviceFromInterface) {
+        this.appearDeviceFromInterface = appearDeviceFromInterface;
+    }
+
     public boolean isEnhanceBleBroadcast() {
         return enhanceBleBroadcast;
     }
@@ -108,6 +118,7 @@ public class Config implements Parcelable {
         dest.writeByte(this.allowDuplicates ? (byte) 1 : (byte) 0);
         dest.writeInt(this.duration);
         dest.writeByte(this.enhanceBleBroadcast ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.appearDeviceFromInterface ? (byte) 1 : (byte) 0);
         dest.writeInt(this.unit);
         dest.writeInt(this.heightUnit);
         dest.writeInt(this.language);
@@ -120,6 +131,7 @@ public class Config implements Parcelable {
         this.allowDuplicates = in.readByte() != 0;
         this.duration = in.readInt();
         this.enhanceBleBroadcast = in.readByte() != 0;
+        this.appearDeviceFromInterface = in.readByte() != 0;
         this.unit = in.readInt();
         this.heightUnit = in.readInt();
         this.language = in.readInt();

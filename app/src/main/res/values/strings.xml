@@ -1,7 +1,18 @@
 <resources>
-    <string name="app_name">ScaleSDKXDemo-2.37.2</string>
+    <string name="app_name">ScaleSDKXDemo-2.38.1</string>
     <string name="scan">scan</string>
     <string name="stop">stop</string>
+    <string name="appear_device_from_interface">Receive device callbacks through the external scan interface</string>
+    <string name="scan_mode_sdk_callback">Scan mode: SDK broadcast callback</string>
+    <string name="scan_mode_external_callback">Scan mode: external interface callback</string>
+    <string name="device_type">Device type</string>
+    <string name="device_type_bluetooth">Bluetooth scale</string>
+    <string name="device_type_broadcast">Broadcast scale</string>
+    <string name="device_type_kitchen">Kitchen scale</string>
+    <string name="device_type_user_scale">User scale</string>
+    <string name="device_type_height_scale">Height scale</string>
+    <string name="device_source_external_format">External interface · %1$s</string>
+    <string name="device_source_sdk_format">SDK callback · %1$s</string>
     <string name="user_id_explain">Set the user profile when calculating body fat percentage</string>
     <string name="user_gender_explain"></string>
     <string name="user_height_explain">The unit is cm, ranging from 40 to 240cm</string>

@@ -114,6 +114,8 @@ public class SettingActivity extends AppCompatActivity implements RadioGroup.OnC
     EditText user_clothes_edt;
     @BindView(R.id.onlyBroadCast)
     AppCompatCheckBox onlyBroadCast;
+    @BindView(R.id.appearDeviceFromInterface)
+    AppCompatCheckBox appearDeviceFromInterface;
     @BindView(R.id.scale_show_bone)
     Spinner scaleShowBone;
     @BindView(R.id.scale_show_muscle)
@@ -189,6 +191,13 @@ public class SettingActivity extends AppCompatActivity implements RadioGroup.OnC
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mBleConfig.setEnhanceBleBroadcast(isChecked);
+            }
+        });
+
+        appearDeviceFromInterface.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mBleConfig.setAppearDeviceFromInterface(isChecked);
             }
         });
 

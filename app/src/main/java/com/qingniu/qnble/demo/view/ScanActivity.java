@@ -75,6 +75,8 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
     Button mStopBtn;
     @BindView(R.id.scan_measuring_info)
     TextView mScanMeasuringInfo;
+    @BindView(R.id.scan_mode_info)
+    TextView mScanModeInfo;
     @BindView(R.id.listView)
     ListView mListView;
 
@@ -138,13 +140,18 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
-                convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_device, null);
+                convertView = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.item_device, parent, false);
             }
             TextView nameTv = (TextView) convertView.findViewById(R.id.nameTv);
             TextView modelTv = (TextView) convertView.findViewById(R.id.modelTv);
             TextView macTv = (TextView) convertView.findViewById(R.id.macTv);
             TextView screenStateTv = (TextView) convertView.findViewById(R.id.screenStateTv);
+            TextView deviceSourceTv = (TextView) convertView.findViewById(R.id.deviceSourceTv);
             ImageView deviceType = convertView.findViewById(R.id.deviceType);
+
+            boolean showDeviceSource = mConfig != null && mConfig.isAppearDeviceFromInterface();
+            deviceSourceTv.setVisibility(showDeviceSource ? View.VISIBLE : View.GONE);
 
             Object obj = adapterList.get(position);
             if (obj instanceof QNBleDevice) {
@@ -153,6 +160,9 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
                 modelTv.setText(scanResult.getModeId());
                 macTv.setText(scanResult.getMac());
                 screenStateTv.setText(String.valueOf(scanResult.getScreenState().getCode()));
+                if (showDeviceSource) {
+                    deviceSourceTv.setText(getDeviceSourceLabel(scanResult.getDeviceType()));
+                }
                 if (scanResult.isSupportWifi()) {
                     deviceType.setImageResource(R.drawable.wifi_icon);
                 } else {
@@ -164,6 +174,9 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
                 modelTv.setText(kitchenDevice.getModeId());
                 macTv.setText(kitchenDevice.getMac());
                 screenStateTv.setText("0");
+                if (showDeviceSource) {
+                    deviceSourceTv.setText(getDeviceSourceLabel(QNDeviceType.SCALE_KITCHEN));
+                }
             }
 
             return convertView;
@@ -208,6 +221,14 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
          * 强化广播秤信号，此选项只对广播秤有效
          */
         mQnConfig.setEnhanceBleBroadcast(mConfig.isEnhanceBleBroadcast());
+        mQnConfig.setAppearDeviceFromInterface(mConfig.isAppearDeviceFromInterface());
+        boolean showDeviceSource = mConfig.isAppearDeviceFromInterface();
+        mScanModeInfo.setVisibility(showDeviceSource ? View.VISIBLE : View.GONE);
+        TextView deviceSourceHeader = lvHeadLay.findViewById(R.id.deviceSourceTv);
+        deviceSourceHeader.setVisibility(showDeviceSource ? View.VISIBLE : View.GONE);
+        if (showDeviceSource) {
+            mScanModeInfo.setText(R.string.scan_mode_external_callback);
+        }
         //设置扫描对象
         mQnConfig.save(new QNResultCallback() {
             @Override
@@ -217,6 +238,27 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
         });
         wifiSetDialog = new WIFISetDialog(ScanActivity.this);
 
+    }
+
+    private int getDeviceTypeLabel(int deviceType) {
+        if (deviceType == QNDeviceType.SCALE_BROADCAST) {
+            return R.string.device_type_broadcast;
+        } else if (deviceType == QNDeviceType.SCALE_KITCHEN) {
+            return R.string.device_type_kitchen;
+        } else if (deviceType == QNDeviceType.USER_SCALE) {
+            return R.string.device_type_user_scale;
+        } else if (deviceType == QNDeviceType.HEIGHT_SCALE) {
+            return R.string.device_type_height_scale;
+        }
+        return R.string.device_type_bluetooth;
+    }
+
+    private String getDeviceSourceLabel(int deviceType) {
+        String deviceLabel = getString(getDeviceTypeLabel(deviceType));
+        int sourceLabel = mConfig.isAppearDeviceFromInterface()
+                ? R.string.device_source_external_format
+                : R.string.device_source_sdk_format;
+        return getString(sourceLabel, deviceLabel);
     }
 
     @Override

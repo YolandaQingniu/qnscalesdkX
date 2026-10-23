@@ -1,7 +1,18 @@
 <resources>
-    <string name="app_name">ScaleSDKXDemo-2.37.2</string>
+    <string name="app_name">ScaleSDKXDemo-2.38.1</string>
     <string name="scan">扫描</string>
     <string name="stop">停止</string>
+    <string name="appear_device_from_interface">通过外部扫描接口接收设备回调</string>
+    <string name="scan_mode_sdk_callback">扫描模式：SDK广播回调</string>
+    <string name="scan_mode_external_callback">扫描模式：外部接口回调</string>
+    <string name="device_type">设备类型</string>
+    <string name="device_type_bluetooth">普通蓝牙秤</string>
+    <string name="device_type_broadcast">广播秤</string>
+    <string name="device_type_kitchen">厨房秤</string>
+    <string name="device_type_user_scale">用户秤</string>
+    <string name="device_type_height_scale">身高秤</string>
+    <string name="device_source_external_format">外部接口 · %1$s</string>
+    <string name="device_source_sdk_format">SDK回调 · %1$s</string>
     <string name="user_id_explain">设置用户的资料,计算体脂率时会需要</string>
     <string name="user_gender_explain">男的为"male",女的为"female"</string>
     <string name="user_height_explain">单位是cm,范围为40~240cm</string>
